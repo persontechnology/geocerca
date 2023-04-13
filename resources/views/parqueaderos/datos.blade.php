@@ -19,4 +19,6 @@
             </span>
         @enderror
     </div>
+
+    <input type="text" id="area" name="area">
 </div>

@@ -13,6 +13,10 @@ use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use MatanYadaev\EloquentSpatial\Objects\Polygon;
+use MatanYadaev\EloquentSpatial\Objects\LineString;
+use MatanYadaev\EloquentSpatial\Objects\Point;
+
 
 class ParqueaderoController extends Controller
 {
@@ -31,13 +35,47 @@ class ParqueaderoController extends Controller
         $guardias = User::where('estado','Activo')->role('Guardia')->get();
         return view('parqueaderos.nuevo', ['guardias' => $guardias]);
     }
+
+    public function mycoor($area)
+    {
+        $pattern = "/(\((?:[^()]++|(?1))*\))(*SKIP)(*F)|,/";
+        $coordenadas=preg_split($pattern, $area);
+        
+        $contador=0;
+        $ultimo_array = array();
+        $nuevas_coordenadas = array();
+        foreach ($coordenadas as $coor) {
+            
+            $latlon_data = explode('(' , rtrim($coor, ')'));    
+            $latlon=explode(',',$latlon_data[1]);
+            array_push($nuevas_coordenadas,  new Point(floatval($latlon[0]), floatval($latlon[1])));
+
+            if($contador===0){
+                $ultimo_array=new Point(floatval($latlon[0]), floatval($latlon[1]));
+            }
+            $contador++;
+        }
+         array_push($nuevas_coordenadas,$ultimo_array);
+         return $nuevas_coordenadas;
+
+    }
     public function guardar(RqGuardar $request)
     {
+        
+       
+        
         try {
+           
+
+
             DB::beginTransaction();
             $parqueadero = new Parqueadero();
             $parqueadero->nombre = $request->nombre;
             $parqueadero->descripcion = $request->descripcion;
+           
+            $parqueadero->area=new Polygon([
+                new LineString($this->mycoor($request->area))
+            ]);
             $parqueadero->user_create = Auth::user()->id;
             $parqueadero->save();
             $parqueadero->guardias()->sync($request->guardias);
@@ -55,7 +93,12 @@ class ParqueaderoController extends Controller
     {
         $parqueadero = Parqueadero::find($id);
         $guardias = $guardias = User::where('estado','Activo')->role('Guardia')->get();
-        return view('parqueaderos.editar', ['parqueadero' => $parqueadero, 'guardias' => $guardias]);
+        $data = array(
+            'parqueadero' => $parqueadero, 'guardias' => $guardias,
+            'area'=>$parqueadero->area->getCoordinates()
+        );
+        
+        return view('parqueaderos.editar', $data);
     }
     public function actualizar(RqActualizar $request)
     {

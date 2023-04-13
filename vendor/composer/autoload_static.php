@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit4f84093617a44916eef1b19feadf5dfb
+class ComposerStaticInit31dc0a585a01ecd9c401597b8d6ca10c
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -16,25 +16,25 @@ class ComposerStaticInit4f84093617a44916eef1b19feadf5dfb
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
-        '0b47d6d4a00ca9112ba3953b49e7c9a4' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/helper.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
+        '0b47d6d4a00ca9112ba3953b49e7c9a4' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/helper.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
+        '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         'f18cc91337d49233e5754e93f3ed9ec3' => __DIR__ . '/..' . '/laravelcollective/html/src/helpers.php',
-        '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
-        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '538ca81a9a966a6716601ecf48f4eaef' => __DIR__ . '/..' . '/opis/closure/functions.php',
+        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
-        '9cdd7b9056abc3081735233ba9dd9c7f' => __DIR__ . '/..' . '/facade/flare-client-php/src/helpers.php',
-        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '265b4faa2b3a9766332744949e83bf97' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Collections/helpers.php',
         'c7a3c339e7e14b60e06a2d7fcce9476b' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Events/functions.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
+        '9cdd7b9056abc3081735233ba9dd9c7f' => __DIR__ . '/..' . '/facade/flare-client-php/src/helpers.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
@@ -139,6 +139,7 @@ class ComposerStaticInit4f84093617a44916eef1b19feadf5dfb
             'MyCLabs\\Enum\\' => 13,
             'Monolog\\' => 8,
             'Matrix\\' => 7,
+            'MatanYadaev\\EloquentSpatial\\' => 28,
             'Maatwebsite\\Excel\\' => 18,
         ),
         'L' => 
@@ -171,7 +172,11 @@ class ComposerStaticInit4f84093617a44916eef1b19feadf5dfb
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
+            'Grimzy\\LaravelMysqlSpatial\\' => 27,
             'GrahamCampbell\\ResultType\\' => 26,
+            'GeoJson\\' => 8,
+            'GeoIO\\WKB\\Parser\\' => 17,
+            'GeoIO\\' => 6,
         ),
         'F' => 
         array (
@@ -224,8 +229,8 @@ class ComposerStaticInit4f84093617a44916eef1b19feadf5dfb
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'h4cc\\WKHTMLToPDF\\' => 
         array (
@@ -237,11 +242,11 @@ class ComposerStaticInit4f84093617a44916eef1b19feadf5dfb
         ),
         'Yajra\\DataTables\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src',
-            1 => __DIR__ . '/..' . '/yajra/laravel-datatables-html/src',
+            0 => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src',
+            1 => __DIR__ . '/..' . '/yajra/laravel-datatables-editor/src',
             2 => __DIR__ . '/..' . '/yajra/laravel-datatables-fractal/src',
-            3 => __DIR__ . '/..' . '/yajra/laravel-datatables-editor/src',
-            4 => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src',
+            3 => __DIR__ . '/..' . '/yajra/laravel-datatables-html/src',
+            4 => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src',
         ),
         'Whoops\\' => 
         array (
@@ -393,8 +398,8 @@ class ComposerStaticInit4f84093617a44916eef1b19feadf5dfb
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -443,6 +448,10 @@ class ComposerStaticInit4f84093617a44916eef1b19feadf5dfb
         'Matrix\\' => 
         array (
             0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
+        ),
+        'MatanYadaev\\EloquentSpatial\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src',
         ),
         'Maatwebsite\\Excel\\' => 
         array (
@@ -525,9 +534,25 @@ class ComposerStaticInit4f84093617a44916eef1b19feadf5dfb
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
+        'Grimzy\\LaravelMysqlSpatial\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src',
+        ),
         'GrahamCampbell\\ResultType\\' => 
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
+        ),
+        'GeoJson\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jmikola/geojson/src',
+        ),
+        'GeoIO\\WKB\\Parser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/geo-io/wkb-parser/src',
+        ),
+        'GeoIO\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/geo-io/interface/src',
         ),
         'Fruitcake\\Cors\\' => 
         array (
@@ -1723,9 +1748,69 @@ class ComposerStaticInit4f84093617a44916eef1b19feadf5dfb
         'Faker\\ValidGenerator' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/ValidGenerator.php',
         'Fruitcake\\Cors\\CorsServiceProvider' => __DIR__ . '/..' . '/fruitcake/laravel-cors/src/CorsServiceProvider.php',
         'Fruitcake\\Cors\\HandleCors' => __DIR__ . '/..' . '/fruitcake/laravel-cors/src/HandleCors.php',
+        'GeoIO\\Dimension' => __DIR__ . '/..' . '/geo-io/interface/src/Dimension.php',
+        'GeoIO\\Extractor' => __DIR__ . '/..' . '/geo-io/interface/src/Extractor.php',
+        'GeoIO\\Factory' => __DIR__ . '/..' . '/geo-io/interface/src/Factory.php',
+        'GeoIO\\WKB\\Parser\\Exception\\Exception' => __DIR__ . '/..' . '/geo-io/wkb-parser/src/Exception/Exception.php',
+        'GeoIO\\WKB\\Parser\\Exception\\ParserException' => __DIR__ . '/..' . '/geo-io/wkb-parser/src/Exception/ParserException.php',
+        'GeoIO\\WKB\\Parser\\Parser' => __DIR__ . '/..' . '/geo-io/wkb-parser/src/Parser.php',
+        'GeoIO\\WKB\\Parser\\Scanner' => __DIR__ . '/..' . '/geo-io/wkb-parser/src/Scanner.php',
+        'GeoJson\\BoundingBox' => __DIR__ . '/..' . '/jmikola/geojson/src/BoundingBox.php',
+        'GeoJson\\CoordinateReferenceSystem\\CoordinateReferenceSystem' => __DIR__ . '/..' . '/jmikola/geojson/src/CoordinateReferenceSystem/CoordinateReferenceSystem.php',
+        'GeoJson\\CoordinateReferenceSystem\\Linked' => __DIR__ . '/..' . '/jmikola/geojson/src/CoordinateReferenceSystem/Linked.php',
+        'GeoJson\\CoordinateReferenceSystem\\Named' => __DIR__ . '/..' . '/jmikola/geojson/src/CoordinateReferenceSystem/Named.php',
+        'GeoJson\\Exception\\Exception' => __DIR__ . '/..' . '/jmikola/geojson/src/Exception/Exception.php',
+        'GeoJson\\Exception\\UnserializationException' => __DIR__ . '/..' . '/jmikola/geojson/src/Exception/UnserializationException.php',
+        'GeoJson\\Feature\\Feature' => __DIR__ . '/..' . '/jmikola/geojson/src/Feature/Feature.php',
+        'GeoJson\\Feature\\FeatureCollection' => __DIR__ . '/..' . '/jmikola/geojson/src/Feature/FeatureCollection.php',
+        'GeoJson\\GeoJson' => __DIR__ . '/..' . '/jmikola/geojson/src/GeoJson.php',
+        'GeoJson\\Geometry\\Geometry' => __DIR__ . '/..' . '/jmikola/geojson/src/Geometry/Geometry.php',
+        'GeoJson\\Geometry\\GeometryCollection' => __DIR__ . '/..' . '/jmikola/geojson/src/Geometry/GeometryCollection.php',
+        'GeoJson\\Geometry\\LineString' => __DIR__ . '/..' . '/jmikola/geojson/src/Geometry/LineString.php',
+        'GeoJson\\Geometry\\LinearRing' => __DIR__ . '/..' . '/jmikola/geojson/src/Geometry/LinearRing.php',
+        'GeoJson\\Geometry\\MultiLineString' => __DIR__ . '/..' . '/jmikola/geojson/src/Geometry/MultiLineString.php',
+        'GeoJson\\Geometry\\MultiPoint' => __DIR__ . '/..' . '/jmikola/geojson/src/Geometry/MultiPoint.php',
+        'GeoJson\\Geometry\\MultiPolygon' => __DIR__ . '/..' . '/jmikola/geojson/src/Geometry/MultiPolygon.php',
+        'GeoJson\\Geometry\\Point' => __DIR__ . '/..' . '/jmikola/geojson/src/Geometry/Point.php',
+        'GeoJson\\Geometry\\Polygon' => __DIR__ . '/..' . '/jmikola/geojson/src/Geometry/Polygon.php',
+        'GeoJson\\JsonUnserializable' => __DIR__ . '/..' . '/jmikola/geojson/src/JsonUnserializable.php',
         'GrahamCampbell\\ResultType\\Error' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Error.php',
         'GrahamCampbell\\ResultType\\Result' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Result.php',
         'GrahamCampbell\\ResultType\\Success' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Success.php',
+        'Grimzy\\LaravelMysqlSpatial\\Connectors\\ConnectionFactory' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Connectors/ConnectionFactory.php',
+        'Grimzy\\LaravelMysqlSpatial\\Doctrine\\Geometry' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Doctrine/Geometry.php',
+        'Grimzy\\LaravelMysqlSpatial\\Doctrine\\GeometryCollection' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Doctrine/GeometryCollection.php',
+        'Grimzy\\LaravelMysqlSpatial\\Doctrine\\LineString' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Doctrine/LineString.php',
+        'Grimzy\\LaravelMysqlSpatial\\Doctrine\\MultiLineString' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Doctrine/MultiLineString.php',
+        'Grimzy\\LaravelMysqlSpatial\\Doctrine\\MultiPoint' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Doctrine/MultiPoint.php',
+        'Grimzy\\LaravelMysqlSpatial\\Doctrine\\MultiPolygon' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Doctrine/MultiPolygon.php',
+        'Grimzy\\LaravelMysqlSpatial\\Doctrine\\Point' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Doctrine/Point.php',
+        'Grimzy\\LaravelMysqlSpatial\\Doctrine\\Polygon' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Doctrine/Polygon.php',
+        'Grimzy\\LaravelMysqlSpatial\\Eloquent\\BaseBuilder' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Eloquent/BaseBuilder.php',
+        'Grimzy\\LaravelMysqlSpatial\\Eloquent\\Builder' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Eloquent/Builder.php',
+        'Grimzy\\LaravelMysqlSpatial\\Eloquent\\SpatialExpression' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Eloquent/SpatialExpression.php',
+        'Grimzy\\LaravelMysqlSpatial\\Eloquent\\SpatialTrait' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Eloquent/SpatialTrait.php',
+        'Grimzy\\LaravelMysqlSpatial\\Exceptions\\InvalidGeoJsonException' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Exceptions/InvalidGeoJsonException.php',
+        'Grimzy\\LaravelMysqlSpatial\\Exceptions\\SpatialFieldsNotDefinedException' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Exceptions/SpatialFieldsNotDefinedException.php',
+        'Grimzy\\LaravelMysqlSpatial\\Exceptions\\UnknownSpatialFunctionException' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Exceptions/UnknownSpatialFunctionException.php',
+        'Grimzy\\LaravelMysqlSpatial\\Exceptions\\UnknownSpatialRelationFunction' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Exceptions/UnknownSpatialRelationFunction.php',
+        'Grimzy\\LaravelMysqlSpatial\\Exceptions\\UnknownWKTTypeException' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Exceptions/UnknownWKTTypeException.php',
+        'Grimzy\\LaravelMysqlSpatial\\MysqlConnection' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/MysqlConnection.php',
+        'Grimzy\\LaravelMysqlSpatial\\Schema\\Blueprint' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Schema/Blueprint.php',
+        'Grimzy\\LaravelMysqlSpatial\\Schema\\Builder' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Schema/Builder.php',
+        'Grimzy\\LaravelMysqlSpatial\\Schema\\Grammars\\MySqlGrammar' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Schema/Grammars/MySqlGrammar.php',
+        'Grimzy\\LaravelMysqlSpatial\\SpatialServiceProvider' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/SpatialServiceProvider.php',
+        'Grimzy\\LaravelMysqlSpatial\\Types\\Factory' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Types/Factory.php',
+        'Grimzy\\LaravelMysqlSpatial\\Types\\Geometry' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Types/Geometry.php',
+        'Grimzy\\LaravelMysqlSpatial\\Types\\GeometryCollection' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Types/GeometryCollection.php',
+        'Grimzy\\LaravelMysqlSpatial\\Types\\GeometryInterface' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Types/GeometryInterface.php',
+        'Grimzy\\LaravelMysqlSpatial\\Types\\LineString' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Types/LineString.php',
+        'Grimzy\\LaravelMysqlSpatial\\Types\\MultiLineString' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Types/MultiLineString.php',
+        'Grimzy\\LaravelMysqlSpatial\\Types\\MultiPoint' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Types/MultiPoint.php',
+        'Grimzy\\LaravelMysqlSpatial\\Types\\MultiPolygon' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Types/MultiPolygon.php',
+        'Grimzy\\LaravelMysqlSpatial\\Types\\Point' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Types/Point.php',
+        'Grimzy\\LaravelMysqlSpatial\\Types\\PointCollection' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Types/PointCollection.php',
+        'Grimzy\\LaravelMysqlSpatial\\Types\\Polygon' => __DIR__ . '/..' . '/grimzy/laravel-mysql-spatial/src/Types/Polygon.php',
         'GuzzleHttp\\BodySummarizer' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/BodySummarizer.php',
         'GuzzleHttp\\BodySummarizerInterface' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/BodySummarizerInterface.php',
         'GuzzleHttp\\Client' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Client.php',
@@ -3839,6 +3924,28 @@ class ComposerStaticInit4f84093617a44916eef1b19feadf5dfb
         'Maatwebsite\\Excel\\Validators\\RowValidator' => __DIR__ . '/..' . '/maatwebsite/excel/src/Validators/RowValidator.php',
         'Maatwebsite\\Excel\\Validators\\ValidationException' => __DIR__ . '/..' . '/maatwebsite/excel/src/Validators/ValidationException.php',
         'Maatwebsite\\Excel\\Writer' => __DIR__ . '/..' . '/maatwebsite/excel/src/Writer.php',
+        'MatanYadaev\\EloquentSpatial\\AxisOrder' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/AxisOrder.php',
+        'MatanYadaev\\EloquentSpatial\\Doctrine\\GeometryCollectionType' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Doctrine/GeometryCollectionType.php',
+        'MatanYadaev\\EloquentSpatial\\Doctrine\\LineStringType' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Doctrine/LineStringType.php',
+        'MatanYadaev\\EloquentSpatial\\Doctrine\\MultiLineStringType' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Doctrine/MultiLineStringType.php',
+        'MatanYadaev\\EloquentSpatial\\Doctrine\\MultiPointType' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Doctrine/MultiPointType.php',
+        'MatanYadaev\\EloquentSpatial\\Doctrine\\MultiPolygonType' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Doctrine/MultiPolygonType.php',
+        'MatanYadaev\\EloquentSpatial\\Doctrine\\PointType' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Doctrine/PointType.php',
+        'MatanYadaev\\EloquentSpatial\\Doctrine\\PolygonType' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Doctrine/PolygonType.php',
+        'MatanYadaev\\EloquentSpatial\\EloquentSpatialServiceProvider' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/EloquentSpatialServiceProvider.php',
+        'MatanYadaev\\EloquentSpatial\\Factory' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Factory.php',
+        'MatanYadaev\\EloquentSpatial\\GeometryCast' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/GeometryCast.php',
+        'MatanYadaev\\EloquentSpatial\\Objects\\Geometry' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Objects/Geometry.php',
+        'MatanYadaev\\EloquentSpatial\\Objects\\GeometryCollection' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Objects/GeometryCollection.php',
+        'MatanYadaev\\EloquentSpatial\\Objects\\LineString' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Objects/LineString.php',
+        'MatanYadaev\\EloquentSpatial\\Objects\\MultiLineString' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Objects/MultiLineString.php',
+        'MatanYadaev\\EloquentSpatial\\Objects\\MultiPoint' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Objects/MultiPoint.php',
+        'MatanYadaev\\EloquentSpatial\\Objects\\MultiPolygon' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Objects/MultiPolygon.php',
+        'MatanYadaev\\EloquentSpatial\\Objects\\Point' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Objects/Point.php',
+        'MatanYadaev\\EloquentSpatial\\Objects\\PointCollection' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Objects/PointCollection.php',
+        'MatanYadaev\\EloquentSpatial\\Objects\\Polygon' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Objects/Polygon.php',
+        'MatanYadaev\\EloquentSpatial\\SpatialBuilder' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/SpatialBuilder.php',
+        'MatanYadaev\\EloquentSpatial\\Traits\\HasSpatial' => __DIR__ . '/..' . '/matanyadaev/laravel-eloquent-spatial/src/Traits/HasSpatial.php',
         'Matrix\\Builder' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Builder.php',
         'Matrix\\Decomposition\\Decomposition' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Decomposition/Decomposition.php',
         'Matrix\\Decomposition\\LU' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Decomposition/LU.php',
@@ -6852,6 +6959,7 @@ class ComposerStaticInit4f84093617a44916eef1b19feadf5dfb
         'ZipStream\\Option\\Version' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Option/Version.php',
         'ZipStream\\Stream' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Stream.php',
         'ZipStream\\ZipStream' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/ZipStream.php',
+        'geoPHP' => __DIR__ . '/..' . '/phayes/geophp/geoPHP.inc',
         'h4cc\\WKHTMLToPDF\\WKHTMLToPDF' => __DIR__ . '/..' . '/h4cc/wkhtmltopdf-amd64/WKHTMLToPDF.php',
         'phpDocumentor\\Reflection\\DocBlock' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlock.php',
         'phpDocumentor\\Reflection\\DocBlockFactory' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactory.php',
@@ -6955,10 +7063,10 @@ class ComposerStaticInit4f84093617a44916eef1b19feadf5dfb
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit4f84093617a44916eef1b19feadf5dfb::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit4f84093617a44916eef1b19feadf5dfb::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit4f84093617a44916eef1b19feadf5dfb::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit4f84093617a44916eef1b19feadf5dfb::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit31dc0a585a01ecd9c401597b8d6ca10c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit31dc0a585a01ecd9c401597b8d6ca10c::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit31dc0a585a01ecd9c401597b8d6ca10c::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit31dc0a585a01ecd9c401597b8d6ca10c::$classMap;
 
         }, null, ClassLoader::class);
     }

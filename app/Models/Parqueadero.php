@@ -5,11 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use MatanYadaev\EloquentSpatial\SpatialBuilder;
+use MatanYadaev\EloquentSpatial\Objects\Point;
+use MatanYadaev\EloquentSpatial\Objects\Polygon;
+use MatanYadaev\EloquentSpatial\Traits\HasSpatial;
+
 class Parqueadero extends Model
 {
-    use HasFactory;
+    
+    use HasSpatial;
 
     #region relaciones
+
+    protected $fillable = [
+        'nombre',
+        'descripcion',
+        'area',
+    ];
+    protected $casts = [
+        'area' => Polygon::class,
+    ];
+
 
     public function espacios()
     {

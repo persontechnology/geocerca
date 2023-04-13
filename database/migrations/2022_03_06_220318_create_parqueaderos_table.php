@@ -18,6 +18,7 @@ class CreateParqueaderosTable extends Migration
             $table->string('nombre');
             $table->string('descripcion')->nullable();
             $table->enum('estado', ['Activo', 'Inactivo'])->default('Activo');
+            $table->polygon('area')->nullable();
             $table->bigInteger('user_create')->nullable();
             $table->bigInteger('user_update')->nullable();
             $table->timestamps();
