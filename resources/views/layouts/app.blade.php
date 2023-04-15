@@ -195,6 +195,8 @@
         @method('delete')
     </form>
 
+    @stack('linksPie')
+    @stack('scriptsPie')
 
     <script>
 
@@ -259,7 +261,7 @@
 
         }
     </script>
-    @stack('linksPie')
+    
     @livewireScripts
     <script type="text/javascript">
         window.livewire.on('modalOpenStore', () => {

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\BrazoController;
 use App\Http\Controllers\Api\DespachoCombustibleController;
+use App\Http\Controllers\Api\GeocercaController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\LecturaController;
 use App\Http\Controllers\Api\LecturaEspecialController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Api\LecturaInvitadoController;
 use App\Http\Controllers\Api\LecturaNormalController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\NotificacionLecturaController;
+use App\Http\Controllers\ConexionesApisController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -29,11 +31,16 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [LoginController::class,'login']);
 Route::post('/reset-password', [LoginController::class,'resetPassword']);
 
+
 // Fabian, Acceso a los brazos code
 Route::get('/obtener-brazo', [BrazoController::class,'obtenerBrazo']);
 Route::get('/cerrar-brazo', [BrazoController::class,'cerrarBrazo']);
 Route::get('/buscar-vehiculo-tarjeta-salida', [BrazoController::class,'buscarVehiculoTarjetaSalida']);
 Route::get('/buscar-vehiculo-tarjeta-entrada', [BrazoController::class,'buscarVehiculoTarjetaEntrada']);
+
+// Deivid, geocerca
+Route::get('/coordenadas-autos', [GeocercaController::class,'coordenadasAutos'])->name('coordenadasAutos');
+Route::get('/coordenadas-parqueaderos', [GeocercaController::class,'coordenadasParqueaderos'])->name('coordenadasParqueaderos');
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
@@ -76,14 +83,6 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/dc-consulta', [DespachoCombustibleController::class,'consulta']);
     Route::post('/dc-consulta-estaciones', [DespachoCombustibleController::class,'consultaEstaciones']);
     Route::post('/dc-enviarFoto', [DespachoCombustibleController::class,'guardarFoto']);
-    
-    
-    
-    
-    
-    
-    
-    
     
 
 });

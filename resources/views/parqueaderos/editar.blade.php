@@ -1,31 +1,12 @@
 @extends('layouts.app')
 @section('breadcrumbs', Breadcrumbs::render('parqueaderosEditar', $parqueadero))
 @section('content')
-<style>
-    /* 
-    * Always set the map height explicitly to define the size of the div element
-    * that contains the map. 
-    */
-    #map {
-    height: 500px;
-    }
-
-    /* 
-    * Optional: Makes the sample page fill the window. 
-    */
-    html,
-    body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    }
-</style>
 
     <form action="{{ route('parqueaderosActualizar') }}" method="POST">
         @csrf
         <input type="hidden" name="id" value="{{ $parqueadero->id }}">
         <div class="card">
-
+<h1>EXISTE: {{ $existe?'SI':'NO' }}</h1>
             <div class="card-body">
                 <div class="row">
                     @include('parqueaderos.datos',['parqueadero'=>$parqueadero])
@@ -51,7 +32,7 @@
             </div>
             
             <div class="card-footer text-muted">
-                <div id="map"></div>
+                <div id="map" style="height: 500px;"></div>
             </div>
             <div class="card-footer bg-transparent">
                 <button type="submit" class="btn btn-primary mt-3 mt-sm-0 w-100 w-sm-auto">Actualizar</button>
@@ -67,42 +48,40 @@
 
         let drawingManager;
         let map;
-        var coordenadas = <?php echo json_encode($area); ?>;
-        
-        
+        let coordenadas = {{ json_encode($area) }};
+        let triangleCoords = [];
 
-
+        var bounds;
         function initMap() {
+
+            bounds= new google.maps.LatLngBounds()
+
+            if(coordenadas.length>0){
+                coordenadas[0].forEach( function(valor, indice, array) {
+                    triangleCoords.push({lat:valor[1],lng: valor[0]})
+                    bounds.extend(triangleCoords[indice]);
+                });
+            }
+
+
             map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: -1.0433796366054373, lng: -78.5907589882176 },
-                zoom: 20,
+                center: bounds.getCenter(),
+                zoom: 18,
             });
-
-            const triangleCoords = [];
-
-            coordenadas[0].forEach( function(valor, indice, array) {
-                triangleCoords.push({lat:valor[1],lng: valor[0]})
-            });
-
-            console.log(triangleCoords)
-
             
             // Construct the polygon.
-            const bermudaTriangle = new google.maps.Polygon({
+            drawingManager = new google.maps.Polygon({
                 paths: triangleCoords,
                 strokeColor: "#FF0000",
                 strokeOpacity: 0.8,
-                strokeWeight: 3,
+                strokeWeight: 1,
                 fillColor: "#FF0000",
                 fillOpacity: 0.35,
             });
 
-            bermudaTriangle.setMap(map);
-
-
-
+            drawingManager.setMap(map);
+            
             drawingManager = new google.maps.drawing.DrawingManager({
-                drawingMode: google.maps.drawing.OverlayType.POLYGON,
                 drawingControl: true,
                 drawingControlOptions: {
                     position: google.maps.ControlPosition.TOP_CENTER,
@@ -114,21 +93,27 @@
                     fillColor: "#ffff00",
                     fillOpacity: 1,
                     strokeWeight: 5,
+                    editable:true
                 },
             });
 
             drawingManager.setMap(map);
-
-            google.maps.event.addListener(drawingManager, 'polygoncomplete', function(arg) {
-                // console.log(arg.getPath().getArray())
-                $('#area').val(arg.getPath().getArray())
-                
+            
+            google.maps.event.addListener(drawingManager, "overlaycomplete", function(event){
+                overlayDragListener(event.overlay);
+                $('#area').val(event.overlay.getPath().getArray());
             });
-
-          
+            function overlayDragListener(overlay) {
+                google.maps.event.addListener(overlay.getPath(), 'set_at', function(event){
+                    $('#area').val(overlay.getPath().getArray());
+                });
+                google.maps.event.addListener(overlay.getPath(), 'insert_at', function(event){
+                    $('#area').val(overlay.getPath().getArray());
+                });
+            }
 
         }
-
+        
 
         window.initMap = initMap;
     </script>

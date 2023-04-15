@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ConexionesApisController;
 use App\Http\Controllers\ControlOrdenMovilizacionController;
 use App\Http\Controllers\DespachadorController;
 use App\Http\Controllers\DespachoCombustibleController;
@@ -51,12 +52,15 @@ Auth::routes(['verify' => true, 'register' => false]);
 
 
     
-
+Route::get('/getConections', [ConexionesApisController::class,'getConections']);
 
 Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+    // pruebas
+    Route::get('/geo', [HomeController::class, 'geo'])->name('geo');
     
+
     // Deivid,Perfil de usuario
     Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil');
     Route::post('/perfil-actualizar', [PerfilController::class, 'actualizar'])->name('actualizarPerfil');

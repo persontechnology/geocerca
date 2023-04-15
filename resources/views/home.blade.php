@@ -2,96 +2,113 @@
 @section('breadcrumbs', Breadcrumbs::render('home'))
 @section('content')
 
-<style>
-  /* 
- * Always set the map height explicitly to define the size of the div element
- * that contains the map. 
- */
-#map {
-  height: 100%;
-}
 
-/* 
- * Optional: Makes the sample page fill the window. 
- */
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-</style>
-<div id="map"></div>
+
+  <div class="card card-body">
+    <div id="map" style="height: 500px;"></div>    
+  </div>
+
+
+
+
+  @push('scriptsPie')
 
 
 <script>
-  // This example adds a user-editable rectangle to the map.
-// When the user changes the bounds of the rectangle,
-// an info window pops up displaying the new bounds.
-var rectangle;
-var map;
-var infoWindow;
 
-function initMap() {
-  map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: -1.0446855920702154, lng: -78.59184179665033 },
-    zoom: 9,
-  });
 
-  const bounds = {
-    north: -1.0213646198838473,
-    south: -1.070611275568075,
-    east: -78.55972973632811,
-    west: -78.61398107910158,
-  };
+  let marker=[];
+  let map;
+  function initMap() {
+    map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 18,
+      center: { lat: -1.0433796366054373, lng: -78.5907589882176 },
+    });
+    
 
-  // Define the rectangle and set its editable property to true.
-  rectangle = new google.maps.Rectangle({
-    bounds: bounds,
-    editable: true,
-    draggable: true,
-  });
-  rectangle.setMap(map);
-  // Add an event listener on the rectangle.
-  rectangle.addListener("bounds_changed", showNewRect);
-  // Define an info window on the map.
-  infoWindow = new google.maps.InfoWindow();
+    const cargarCoordenadasParqueaderos=async()=>{
+      const response=await fetch("{{ route('coordenadasParqueaderos') }}");
+      const myJson=await response.json();
 
-  
-}
+      myJson.forEach((nombre,indice)=>{
+        var triangleCoordenadas=[];  
+        
+        nombre[0].forEach( function(valor, indice, array) {
+              triangleCoordenadas.push({lat:valor[1],lng: valor[0]})
+        });
 
-/** Show the new coordinates for the rectangle in an info window. */
-function showNewRect() {
-  const ne = rectangle.getBounds().getNorthEast();
-  const sw = rectangle.getBounds().getSouthWest();
-  const contentString =
-    "<b>Rectangle moved.</b><br>" +
-    "New north-east corner: " +
-    ne.lat() +
-    ", " +
-    ne.lng() +
-    "<br>" +
-    "New south-west corner: " +
-    sw.lat() +
-    ", " +
-    sw.lng();
+        new google.maps.Polygon({
+          map,
+          paths: triangleCoordenadas,
+          strokeColor: "#FF00"+indice*2,
+          strokeOpacity: 0.8,
+          strokeWeight: 2,
+          fillColor: "#FF0000",
+          fillOpacity: 0.35,
+          draggable: true,
+          geodesic: true,
+        });
+      });
+    }
 
-  // Set the info window's content and position.
-  infoWindow.setContent(contentString);
-  infoWindow.setPosition(ne);
-  infoWindow.open(map);
-  
-  // comprobar si contiene las coordenadas
-  var myLatlng = new google.maps.LatLng(-1.0368242834326094, -78.58399667052988);
-  console.log(rectangle.getBounds().contains(myLatlng))
+    const infoWindow = new google.maps.InfoWindow();
+
+    
+
+    setInterval(dibujarMarcadores,2000);
+
+    async function dibujarMarcadores() {
+      quitarMarcadores();
+      const response = await fetch("{{ route('coordenadasAutos') }}");
+      const myJson = await response.json();
+
+      myJson.forEach(([position, title], i) => {
+        position={lat: position[0], lng: position[1]};
+        marker.push(
+          new google.maps.Marker({
+            position: position,
+            map,
+            // animation: google.maps.Animation.DROP,
+            title: `${i + 1}. ${title}`,
+            label: `${i +1}`,
+            optimized: false,
+          })
+        );
+
+        marker[i].addListener("click", () => {
+          infoWindow.close();
+          infoWindow.setContent(marker[i].getTitle());
+          infoWindow.open(marker[i].getMap(), marker[i]);
+        });
+      });
+    }
+    
+
+    function quitarMarcadores(){
+      for (let i = 0; i < marker.length; i++) {
+        marker[i].setMap(null);
+      }
+      marker = [];
+      
+    }
+    cargarCoordenadasParqueaderos();
+    dibujarMarcadores();
 
 }
 
 window.initMap = initMap;
+
+ 
 </script>
-<script
+
+
+
+  <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDxUyVFlNpM-HwzkAokj9g1I1OOpS4kZI&callback=initMap&v=weekly"
       defer
-    ></script>
+  ></script>
+  @endpush
+
+
 
 @endsection

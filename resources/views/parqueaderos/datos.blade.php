@@ -20,5 +20,5 @@
         @enderror
     </div>
 
-    <input type="text" id="area" name="area">
+    <input type="hidden" id="area" name="area">
 </div>

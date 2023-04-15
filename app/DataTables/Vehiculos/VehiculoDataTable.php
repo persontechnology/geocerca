@@ -88,7 +88,7 @@ class VehiculoDataTable extends DataTable
                   ->addClass('text-center'),
             Column::make('foto')->searchable(false),
             Column::make('numero_movil')->title('N° Móvil'),
-            Column::make('codigo_tarjeta')->title('Tarjeta'),
+            Column::make('imei')->title('IMEI'),
             Column::make('tipo'),
             Column::make('modelo')->title('Modelo'),
             Column::make('marca')->title('Marca'),

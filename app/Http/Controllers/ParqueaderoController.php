@@ -36,7 +36,7 @@ class ParqueaderoController extends Controller
         return view('parqueaderos.nuevo', ['guardias' => $guardias]);
     }
 
-    public function mycoor($area)
+    public function generarCoordenadas($area)
     {
         $pattern = "/(\((?:[^()]++|(?1))*\))(*SKIP)(*F)|,/";
         $coordenadas=preg_split($pattern, $area);
@@ -62,19 +62,13 @@ class ParqueaderoController extends Controller
     public function guardar(RqGuardar $request)
     {
         
-       
-        
         try {
-           
-
-
             DB::beginTransaction();
             $parqueadero = new Parqueadero();
             $parqueadero->nombre = $request->nombre;
             $parqueadero->descripcion = $request->descripcion;
-           
             $parqueadero->area=new Polygon([
-                new LineString($this->mycoor($request->area))
+                new LineString($this->generarCoordenadas($request->area))
             ]);
             $parqueadero->user_create = Auth::user()->id;
             $parqueadero->save();
@@ -93,9 +87,12 @@ class ParqueaderoController extends Controller
     {
         $parqueadero = Parqueadero::find($id);
         $guardias = $guardias = User::where('estado','Activo')->role('Guardia')->get();
+        $existe=Parqueadero::query()->whereContains('area', new Point(-1.0430571679279186, -78.59103092302097))->exists();
+        
         $data = array(
             'parqueadero' => $parqueadero, 'guardias' => $guardias,
-            'area'=>$parqueadero->area->getCoordinates()
+            'area'=>$parqueadero->area?$parqueadero->area->getCoordinates():[],
+            'existe'=>$existe
         );
         
         return view('parqueaderos.editar', $data);
@@ -107,6 +104,11 @@ class ParqueaderoController extends Controller
             $parqueadero = Parqueadero::find($request->id);
             $parqueadero->nombre = $request->nombre;
             $parqueadero->descripcion = $request->descripcion;
+            if($request->area){
+                $parqueadero->area=new Polygon([
+                    new LineString($this->generarCoordenadas($request->area))
+                ]);
+            }
             $parqueadero->user_update = Auth::user()->id;
             $parqueadero->save();
             $parqueadero->guardias()->sync($request->guardias);

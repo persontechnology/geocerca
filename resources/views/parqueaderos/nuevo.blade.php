@@ -2,25 +2,6 @@
 @section('breadcrumbs', Breadcrumbs::render('parqueaderosNuevo'))
 @section('content')
 
-    <style>
-        /* 
-        * Always set the map height explicitly to define the size of the div element
-        * that contains the map. 
-        */
-        #map {
-        height: 500px;
-        }
-
-        /* 
-        * Optional: Makes the sample page fill the window. 
-        */
-        html,
-        body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        }
-    </style>
 
     <form action="{{ route('parqueaderosGuardar') }}" method="POST" autocomplete="off">
         @csrf
@@ -49,7 +30,7 @@
                 </div>
             </div>
             <div class="card-footer text-muted">
-                <div id="map"></div>
+                <div id="map" style="height: 500px;"></div>
             </div>
             <div class="card-footer bg-transparent">
                 <button type="submit" class="btn btn-primary mt-3 mt-sm-0 w-100 w-sm-auto">Guardar</button>
@@ -59,10 +40,7 @@
 
 @push('scripts')
     <script>
-        // This example requires the Drawing library. Include the libraries=drawing
-        // parameter when you first load the API. For example:
-        // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=drawing">
-
+      
         let drawingManager;
         let map;
 
@@ -84,19 +62,27 @@
                     fillColor: "#ffff00",
                     fillOpacity: 1,
                     strokeWeight: 5,
+                    editable:true
                 },
             });
 
             drawingManager.setMap(map);
-
-            google.maps.event.addListener(drawingManager, 'polygoncomplete', function(arg) {
-                // console.log(arg.getPath().getArray())
-                $('#area').val(arg.getPath().getArray())
-                
-            });
-
+            
           
 
+            // Add a listener for the "drag" event.
+            google.maps.event.addListener(drawingManager, "overlaycomplete", function(event){
+                overlayDragListener(event.overlay);
+                $('#area').val(event.overlay.getPath().getArray());
+            });
+            function overlayDragListener(overlay) {
+                google.maps.event.addListener(overlay.getPath(), 'set_at', function(event){
+                    $('#area').val(overlay.getPath().getArray());
+                });
+                google.maps.event.addListener(overlay.getPath(), 'insert_at', function(event){
+                    $('#area').val(overlay.getPath().getArray());
+                });
+            }
         }
 
 
