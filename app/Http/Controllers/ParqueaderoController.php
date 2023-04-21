@@ -5,11 +5,8 @@ namespace App\Http\Controllers;
 use App\DataTables\ParqueaderoDataTable;
 use App\Http\Requests\Parqueaderos\RqActualizar;
 use App\Http\Requests\Parqueaderos\RqGuardar;
-use App\Models\Espacio;
 use App\Models\Parqueadero;
-use App\Models\TipoVehiculo;
 use App\Models\User;
-use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -121,25 +118,8 @@ class ParqueaderoController extends Controller
             return redirect()->route('parqueaderoEditar', $request->id);
         }
     }
-    public function listarEspacios(Request $request, $parqueaderoId)
-    {
-        
-        $parqueadero=Parqueadero::find($parqueaderoId);
-        $espacios = $parqueadero->espacios()->with(['vehiculo.tipoVehiculo', 'vehiculo.kilometraje']);
-        $tipos = TipoVehiculo::get();
-        $estacionamiento = Espacio::get();
-        // if ($request->has('estados') && $request->estados) {
-        //     $espacios = $espacios->where('espacios.estado', $request->estado);
-        // }
-        $espacios = $espacios->get();
-        $vehiculos = Vehiculo::where('estado', 'ACTIVO')->whereNotIn('id', $estacionamiento->pluck('vehiculo_id'))->get();
 
-        return view('espacios.index', ['espacios' => $espacios, 'vehiculos' => $vehiculos, 'parqueadero' => $parqueadero, 'tipos' => $tipos]);
-    }
-    public function listarBrazos(Request $request, Parqueadero $parqueadero)
-    {
-        return view('brazos.index', ['parqueadero' => $parqueadero]);
-    }
+    
 
     public function eliminar(Request $request)
     {

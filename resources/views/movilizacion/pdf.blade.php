@@ -28,7 +28,9 @@
             <tbody>
                 <tr>
                     <th>NÚMERO DE ORDEN</th>
-                    <td colspan="7">{{ $orden->numero }}</td>
+                    <td colspan="5">{{ $orden->numero }}</td>
+                    <th>Estado</th>
+                    <td>{{ $orden->estado }}</td>
                 </tr>
                 <tr>
                     <th>Fecha de solicitud:</th>
@@ -92,6 +94,35 @@
                 </tr>
             </tbody>
         </table>
-</div>
+
+        @if ($orden->lecturas->count()>0)
+        <br>
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="3">LECTURAS DE MOVILIZACIÓN</th>
+                </tr>
+                <tr>
+                    <th>FECHA</th>
+                    <th>FUERA/DENTRO GEOCERCA</th>
+                    <th>DESCRIPCIÓN</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($orden->lecturas as $lec)
+                    <tr>
+                        <td>{{ $lec->created_at }}</td>
+                        <td>{{ $lec->estado }}</td>
+                        <td>{{ $lec->descripcion }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+
+        </table>
+        @else
+        <p>Orden de movilización no tiene lecturas de ingreso y salida</p>
+        @endif
+        
+    </div>
 </body>
 </html>

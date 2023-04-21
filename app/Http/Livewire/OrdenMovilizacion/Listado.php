@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\OrdenMovilizacion;
 
-use App\Models\Espacio;
 use App\Models\OrdenMovilizacion;
 use App\Models\Parqueadero;
 use App\Models\TipoVehiculo;
@@ -47,12 +46,10 @@ class Listado extends Component
     }
 
     public function listadoOrdenes(){
-        $vehiculosIds=Espacio::where('parqueadero_id','like','%'.$this->IdParqueadero.'%')->pluck('vehiculo_id');
+        
 
-        $ordenMovilizaciones=OrdenMovilizacion::where(function ($query) use($vehiculosIds) {
-            if($vehiculosIds){
-                $query->whereIn('vehiculo_id',$vehiculosIds);
-            }
+        $ordenMovilizaciones=OrdenMovilizacion::where(function ($query)  {
+            
             if($this->desde && $this->hasta){
                 $query->whereDate('fecha_salida','>=', $this->desde);
                 $query->whereDate('fecha_retorno','<=', $this->hasta);

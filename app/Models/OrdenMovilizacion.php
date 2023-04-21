@@ -85,6 +85,12 @@ class OrdenMovilizacion extends Model
         return $this->belongsTo(User::class,'user_update');
     }
     
+    // Deivid, una orden tiene varias lecturas entrada salidas
+     
+    public function lecturas()
+    {
+        return $this->hasMany(Lectura::class);
+    }
 
     public function getColorEstadoAttribute()
     {   

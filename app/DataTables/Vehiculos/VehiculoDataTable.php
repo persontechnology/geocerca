@@ -32,6 +32,14 @@ class VehiculoDataTable extends DataTable
                     $query->whereRaw('nombre like ?',["%{$keyword}%"]);
                 });
             })
+            ->editColumn('parqueadero_id',function($vehiculo){
+                return $vehiculo->parqueadero->nombre??'';
+            })
+            ->filterColumn('parqueadero_id',function($query,$keyword){
+                $query->whereHas('parqueadero',function($query) use ($keyword){
+                    $query->whereRaw('nombre like ?',["%{$keyword}%"]);
+                });
+            })
             ->addColumn('action', function($vehiculo){
                 return view('vehiculos.action',['vehiculo'=>$vehiculo])->render();
             })->rawColumns(['action','foto']);
@@ -71,7 +79,7 @@ class VehiculoDataTable extends DataTable
                     ->parameters($this->getBuilderParameters());
     }
 
-    /**
+    /**imei
      * Get columns.
      *
      * @return array
@@ -89,6 +97,7 @@ class VehiculoDataTable extends DataTable
             Column::make('foto')->searchable(false),
             Column::make('numero_movil')->title('N° Móvil'),
             Column::make('imei')->title('IMEI'),
+            Column::make('parqueadero_id')->title('Parquedero'),
             Column::make('tipo'),
             Column::make('modelo')->title('Modelo'),
             Column::make('marca')->title('Marca'),

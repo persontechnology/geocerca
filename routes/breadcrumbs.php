@@ -97,29 +97,29 @@ Breadcrumbs::for('parqueaderosEditar', function (BreadcrumbTrail $trail,$parquea
 });
 
 
-// espacios
-Breadcrumbs::for('espacios', function (BreadcrumbTrail $trail,$parqueadero) {
-    $trail->parent('parqueaderos');
-    $trail->push('Espacios', route('espacios',$parqueadero->id));
-});
-Breadcrumbs::for('espaciosNuevo', function (BreadcrumbTrail $trail,$parqueadero) {
-    $trail->parent('espacios',$parqueadero);
-    $trail->push('Nuevo', route('espaciosNuevo',$parqueadero->id));
-});
-Breadcrumbs::for('espaciosVerVehiculoMapa', function (BreadcrumbTrail $trail,$espacio) {
-    $trail->parent('espacios',$espacio->parqueadero);
-    $trail->push('Ubicación', route('espaciosVerVehiculoMapa',$espacio->id));
-});
 
 // orden de movilización
-Breadcrumbs::for('odernMovilizacion', function (BreadcrumbTrail $trail) {
-    $trail->parent('home');
-    $trail->push('Orden de movilización nuevo', route('odernMovilizacion'));
-});
-
 Breadcrumbs::for('odernMovilizacionListado', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
-    $trail->push('Orden de movilización listado', route('odernMovilizacionListado'));
+    $trail->push('Orden de movilización', route('odernMovilizacionListado'));
+});
+
+Breadcrumbs::for('odernMovilizacion', function (BreadcrumbTrail $trail) {
+    $trail->parent('odernMovilizacionListado');
+    $trail->push('Nuevo', route('odernMovilizacion'));
+});
+
+Breadcrumbs::for('odernMovilizacionLecturas', function (BreadcrumbTrail $trail,$om) {
+    $trail->parent('odernMovilizacionListado');
+    $trail->push('Lecturas', route('odernMovilizacionLecturas',$om->id));
+});
+Breadcrumbs::for('odernMovilizacionEditar', function (BreadcrumbTrail $trail,$om) {
+    $trail->parent('odernMovilizacionListado');
+    $trail->push('Editar', route('odernMovilizacionEditar',$om->id));
+});
+Breadcrumbs::for('odernMovilizacionReportePdf', function (BreadcrumbTrail $trail) {
+    $trail->parent('odernMovilizacionListado');
+    $trail->push('Reporte PDF', route('odernMovilizacionReportePdf'));
 });
 
 

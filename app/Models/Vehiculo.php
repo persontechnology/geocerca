@@ -31,12 +31,6 @@ class Vehiculo extends Model
     {
             return $this->numero_movil.' '.$this->placa;
     }
-
-    // Deivid, un vehiculo esta en espacios de un parquadero
-    public function espacio()
-    {
-        return $this->hasOne(Espacio::class,'vehiculo_id');
-    }
     
     //DEivid, funcion para retornar color segun a lso estado
     public function getColorEstadoAttribute()
@@ -80,10 +74,9 @@ class Vehiculo extends Model
         return $this->hasMany(OrdenMovilizacion::class, 'vehiculo_id');
     }
 
-    //Deivid. un vehiculo tiene lecturas
-    public function lecturas()
+    public function parqueadero()
     {
-        return $this->hasMany(Lectura::class, 'vehiculo_id');
+        return $this->belongsTo(Parqueadero::class,'parqueadero_id');
     }
     
 

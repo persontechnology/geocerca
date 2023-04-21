@@ -2,16 +2,11 @@
 
 use App\Http\Controllers\ConexionesApisController;
 use App\Http\Controllers\ControlOrdenMovilizacionController;
-use App\Http\Controllers\DespachadorController;
 use App\Http\Controllers\DespachoCombustibleController;
 use App\Http\Controllers\EmpresaController;
-use App\Http\Controllers\EspacioController;
 use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KilometrajeController;
-use App\Http\Controllers\LecturaEspecialController;
-use App\Http\Controllers\LecturaInvitadoController;
-use App\Http\Controllers\LecturaNormalController;
 use App\Http\Controllers\OrdenMovilizacionController;
 use App\Http\Controllers\ParqueaderoController;
 use App\Http\Controllers\Reportes\DashboardVehiculoController;
@@ -119,10 +114,19 @@ Route::middleware(['verified', 'auth'])->group(function () {
     // orden de movilizacion
     Route::get('/orden-movilizacion', [OrdenMovilizacionController::class, 'index'])->name('odernMovilizacion');
     Route::post('/orden-movilizacion-guardar', [OrdenMovilizacionController::class, 'guardar'])->name('odernMovilizacionGuardar');
+    Route::get('/orden-movilizacion-editar/{id}', [OrdenMovilizacionController::class, 'editar'])->name('odernMovilizacionEditar');
     Route::post('/orden-movilizacion-actualizar', [OrdenMovilizacionController::class, 'actualizar'])->name('odernMovilizacionActualizar');
     Route::post('/orden-movilizacion-eliminar', [OrdenMovilizacionController::class, 'eliminar'])->name('odernMovilizacionEliminar');
     Route::post('/orden-movilizacion-obtener', [OrdenMovilizacionController::class, 'obtener'])->name('odernMovilizacionObtener');
     Route::get('/orden-movilizacion-listado', [OrdenMovilizacionController::class, 'listado'])->name('odernMovilizacionListado');
+    Route::get('/orden-movilizacion-pdf/{id}', [OrdenMovilizacionController::class, 'pdf'])->name('odernMovilizacionPdf');
+    Route::get('/orden-movilizacion-lecturas/{id}', [OrdenMovilizacionController::class, 'lecturas'])->name('odernMovilizacionLecturas');
+    Route::post('/orden-movilizacion-lectura-actualizar', [OrdenMovilizacionController::class, 'lecturaActualizar'])->name('odernMovilizacionLecturaActualizar');
+    Route::get('/orden-movilizacion-reporte-pdf', [OrdenMovilizacionController::class, 'reportePdf'])->name('odernMovilizacionReportePdf');
+    
+    
+    
+
 
     // control orden de mobilizacion
     Route::get('/control-odern-movilizacion', [ControlOrdenMovilizacionController::class, 'index'])->name('controlOdernMovilizacion');
@@ -136,32 +140,17 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::post('/parqueaderos-guardar', [ParqueaderoController::class, 'guardar'])->name('parqueaderosGuardar');
     Route::get('/parqueaderos-editar/{id}', [ParqueaderoController::class, 'editar'])->name('parqueaderosEditar');
     Route::post('/parqueaderos-actualizar', [ParqueaderoController::class, 'actualizar'])->name('parqueaderosActualizar');
-    Route::get('/listar-estacionamientos/{parqueadero}', [ParqueaderoController::class, 'listarEspacios'])->name('parqueaderosListaEspacios');
-    Route::get('/listar-brazos/{parqueadero}', [ParqueaderoController::class, 'listarBrazos'])->name('parqueaderosListarBrazos');
     Route::post('/parqueaderos-eliminar', [ParqueaderoController::class, 'eliminar'])->name('parqueaderosEliminar');
 
     // espacios    
-    Route::get('/espacios/{parqueadero}', [EspacioController::class, 'index'])->name('espacios');
-    Route::post('/espacios-crear-rango-espacio', [EspacioController::class, 'crearRangoEspacio'])->name('espaciosCrearRangoEspacios');
-    Route::post('/espacios-actualizar-vehiculo', [EspacioController::class, 'actualizarVehiculo'])->name('espaciosActualizarVehiculo');
-    Route::get('/espacios-nuevo/{parqueadero}', [EspacioController::class, 'nuevo'])->name('espaciosNuevo');
-    Route::post('/espacios-guardar', [EspacioController::class, 'guardar'])->name('espaciosGuardar');
-    Route::post('/espacios-eliminar', [EspacioController::class, 'eliminar'])->name('espaciosEliminar');
-    Route::get('/espacios-pdf/{parqueadero}', [EspacioController::class, 'pdf'])->name('espaciosPdf');
-    Route::get('/espacios-ver-vehiculo-mapa/{espacio}', [EspacioController::class, 'verVehiculoMapa'])->name('espaciosVerVehiculoMapa');
+    
 
     // despacho de combustible
     Route::resource('despacho-combustible', DespachoCombustibleController::class);
     Route::get('/despacho-combustible-pdf/{id}', [DespachoCombustibleController::class, 'pdf'])->name('despacho-combustible.pdf');
     // estaciones de combustible
     Route::resource('estacion', EstacionController::class);
-
-    // lecturas
-    Route::resource('lectura-normal', LecturaNormalController::class);
-    Route::resource('lectura-especial', LecturaEspecialController::class);
-    Route::resource('lectura-invitado', LecturaInvitadoController::class);
     
 
-     // reportes
-     Route::get('/dashboard-vehiculos', [DashboardVehiculoController::class, 'index'])->name('dashboardVehiculos');
+     
 });

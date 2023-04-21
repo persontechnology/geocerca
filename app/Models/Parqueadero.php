@@ -26,12 +26,6 @@ class Parqueadero extends Model
         'area' => Polygon::class,
     ];
 
-
-    public function espacios()
-    {
-        return $this->hasMany(Espacio::class);
-    }
-
     // public function guardias()
     // {
     //     return $this->hasMany(GuardiaParqueadero::class);
@@ -41,10 +35,7 @@ class Parqueadero extends Model
     {
         return $this->belongsToMany(User::class, 'guardia_parqueaderos', 'parqueadero_id', 'guardia_id')->wherePivot('estado', 'Activo');
     }
-    public function brazos()
-    {
-        return $this->hasMany(Brazo::class, 'parqueadero_id');
-    }
+    
 
     // Deivid, veirifcar si un parqueadero tiene un guardia
     public function hasGuardia($idUser)

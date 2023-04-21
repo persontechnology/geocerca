@@ -29,6 +29,7 @@ class RqGuardar extends FormRequest
         return [
             'nombre' => 'required|string|max:255|unique:parqueaderos,nombre',
             'descripcion' => 'nullable|string|max:255',
+            'area'=>'required|string',
             'guardias'    => 'nullable|array',
             'guardias.*'  => ['nullable',Rule::In($isdRolesGuardia)]
 

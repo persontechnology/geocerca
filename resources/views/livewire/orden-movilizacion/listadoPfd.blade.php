@@ -18,6 +18,7 @@
             padding: 2px;
             width: 30px;
             height: 25px;
+            font-size: 12px
         }
         
     </style>
@@ -25,33 +26,46 @@
 <body>
     <div style="padding-top: 5px;">
         <table>
+            
             <tbody>
                 <tr>
-                    <td>N° orden</td>
-                    <td>N° movil placa</td>
-                    <td>N° ocupantes</td>
-                    <td>Lugar de destino</td>
-                    <td>Motivio de la comisión</td>
-                    <td>Fecha y hora de salida</td>
-                    <td>Fecha y hora de retorno</td>
-                    <td>Conductor</td>
-                    <td>Responsable de autorización</td>
-                    <td>Cargo del responsable de autorización</td>
+                    <td><strong>#</strong></td>
+                    <td><strong>N° O.M</strong></td>
+                    <td><strong>Vehículo</strong></td>
+                    <td><strong>Conductor</strong></td>
+                    <td><strong>Fecha Salida</strong></td>
+                    <td><strong>Fecha Retorno</strong></td>
+                    <td><strong>Estado</strong></td>
+                    <td><strong># ocupantes</strong></td>
+                    <td><strong>Procedencia</strong></td>
+                    <td><strong>Destino</strong></td>
+                    <td><strong>Comisión Cumplir</strong></td>
+                    <td><strong>Autorizado</strong></td>
+                    <td><strong>Solicitante</strong></td>
                 </tr>
+               @php
+                   $i=1;
+               @endphp
                 @foreach ($ordenes as $orden)
                 <tr>
+                    <td>{{ $i++ }}</td>
                     <td>{{ $orden->numero }}</td>
-                    <td>{{ $orden->vehiculo->numero_movil_placa??'' }}</td>
-                    <td>{{ $orden->numero_ocupantes }}</td>
-                    <td>{{ $orden->destino }}</td>
-                    <td>{{ $orden->comision_cumplir }}</td>
+                    <td>{{ $orden->vehiculo->numero_movil_placa }}</td>
+                    <td>{{ $orden->conductor->apellidos_nombres??'' }}</td>
                     <td>{{ $orden->fecha_salida }}</td>
                     <td>{{ $orden->fecha_retorno }}</td>
-                    <td>{{ $orden->conductor->apellidos_nombres??'' }}</td>
+                    <td>{{ $orden->estado }}</td>
+                    <td>{{ $orden->numero_ocupantes }}</td>
+                    <td>{{ $orden->procedencia }}</td>
+                    <td>{{ $orden->destino }}</td>
+                    <td>{{ $orden->comision_cumplir }}</td>
+                    
                     <td>{{ $orden->autorizado->apellidos_nombres??'' }}</td>
-                    <td>{{ $orden->autorizado->descripcion??'' }}</td>
+                    <td>{{ $orden->solicitante->apellidos_nombres??'' }}</td>
                 </tr>
                 @endforeach
+              
+                
             </tbody>
         </table>
     </div>

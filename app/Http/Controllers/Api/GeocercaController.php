@@ -3,66 +3,152 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Empresa;
+use App\Models\Lectura;
+use App\Models\OrdenMovilizacion;
 use App\Models\Parqueadero;
 use App\Models\Vehiculo;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 
 class GeocercaController extends Controller
 {
+
+    public function apiRestVehiculos()
+    {
+         $empresa=Empresa::first();
+        $responseApi=Http::get($empresa->url_web_gps,[
+            'user_api_hash'=>$empresa->token,
+            'lang'=>'es'
+        ]);
+        return collect($responseApi->json('0.items', []));
+    }
+   
+    public function coordenadasAutosMapa()
+    {
+        
+        $apiResVehiculos=$this->apiRestVehiculos();
+        $vehiculosRegitrados=Vehiculo::whereIn('imei',$apiResVehiculos->pluck('device_data.imei'))
+                            ->get()->map(function($vehiculo) use ($apiResVehiculos){
+                                $vehiculosDeviceData=$apiResVehiculos->firstWhere('device_data.imei',$vehiculo->imei);
+                                return [[$vehiculosDeviceData['lat'],$vehiculosDeviceData['lng'],$vehiculo->placa]];
+                            });
+        $this->coordenadasAutos();
+        return $vehiculosRegitrados;
+        
+    
+    }
+
+    
+
     public function coordenadasAutos()
     {
 
+        $this->finalizarOrdenMovilizacion();
 
-        $url = "http://www.ecuatracker.com/api/get_devices";
-        $decodeParameters = [
-            'user_api_hash' => '$2y$10$ajsbS9oqc2LfUv9/CReFPexG9ZQRD1nteRIzuztTdzynYaVOT2D2S',
-            'lang' => 'es',
-        ];
+        $oms= OrdenMovilizacion::where(function($q){
+            $q->whereBetween('fecha_salida', [Carbon::now()->startOfDay(), Carbon::now()]);
+            $q->orWhereBetween('fecha_retorno', [Carbon::now(), Carbon::now()->endOfDay()]);  
+        })
+        ->whereNotIn('estado',['SOLICITADO','DENEGADA'])
+        ->with('vehiculo')
+        ->get();
 
-        $vehiclosRegitrados = [];
-        try {
-            $responseApi = Http::get($url, $decodeParameters);
-            
-            if ($responseApi->status() === 200) {
-                
-                $collectResponseApi = collect($responseApi[0] ? $responseApi[0]['items'] : []);
-                $vehiculos = Vehiculo::get();
-                
-                foreach ($vehiculos as $vehiculo) {
-                    $vehiculosDeviceData = $collectResponseApi->firstWhere('device_data.imei', $vehiculo->imei);
-                    if ($vehiculosDeviceData) {
-                        $data = [
-                            [$vehiculosDeviceData['lat'],$vehiculosDeviceData["lng"],$vehiculo->placa]
-                        ];
-                        array_push($vehiclosRegitrados, $data);
-                        $this->verificarVehiculoGeocerca($vehiculo->id,$vehiculosDeviceData['lat'],$vehiculosDeviceData['lng']);
-                    }
+        if($oms->count()>0){
+            $empresa = Empresa::first();
+            $minutos_extras = $empresa ? $empresa->minutos_extras_entrada_vehiculos : 0;
+            $tiempo_api_rest = $empresa ? $empresa->tiempo_api_rest : 1;
+
+            $apiResVehiculos= $this->apiRestVehiculos();
+
+            $oms->each(function($om) use ($minutos_extras,$tiempo_api_rest, $apiResVehiculos) {
+                $tiempo_salida = Carbon::parse($om->fecha_salida)->subMinutes($tiempo_api_rest)->format('Y-m-d H:i');
+                $tiempo_retorno = Carbon::parse($om->fecha_retorno)->addMinutes($minutos_extras)->format('Y-m-d H:i');
+                $ordenMovilizacionDentrodeRango = Carbon::now()->betweenIncluded($tiempo_salida, $tiempo_retorno);
+    
+                if ($ordenMovilizacionDentrodeRango && $om->vehiculo) {
+                    $vehiculoDeviceData = $apiResVehiculos->firstWhere('device_data.imei', $om->vehiculo->imei);
+                    $this->consultarVehiculoDentroFueraGeocerca($om, $vehiculoDeviceData['lat'] ?? null, $vehiculoDeviceData['lng'] ?? null);
                 }
-                return $vehiclosRegitrados;
-            }
-        } catch (\Exception $ex) {
-            return [];
-        }
+            });
+        }        
+
     }
 
 
-    public function verificarVehiculoGeocerca($vehiculoId,$lat,$lng)
+    public function consultarVehiculoDentroFueraGeocerca($om,$lat,$lng)
     {
-        $parqueaderos=Parqueadero::get();
-        foreach ($parqueaderos as $parqueadero) {
-            $existe=$parqueadero->query()
-            ->whereContains('area', new Point($lat, $lng,))
-            ->exists();
+        $vehiculo=$om->vehiculo;
+        $parqueadero=$vehiculo->parqueadero;
+       
 
-            if($existe){
-                $vehiculo=Vehiculo::find($vehiculoId);
-                $vehiculo->modelo="si esta dentrto";
-                $vehiculo->save();
+        $estadoGeocerca=$parqueadero->query()
+        ->whereContains('area', new Point($lat, $lng,))
+        ->exists()?'DENTRO':'FUERA';
+
+        $tieneUltimaLectura=$om->lecturas()->latest()->first();        
+        if(!$tieneUltimaLectura){
+            $tieneUltimaLectura=new Lectura();
+            $tieneUltimaLectura->orden_movilizacion_id=$om->id;
+            $tieneUltimaLectura->estado=$estadoGeocerca;
+            $tieneUltimaLectura->descripcion='VEHÍCULO INICIO '.$estadoGeocerca;
+            $tieneUltimaLectura->save();
+            $om->estado='RECORRIDO';
+            $om->save();
+        }
+
+        $estadoUL=$tieneUltimaLectura->estado;
+      
+
+        if($estadoGeocerca==='FUERA' && $estadoUL==='DENTRO'){
+            $ultimaLectura=new Lectura();
+            $ultimaLectura->orden_movilizacion_id=$om->id;
+            $ultimaLectura->estado='FUERA';
+            $ultimaLectura->descripcion='EL VEHICULO SALIO';
+            $ultimaLectura->save();
+            $om->estado='RECORRIDO';
+            $om->save();
+        }
+
+        if($estadoGeocerca==='DENTRO' && $estadoUL==='FUERA'){
+            $ultimaLectura=new Lectura();
+            $ultimaLectura->orden_movilizacion_id=$om->id;
+            $ultimaLectura->estado='DENTRO';
+            $ultimaLectura->descripcion='EL VEHICULO INGRESO';
+            $ultimaLectura->save();
+            $om->estado='FINALIZADO';
+            $om->save();
+        }
+
+    }
+
+    public function finalizarOrdenMovilizacion()
+    {
+        $oms_ayer=OrdenMovilizacion::where('fecha_salida', '<', Carbon::now())
+        ->where('fecha_retorno', '<', Carbon::now())
+        ->whereNotIn('estado',['FINALIZADO','FUERA DE HORARIO','SOLICITADO'])
+        ->get();
+    
+        if($oms_ayer->count()>0)        {
+            foreach ($oms_ayer as $om) {
+                $latestLectura = $om->lecturas()->latest()->first();
+                
+                if ($latestLectura) {
+                    if ($latestLectura->estado === 'DENTRO') {
+                        $om->estado = 'FINALIZADO';
+                    }
+                    if ($latestLectura->estado === 'FUERA') {
+                        $om->estado = 'FUERA DE HORARIO';
+                    }
+                    $om->save();
+                }else{
+                    $om->estado = 'INCUMPLIDA';
+                    $om->save();
+                }
             }
         }
-        return false;
     }
 
     public function coordenadasParqueaderos()

@@ -31,6 +31,7 @@ class CreateEmpresasTable extends Migration
             $table->string('token')->nullable();
             $table->string('codigo_tarjeta_vehiculo_invitado')->default('');
             $table->integer('minutos_extras_entrada_vehiculos')->default(0);
+            $table->integer('tiempo_api_rest')->default(1);
 
             $table->bigInteger('user_create')->nullable();
             $table->bigInteger('user_update')->nullable();

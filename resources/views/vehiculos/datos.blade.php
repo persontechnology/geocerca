@@ -1,10 +1,32 @@
 <fieldset>
 
     <div class="row">
+
+        <div class="col-lg-12">
+            @if ($parqueaderos->count()>0)
+            <div class="form-group">
+                <label for="parqueadero">Seleccione parquedero<i class="text-danger">*</i></label>
+                <select name="parqueadero" id="parqueadero" class="form-control @error('parqueadero') is-invalid @enderror">
+                    <option value="">--Seleccione--</option>
+                    @foreach ($parqueaderos as $parqueadero)
+                        <option value="{{ $parqueadero->id }}" {{ $vehiculo->parqueadero_id??''===$parqueadero->id?'selected':'' }}>{{ $parqueadero->nombre }}</option>
+                    @endforeach
+                </select>
+                @error('parqueadero')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+            @else
+            @include('layouts.alert',['msg'=>'No existe parqueaderos para ingresar nuevo vehículo.','type'=>'info'])
+            @endif
+        </div>
+
         <div class="col-lg-6">
             <div class="form-group">
                 <label for="numero_movil">Número Móvil<i class="text-danger">*</i></label>
-                <input id="numero_movil" type="text" class="form-control @error('numero_movil') is-invalid @enderror"
+                <input id="numero_movil" type="number" class="form-control @error('numero_movil') is-invalid @enderror"
                     name="numero_movil" value="{{ old('numero_movil', $vehiculo->numero_movil ?? '') }}" required
                     autofocus>
 
@@ -37,7 +59,7 @@
         <div class="col-lg-4">
             <div class="form-group">
                 <label for="modelo">Modelo</label>
-                <input id="modelo" type="text" class="form-control @error('modelo') is-invalid @enderror" name="modelo"
+                <input id="modelo" type="number" class="form-control @error('modelo') is-invalid @enderror" name="modelo"
                     value="{{ old('modelo', $vehiculo->modelo ?? '') }}">
 
                 @error('modelo')
@@ -101,7 +123,7 @@
             </div>
         </div>
 
-        <div class="col-lg-3">
+        <div class="col-lg-6">
             <div class="form-group">
                 <label for="estado">Estado</label>
                 <select name="estado" id="estado" class="form-control @error('estado') is-invalid @enderror">
@@ -121,7 +143,7 @@
                 @enderror
             </div>
         </div>
-        <div class="col-lg-3">
+        {{-- <div class="col-lg-3">
             <div class="form-group">
                 <label for="tipo">Tipo</label>
                 <select name="tipo" id="tipo" class="form-control @error('tipo') is-invalid @enderror">
@@ -143,9 +165,10 @@
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
-                @enderror
+                @enderror>$tipo,
+            'kilometraje'=>$ki
             </div>
-        </div>
+        </div> --}}
     </div>
 
 
@@ -202,9 +225,8 @@
         </div>
         <div class="col-sm-6">
             <div class="form-group">
-                <label for="imei">Número IMEI</label>
-                <input id="imei" type="text" class="form-control @error('imei') is-invalid @enderror" name="imei"
-                    value="{{ old('imei', $vehiculo->imei ?? '') }}">
+                <label for="imei">Número IMEI<i class="text-danger">*</i></label>
+                <input id="imei" type="text" class="form-control @error('imei') is-invalid @enderror" name="imei" value="{{ old('imei', $vehiculo->imei ?? '') }}" required>
 
                 @error('imei')
                     <span class="invalid-feedback" role="alert">

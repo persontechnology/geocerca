@@ -3,20 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\OrdenMovilizacion\ConductorSolicitanteDataTable;
+use App\DataTables\OrdenMovilizacion\Control\VehiculoDataTable;
+use App\DataTables\OrdenMovilizacion\ListadoOrdenMovilizacionDataTable;
 use App\Http\Requests\RqActualizarOrdenMovilizacion;
 use App\Http\Requests\RqEliminarOrdenMOvilizacion;
 use App\Http\Requests\RqGuardarOrdenMovilizacion;
 use App\Models\Empresa;
+use App\Models\Lectura;
 use App\Models\OrdenMovilizacion;
 use App\Models\Parqueadero;
-use App\Models\User;
-use App\Models\Vehiculo;
-use App\Notifications\OrdenMovilizacionIngresadaNoty;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
-
+use PDF;
 class OrdenMovilizacionController extends Controller
 {
 
@@ -60,15 +59,9 @@ class OrdenMovilizacionController extends Controller
         $orden->user_create=Auth::user()->id;
         $orden->save();
         
-        $usuariosControlOrdenMovilizacion = User::permission('Control Orden de Movilización')->get();
-        if($usuariosControlOrdenMovilizacion->count()>0){
-            Notification::sendNow($usuariosControlOrdenMovilizacion, new OrdenMovilizacionIngresadaNoty($orden));
-            request()->session()->flash('success','Orden de movilización '.$orden->numero.' guardado. Se envió un correo a los '.$usuariosControlOrdenMovilizacion->count().' usuarios con permiso Control de Orden de movilización para su respectiva ACEPTACIÓN o DENAGACIÓN');
-        }else{
-            request()->session()->flash('success','Orden de movilización '.$orden->numero.' guardado');
-        }
+        request()->session()->flash('success','Orden de movilización '.$orden->numero.' guardado');
         
-        return redirect()->route('odernMovilizacion');
+        return redirect()->route('odernMovilizacionListado');
 
     }
 
@@ -88,18 +81,17 @@ class OrdenMovilizacionController extends Controller
         $orden->solicitante_id=$request->solicitante;
         $orden->vehiculo_id=$request->vehiculo;
         $orden->user_update=Auth::user()->id;
+        if($request->estado){
+            $orden->estado=$request->estado;
+        }
         $orden->save();
         // actualizar conductor de vehiculo
         $orden->vehiculo->conductor_id=$request->conductor;
         $orden->vehiculo->save();
         
-        $usuariosControlOrdenMovilizacion = User::permission('Control Orden de Movilización')->get();
-        if($usuariosControlOrdenMovilizacion->count()>0){
-            request()->session()->flash('success','Orden de movilización '.$orden->numero.' actualizado. Se envió un correo a los usuarios con permiso Control de Orden de movilización para su respectiva ACEPTACIÓN o DENAGACIÓN');
-        }else{
-            request()->session()->flash('success','Orden de movilización '.$orden->numero.' actualizado');
-        }
-        return redirect()->route('odernMovilizacion');
+        request()->session()->flash('success','Orden de movilización '.$orden->numero.' actualizado');
+        
+        return redirect()->route('odernMovilizacionListado');
     }
 
     public function eliminar(RqEliminarOrdenMOvilizacion $request)
@@ -112,7 +104,7 @@ class OrdenMovilizacionController extends Controller
         } catch (\Throwable $th) {
             request()->session()->flash('success','Ordén de movilización no eliminado');
         }
-        return redirect()->route('odernMovilizacion');
+        return redirect()->route('odernMovilizacionListado');
     }
 
     public function obtener(Request $request)
@@ -121,8 +113,62 @@ class OrdenMovilizacionController extends Controller
         return $orden;
     }
 
-    public function listado()
+    public function listado(ListadoOrdenMovilizacionDataTable $dataTable)
     {
-        return view('movilizacion.calendar.listado');
+        return $dataTable->render('movilizacion.calendar.listado');
+    }
+
+    // public function AprobarReprobar(VehiculoDataTable $dataTableVehiculo,ConductorSolicitanteDataTable $dataTableConductor,$id)
+    public function editar(VehiculoDataTable $dataTableVehiculo,ConductorSolicitanteDataTable $dataTableConductor, $id)
+    {
+        $orden=OrdenMovilizacion::findOrFail($id);
+
+        $data = array(
+            'orden' => $orden,
+            'dataTableVehiculo'=>$dataTableVehiculo,
+            'dataTableConductor'=>$dataTableConductor
+        );
+
+        if (request()->get('table') == 'vehiculos') {
+            return $dataTableVehiculo->render('movilizacion.editar',$data);
+        }
+        return $dataTableConductor->render('movilizacion.editar',$data);
+    }
+
+    public function pdf($id)
+    {
+        $headerHtml = view()->make('empresa.pdfHeader')->render();
+        $footerHtml = view()->make('empresa.pdfFooter')->render();
+
+        $orden=OrdenMovilizacion::findOrFail($id);
+        $data = array('orden' => $orden);
+
+       $pdf = PDF::loadView('movilizacion.pdf',$data)
+        ->setOrientation('landscape')
+        ->setOption('margin-top', '2.5cm')
+        ->setOption('margin-bottom', '1cm')
+        ->setOption('header-html', $headerHtml)
+        ->setOption('footer-html', $footerHtml);
+        return $pdf->inline('Orden '.$orden->numero.'.pdf');
+    }
+
+    public function lecturas($id)
+    {
+        $orden=OrdenMovilizacion::findOrFail($id);
+        return view('movilizacion.lecturas',['orden'=>$orden]);
+    }
+
+    public function lecturaActualizar(Request $request)
+    {
+        $lec=Lectura::findOrFail($request->id);
+        $lec->estado=$request->estado;
+        $lec->descripcion=$request->descripcion;
+        $lec->save();
+        request()->session()->flash('success', 'Lectura actualizado');
+        return redirect()->route('odernMovilizacionLecturas',$lec->orden_movilizacion_id);
+    }
+    public function reportePdf()
+    {
+        return view('movilizacion.reportePdf');
     }
 }

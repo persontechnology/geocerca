@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('breadcrumbs', Breadcrumbs::render('controlOdernMovilizacionAprobarReprobar',$orden))
+@section('breadcrumbs', Breadcrumbs::render('odernMovilizacionEditar',$orden))
 @section('barraLateral')
 <div class="breadcrumb justify-content-center">
     <a href="{{ route('controlOdernMovilizacionPdf',$orden->id) }}" target="_blanck" class="breadcrumb-elements-item">
@@ -10,7 +10,7 @@
 
 
 @section('content')
-<form action="{{ route('controlOdernMovilizacionAprobarReprobarGuardar') }}" method="POST" autocomplete="off">
+<form action="{{ route('odernMovilizacionActualizar') }}" method="POST" autocomplete="off" id="formOrdenMovilizacion">
     @csrf
     <input type="hidden" name="id_orden_parqueadero" value="{{ $orden->id }}" required>
     <div class="card">
@@ -18,32 +18,7 @@
             Estado de la orden: <span class="badge badge-{{ $orden->color_estado }}">{{ $orden->estado }}</span>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="text-center table table-bordered table-sm">
-                    <tbody>
-                        <tr>
-                            <td class="col-2 py-0" rowspan="4" id="example1"></td>
-                            <th class="col-6 py-0 text-center" rowspan="4">
-                                <h1>FORMULARIO ORDEN DE MOVILIZACIÓN DENTRO DEL ÁREA DE CONSECIÓN</h1>
-                            </th>
-                            <th class="col-2 py-0">CÓDIGO</th>
-                            <td class="col-2 py-0">{{ $empresa->codigo }}</td>
-                        </tr>
-                        <tr>
-                            <th class="py-0">VERSIÓN</th>
-                            <td class="py-0">{{ $empresa->version }}</td>
-                        </tr>
-                        <tr>
-                            <th class="py-0">FECHA</th>
-                            <td class="py-0">{{ \Carbon\Carbon::now() }}</td>
-                        </tr>
-                        <tr>
-                            <th class="py-0">NORMA</th>
-                            <td class="py-0">{{ $empresa->norma }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+          
             <fieldset>
                 <legend class="font-weight-semibold">
                     NÚMERO DE ORDEN: <strong class="text-danger text-right" id="numero_orden_movilizacion">{{ $orden->numero }}</strong>
@@ -63,7 +38,7 @@
                                 
                             <div class='input-group' id='datetimepicker1' data-td-target-input='nearest' data-td-target-toggle='nearest'>
                                 
-                                <input id='fecha_salida' readonly  onkeydown="event.preventDefault()" name="fecha_salida" type='text' class="form-control @error('fecha_salida') is-invalid @enderror" value="{{ old('fecha_salida',$orden->fecha_salida)}}" data-td-target='#datetimepicker1' required/>
+                                <input id='fecha_salida'   onkeydown="event.preventDefault()" name="fecha_salida" type='text' class="form-control @error('fecha_salida') is-invalid @enderror" value="{{ old('fecha_salida',$orden->fecha_salida)}}" data-td-target='#datetimepicker1' required/>
                                 <span class='input-group-append' data-td-target='#datetimepicker1' data-td-toggle='datetimepicker'>
                                     <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                 </span>
@@ -80,7 +55,7 @@
                             <label for="fecha_retorno">Fecha y hora de retorno<i class="text-danger">*</i></label>
                                 
                             <div class='input-group' id='datetimepicker2' data-td-target-input='nearest' data-td-target-toggle='nearest'>
-                                <input id='fecha_retorno' readonly onkeydown="event.preventDefault()" name="fecha_retorno" type='text' class="form-control @error('fecha_retorno') is-invalid @enderror" value="{{ old('fecha_retorno',$orden->fecha_retorno)}}" data-td-target='#datetimepicker2' required/>
+                                <input id='fecha_retorno'  onkeydown="event.preventDefault()" name="fecha_retorno" type='text' class="form-control @error('fecha_retorno') is-invalid @enderror" value="{{ old('fecha_retorno',$orden->fecha_retorno)}}" data-td-target='#datetimepicker2' required/>
                                 <span class='input-group-append' data-td-target='#datetimepicker2' data-td-toggle='datetimepicker'>
                                     <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                 </span>
@@ -98,7 +73,7 @@
                         <div class="form-group">
                             <label  for="numero_ocupantes">N° ocupantes<i class="text-danger">*</i></label>
                             <div class="input-group">
-                                <input type="number" readonly name="numero_ocupantes" value="{{ old('numero_ocupantes',$orden->numero_ocupantes) }}" class="form-control @error('numero_ocupantes') is-invalid @enderror" id="numero_ocupantes" required>
+                                <input type="number"  name="numero_ocupantes" value="{{ old('numero_ocupantes',$orden->numero_ocupantes) }}" class="form-control @error('numero_ocupantes') is-invalid @enderror" id="numero_ocupantes" required>
                                 @error('numero_ocupantes')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -210,7 +185,7 @@
                         <div class="form-group">
                             <label  for="procedencia">Procedencia<i class="text-danger">*</i></label>
                             <div class="input-group">
-                                <input type="text" readonly name="procedencia" value="{{ old('procedencia',$orden->procedencia) }}" class="form-control @error('procedencia') is-invalid @enderror" id="procedencia" required>
+                                <input type="text"  name="procedencia" value="{{ old('procedencia',$orden->procedencia) }}" class="form-control @error('procedencia') is-invalid @enderror" id="procedencia" required>
                                 @error('procedencia')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -224,7 +199,7 @@
                         <div class="form-group">
                             <label  for="destino">Destino<i class="text-danger">*</i></label>
                             <div class="input-group">
-                                <input type="text" readonly name="destino" value="{{ old('destino',$orden->destino) }}" class="form-control @error('destino') is-invalid @enderror" id="destino" required>
+                                <input type="text"  name="destino" value="{{ old('destino',$orden->destino) }}" class="form-control @error('destino') is-invalid @enderror" id="destino" required>
                                 @error('destino')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -239,7 +214,7 @@
                     <label  for="comision_cumplir">Comisión a cumplir<i class="text-danger">*</i></label>
                     
                     <div class="input-group">
-                        <textarea name="comision_cumplir" readonly class="form-control @error('comision_cumplir') is-invalid @enderror" id="comision_cumplir" required>{{ old('comision_cumplir',$orden->comision_cumplir) }}</textarea>
+                        <textarea name="comision_cumplir"  class="form-control @error('comision_cumplir') is-invalid @enderror" id="comision_cumplir" required>{{ old('comision_cumplir',$orden->comision_cumplir) }}</textarea>
                         @error('comision_cumplir')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -287,6 +262,28 @@
                             @enderror
                         </div>
                     </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="estado">Estado<i class="text-danger">*</i></label>
+                            <select name="estado" id="estado" class="form-control @error('estado') is-invalid @enderror" required>
+                                <option value="SOLICITADO" {{ old('estado',$orden->estado)=='SOLICITADO'?'selected':'' }}>SOLICITADO</option>
+                                <option value="ACEPTADA" {{ old('estado',$orden->estado)=='ACEPTADA'?'selected':'' }}>ACEPTADA</option>
+                                <option value="DENEGADA" {{ old('estado',$orden->estado)=='DENEGADA'?'selected':'' }}>DENEGADA</option>
+                                <option value="RECORRIDO" {{ old('estado',$orden->estado)=='RECORRIDO'?'selected':'' }}>RECORRIDO</option>
+                                <option value="FINALIZADO" {{ old('estado',$orden->estado)=='FINALIZADO'?'selected':'' }}>FINALIZADO</option>
+                                <option value="INCUMPLIDA" {{ old('estado',$orden->estado)=='INCUMPLIDA'?'selected':'' }}>INCUMPLIDA</option>
+                                <option value="FUERA DE HORARIO" {{ old('estado',$orden->estado)=='FUERA DE HORARIO'?'selected':'' }}>FUERA DE HORARIO</option>
+                            </select>
+
+                            @error('estado')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+
                 </div>
             </fieldset>
             <p><strong>Información:</strong></p>
@@ -295,9 +292,7 @@
             
         </div>
         <div class="card-footer text-muted">
-            
-            <input type="submit" name="accion" class="btn btn-primary" value="ACEPTADA">
-            <input type="submit" name="accion" class="btn btn-danger" value="DENEGADA">
+            <button type="submit" class="btn btn-primary">Actualizar</button>
         </div>
     </div>
 </form>
@@ -365,16 +360,6 @@
     <!-- Tempus Dominus Styles -->
     <link rel="stylesheet" href="{{ asset('js/tempus-dominus/dist/css/tempus-dominus.css') }}">
     <script src="{{ asset('js/monent.js') }}"></script>
-
-    @if (Storage::exists($empresa->logo))
-        <style>
-            #example1 {
-                background: url("{{ Storage::url($empresa->logo) }}");
-                background-repeat: no-repeat;
-                background-size: 100% 100%;
-            }    
-        </style>
-    @endif
     
 
 @endpush
@@ -382,6 +367,30 @@
 @prepend('linksPie')
     <script>
         
+
+        $('#formOrdenMovilizacion').submit(function(event) {
+            event.preventDefault();
+            var form = $(this)[0];
+
+            $.confirm({
+                theme: 'Modern',
+                type: 'blue',
+                closeIcon: true,
+                icon: 'fa-solid fa-triangle-exclamation fa-beat',
+                title: 'Confirmar!',
+                content: 'Está seguro de actualizar orden de movilización.',
+                buttons: {
+                    confirmar: function() {
+                        form.submit();
+                    },
+                    cancelar: function() {
+
+                    }
+                }
+            });
+
+        });
+
          // seleciona conductor o solicitante
         var conductorOSolictante="";
         function modalConductorSolicitante(arg){

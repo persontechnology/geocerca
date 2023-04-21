@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-lg-10">
                 <legend class="font-weight-semibold"><i class="fa-solid fa-address-card"></i> Detalle de vehículo</legend>
-                @include('vehiculos.datos',['vehiculo'=>null])
+                @include('vehiculos.datos',['vehiculo'=>null,'parqueaderos'=>$parqueaderos])
                 <div class="form-group">
                     <label for="kilometraje">Kilometraje<i class="text-danger">*</i></label>
                     <input id="kilometraje" type="number" class="form-control @error('kilometraje') is-invalid @enderror" name="kilometraje" value="{{ old('kilometraje', $vehiculo->kilometraje ?? '') }}" required />
@@ -28,13 +28,13 @@
                 <legend class="font-weight-semibold"><i class="fa-solid fa-truck"></i> Tipo de vehículo<i class="text-danger">*</i></legend>
                 <fieldset>
                     @foreach ($tipoVehiculos as $tv)
-                    <div class="form-check">
-                        <input type="radio" value="{{$tv->id}}" {{ old('tipoVehiculo')==$tv->id ?'checked':'' }} name="tipoVehiculo"  class="form-check-input" id="permi-0-{{ $tv->id }}" required>
-                        <label class="form-check-label" for="permi-0-{{ $tv->id }}" >{{ $tv->nombre }}
-                        </label>
-                    </div>
-                    
-                @endforeach
+                        <div class="form-check">
+                            <input type="radio" value="{{$tv->id}}" {{ old('tipoVehiculo')==$tv->id ?'checked':'' }} name="tipoVehiculo"  class="form-check-input" id="permi-0-{{ $tv->id }}" required>
+                            <label class="form-check-label" for="permi-0-{{ $tv->id }}" >{{ $tv->nombre }}
+                            </label>
+                        </div>
+                        
+                    @endforeach
                     
                 </fieldset>
             </div>

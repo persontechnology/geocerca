@@ -12,6 +12,7 @@ use App\Models\Kilometraje;
 use App\Models\LecturaEspecial;
 use App\Models\LecturaInvitado;
 use App\Models\LecturaNormal;
+use App\Models\Parqueadero;
 use App\Models\TipoVehiculo;
 use App\Models\Vehiculo;
 use Illuminate\Contracts\Cache\Store;
@@ -61,7 +62,10 @@ class VehiculoController extends Controller
 
     public function nuevo(ConductorDataTable $dataTable)
     {
-        return $dataTable->render('vehiculos.nuevo',['tipoVehiculos'=>TipoVehiculo::get()]);
+        return $dataTable->render('vehiculos.nuevo',[
+            'tipoVehiculos'=>TipoVehiculo::get(),
+            'parqueaderos'=>Parqueadero::get()
+    ]);
     }
 
     public function guardar(RqGuardarVehiculo $request)
@@ -79,9 +83,8 @@ class VehiculoController extends Controller
             $ve->descripcion=$request->descripcion;
             $ve->imei=$request->imei;
             $ve->tipo_vehiculo_id=$request->tipoVehiculo;
-            $ve->tipo=$request->tipo;
             $ve->codigo_tarjeta=$request->codigo_tarjeta;
-
+            $ve->parqueadero_id=$request->parqueadero;
             $ve->user_create=Auth::user()->id;
             $ve->save();
             if ($request->hasFile('foto')) {
@@ -105,6 +108,7 @@ class VehiculoController extends Controller
             DB::commit();
             request()->session()->flash('success','Vehículo guardado');
         } catch (\Throwable $th) {
+            return $th->getMessage();
             DB::rollback();
             request()->session()->flash('danger','Vehículo no guardado, consulte con administrador o vuelva intentar.');
         }
@@ -116,7 +120,12 @@ class VehiculoController extends Controller
         $ve=Vehiculo::findOrFail($id);
         $tipo=TipoVehiculo::get();
         $kilometraje=$ve->kilometrajes()->latest()->first()->numero??'';
-        return $dataTable->render('vehiculos.editar',['vehiculo'=>$ve,'tipoVehiculos'=>$tipo,'kilometraje'=>$kilometraje]);
+        return $dataTable->render('vehiculos.editar',[
+            'vehiculo'=>$ve,
+            'tipoVehiculos'=>$tipo,
+            'kilometraje'=>$kilometraje,
+            'parqueaderos'=>Parqueadero::get()
+    ]);
     }
     public function actualizar(RqActualizarVehiculo $request)
     {
@@ -131,10 +140,9 @@ class VehiculoController extends Controller
         $ve->descripcion=$request->descripcion;
         $ve->imei=$request->imei;
         $ve->tipo_vehiculo_id=$request->tipoVehiculo;
-        $ve->tipo=$request->tipo;
         $ve->user_update=Auth::user()->id;
         $ve->codigo_tarjeta=$request->codigo_tarjeta;
-        
+        $ve->parqueadero_id=$request->parqueadero;
         if ($request->hasFile('foto')) {
             $archivo=$request->file('foto');
             if ($archivo->isValid()) {

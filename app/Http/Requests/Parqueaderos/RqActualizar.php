@@ -29,6 +29,7 @@ class RqActualizar extends FormRequest
         return [
             'nombre'=>'required|string|max:255|unique:parqueaderos,nombre,'.$this->input('id'),
             'descripcion' => 'nullable|string|max:255',
+            'area'=>'nullable|string',
             'guardias'    => 'nullable|array',
             'guardias.*'  => ['nullable',Rule::In($isdRolesGuardia)]
         ];

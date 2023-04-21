@@ -27,9 +27,9 @@ class RqGuardarVehiculo extends FormRequest
         $regPlaca="/^([A-Z]){3}-[0-9]{4}$/";
         return [
             'numero_movil'=>'required|numeric|gt:0|unique:vehiculos,numero_movil',
-            'modelo'=>'nullable|string|max:255',
+            'modelo'=>'nullable|numeric|gt:0',
             'marca'=>'nullable|string|max:255',
-            'placa'=>'required|string|max:255|unique:vehiculos,placa|regex:'.$regPlaca,
+            'placa'=>'required|string|max:255|unique:vehiculos,placa',
             'color'=>'nullable|string|max:255',
             'conductor'=>'nullable|exists:users,id',
             'conductorInfo'=>'nullable|string|max:255',
@@ -37,10 +37,11 @@ class RqGuardarVehiculo extends FormRequest
             'descripcion'=>'nullable|string|max:255',
             'foto'=>'nullable|image',
             'tipoVehiculo'=>'required|exists:tipo_vehiculos,id',
-            'tipo'=>'required|in:Normal,Invitados,Especial',
+            // 'tipo'=>'required|in:Normal,Invitados,Especial',
             'kilometraje'=>'required|numeric|gt:0',
-            'imei'=>'nullable|string|max:255',
-            'codigo_tarjeta'=>'nullable|unique:vehiculos,codigo_tarjeta|unique:empresas,codigo_tarjeta_vehiculo_invitado'
+            'imei'=>'required|string|max:255|unique:vehiculos,imei',
+            'codigo_tarjeta'=>'nullable|unique:vehiculos,codigo_tarjeta|unique:empresas,codigo_tarjeta_vehiculo_invitado',
+            'parqueadero'=>'required|exists:parqueaderos,id'
         ];
     }
     public function messages()

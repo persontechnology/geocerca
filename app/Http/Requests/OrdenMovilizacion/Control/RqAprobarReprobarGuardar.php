@@ -57,12 +57,12 @@ class RqAprobarReprobarGuardar extends FormRequest
         return [
             'id_orden_parqueadero'=>[
                 'required',
-                Rule::exists('orden_movilizacions','id')->whereNotIn('estado',['OCUPADO','FINALIZADO'])
+                Rule::exists('orden_movilizacions','id')->whereNotIn('estado',['FINALIZADO','INCUMPLIDA','FUERA DE HORARIO'])
             ],
             'fecha_salida'=>'required|date_format:Y/m/d H:i',
             'fecha_retorno'=>'required|date_format:Y/m/d H:i',
             'numero_ocupantes'=>'required|numeric|gt:0',
-            'vehiculo'=>['required','verificarExistencia',Rule::exists('vehiculos','id')->where('estado','Activo')],
+            'vehiculo'=>['required','verificarExistencia',Rule::exists('vehiculos','id')],
             'numeroMovil'=>'nullable|string|max:255',
             'marca'=>'nullable|string|max:255',
             'modelo'=>'nullable|string|max:255',
@@ -84,7 +84,7 @@ class RqAprobarReprobarGuardar extends FormRequest
     {
         return [
             'vehiculo.exists'=>'El campo vehiculo seleccionado no existe, o está Inactivo',
-            'id_orden_parqueadero.exists'=>'No se puede ACEPTAR/DENEGAR orden de movilización porque no existe, o está en estado OCUPADO,FINALIZADO.'
+            'id_orden_parqueadero.exists'=>'No se puede ACEPTAR/DENEGAR orden de movilización.'
         ];
     }
 }

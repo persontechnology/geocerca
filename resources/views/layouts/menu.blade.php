@@ -118,19 +118,16 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
                 @endcan
 
                 @can('Orden de Movilización')
-                    <li
-                        class="nav-item nav-item-submenu {{ request()->routeIs(['odernMovilizacion*']) ? 'nav-item-expanded nav-item-open' : '' }}">
-                        <a href="#" class="nav-link"><i class="fa-solid fa-address-card"></i> <span>Orden de
-                                Movilización</span></a>
-                        <ul class="nav nav-group-sub" data-submenu-title="Orden de Movilización">
-                            <li class="nav-item"><a href="{{ route('odernMovilizacion') }}"
-                                    class="nav-link {{ request()->routeIs('odernMovilizacion') ? 'active' : '' }}">Nuevo</a>
-                            </li>
-                            <li class="nav-item"><a href="{{ route('odernMovilizacionListado') }}"
-                                    class="nav-link {{ request()->routeIs('odernMovilizacionListado') ? 'active' : '' }}">Listado</a>
-                            </li>
-                        </ul>
-                    </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('odernMovilizacionListado') }}"
+                        class="nav-link {{ request()->routeIs(['odernMovilizacion*']) ? 'active' : '' }}">
+                        <i class="fa-solid fa-address-card"></i>
+                        <span>
+                            Orden de movilización
+                        </span>
+                    </a>
+                </li>
                 @endcan
 
                 @can('Control Orden de Movilización')
@@ -144,6 +141,21 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
                         </a>
                     </li>
                 @endcan
+
+
+                @can('Lecturas Entrada/Salida vehiculos')
+                    <li class="nav-item">
+                        <a href="{{ route('controlOdernMovilizacion') }}"
+                            class="nav-link {{ request()->routeIs('controlOdernMovilizacion*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-check-double"></i>
+                            <span>
+                                Lecturas Entrada/Salida vehiculos
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+
+
 
                 @can('Estación de servicios')
                     <li class="nav-item">
@@ -169,36 +181,8 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
                     </li>
                 @endcan
 
-             
-                @can('Lecturas entradas y salidas')
-                <li class="nav-item nav-item-submenu {{ request()->routeIs(['lectura-*']) ? 'nav-item-expanded nav-item-open' : '' }}">
-                    <a href="#" class="nav-link"><i class="fas fa-exchange"></i>
-                    <span>Lecturas entradas y salidas</span></a>
-                    <ul class="nav nav-group-sub" data-submenu-title="Orden de Movilización">
-                        <li class="nav-item">
-                            <a href="{{ route('lectura-normal.index') }}" class="nav-link {{ request()->routeIs('lectura-normal*') ? 'active' : '' }}">Normal</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('lectura-especial.index') }}" class="nav-link {{ request()->routeIs('lectura-especial*') ? 'active' : '' }}">Especial</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('lectura-invitado.index') }}" class="nav-link {{ request()->routeIs('lectura-invitado*') ? 'active' : '' }}">Invitado</a>
-                        </li>
-                    </ul>
-                </li>
-                @endcan
                 
-                
-                @hasanyrole('SuperAdmin|SiteAdmin')
-                    <li class="nav-item-header">
-                        <div class="text-uppercase font-size-xs line-height-xs">Dashboard</div> <i class="icon-menu"
-                            title="Seguridad"></i>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('dashboardVehiculos') }}"
-                            class="nav-link {{ request()->routeIs('dashboardVehiculos') ? 'active' : '' }}">Vehículos</a>
-                    </li>
-                @endhasanyrole
+        
 
 
 

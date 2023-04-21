@@ -14,10 +14,6 @@ class NotificacionLectura extends Model
     {
         return $this->belongsTo(Lectura::class,'lectura_id');
     }
-
-    public function brazo()
-    {
-        return $this->belongsTo(Brazo::class,'brazo_id');
-    }
+    
 
 }

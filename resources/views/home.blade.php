@@ -52,15 +52,16 @@
     }
 
     const infoWindow = new google.maps.InfoWindow();
-
     
-
-    setInterval(dibujarMarcadores,2000);
+    var tiempo={{ ($empresa->tiempo_api_rest??1)*60000 }}
+    setInterval(dibujarMarcadores,5000);
 
     async function dibujarMarcadores() {
+      
       quitarMarcadores();
-      const response = await fetch("{{ route('coordenadasAutos') }}");
+      const response = await fetch("{{ route('coordenadasAutosMapa') }}");
       const myJson = await response.json();
+      
 
       myJson.forEach(([position, title], i) => {
         position={lat: position[0], lng: position[1]};

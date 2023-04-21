@@ -32,15 +32,11 @@ Route::post('/login', [LoginController::class,'login']);
 Route::post('/reset-password', [LoginController::class,'resetPassword']);
 
 
-// Fabian, Acceso a los brazos code
-Route::get('/obtener-brazo', [BrazoController::class,'obtenerBrazo']);
-Route::get('/cerrar-brazo', [BrazoController::class,'cerrarBrazo']);
-Route::get('/buscar-vehiculo-tarjeta-salida', [BrazoController::class,'buscarVehiculoTarjetaSalida']);
-Route::get('/buscar-vehiculo-tarjeta-entrada', [BrazoController::class,'buscarVehiculoTarjetaEntrada']);
-
 // Deivid, geocerca
 Route::get('/coordenadas-autos', [GeocercaController::class,'coordenadasAutos'])->name('coordenadasAutos');
+Route::get('/coordenadas-autos-mapa', [GeocercaController::class,'coordenadasAutosMapa'])->name('coordenadasAutosMapa');
 Route::get('/coordenadas-parqueaderos', [GeocercaController::class,'coordenadasParqueaderos'])->name('coordenadasParqueaderos');
+
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
@@ -48,36 +44,7 @@ Route::get('/coordenadas-parqueaderos', [GeocercaController::class,'coordenadasP
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::post('/actualizar-contrasena', [HomeController::class,'actualizarContrasena']);
-    // queda fuera de la app movil
-    // Route::post('/lectura-salida-vehicular', [BrazoController::class,'buscarVehiculoTarjetaSalida']);
-    // Route::post('/lectura-entrada-vehicular', [BrazoController::class,'buscarVehiculoTarjetaEntrada']);
-
-    // Deivid: notificaciones
-    Route::post('/notificacion-lectura-vehicular', [NotificacionLecturaController::class,'lecturaNotificacion']);
-    Route::post('/notificacion-lectura-id', [NotificacionLecturaController::class,'obtenerPorId']);
-    Route::post('/notificacion-lectura-registrar-retorno-vehiculo', [NotificacionLecturaController::class,'registrarRetornoVehiculo']);
-    Route::post('/notificacion-lectura-vehicular-cerrar-salida', [NotificacionLecturaController::class,'cerrarNotificacion']);
-
-
-
-    // Lectura especiales
-    Route::post('/notificacion-lectura-especial', [LecturaEspecialController::class,'diezUltimasLista']);
-    Route::post('/notificacion-lectura-especial-finalizar', [LecturaEspecialController::class,'finalizarLectura']);
-    // Lectura invitados
-    Route::post('/notificacion-lectura-invitado', [LecturaInvitadoController::class,'diezUltimasLista']);
-    Route::post('/notificacion-lectura-invitado-revision', [LecturaInvitadoController::class,'revision']);
-    Route::post('/notificacion-lectura-invitado-finalizar-revision', [LecturaInvitadoController::class,'finalizar']);
-    Route::post('/notificacion-lectura-invitado-finalizar-revision-salida', [LecturaInvitadoController::class,'finalizarSalida']);
-    Route::post('/notificacion-lectura-invitado-finalizar-revision-eliminar', [LecturaInvitadoController::class,'eliminar']);
-
-
-    // lectura normales
-    Route::post('/notificacion-lectura-normal', [LecturaNormalController::class,'diezUltimasLista']);
-    Route::post('/notificacion-lectura-normal-finalizar-salida', [LecturaNormalController::class,'finalizarSalida']);
-    Route::post('/lectura-normal-detalle', [LecturaNormalController::class,'detalle']);
-    Route::post('/lectura-normal-finalizar-entrada', [LecturaNormalController::class,'finalizarEntrada']);
-    Route::post('/lectura-normal-cancelar-entrada', [LecturaNormalController::class,'cancelarEntrada']);
-
+    
 
     // despacho de combustible
     Route::post('/dc-consulta', [DespachoCombustibleController::class,'consulta']);

@@ -1,0 +1,1 @@
+<span class="badge badge-{{ $om->color_estado }}">{{ $om->estado }}</span>

@@ -14,7 +14,7 @@
                             <p>Guardias<i class="text-danger">*</i></p>
                             @foreach ($guardias as $guardia)
                                 <div class="form-check">
-                                    <input type="checkbox" value="{{ $guardia->id }}" {{ old('guardia.'.$guardia->id)==$guardia->id ?'checked':'' }} name="guardias[{{ $guardia->id }}]"  class="form-check-input @error('guardias.'.$guardia->id) is-invalid @enderror" id="guardia-{{ $guardia->id }}">
+                                    <input type="checkbox" value="{{ $guardia->id }}" {{ old('guardias.'.$guardia->id)==$guardia->id ?'checked':'' }} name="guardias[{{ $guardia->id }}]"  class="form-check-input @error('guardias.'.$guardia->id) is-invalid @enderror" id="guardia-{{ $guardia->id }}">
                                     <label class="form-check-label" for="guardia-{{ $guardia->id }}">{{ $guardia->apellidos_nombres }}</label>
                                 </div>
                                 

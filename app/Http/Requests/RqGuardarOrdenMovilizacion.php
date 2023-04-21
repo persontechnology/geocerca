@@ -33,19 +33,13 @@ class RqGuardarOrdenMovilizacion extends FormRequest
             $request=request();
 
             $startDate  = Carbon::parse($request->fecha_salida)->format('Y-m-d H:i:s');
-            $endDate = Carbon::parse($request->fecha_retorno)->format('Y-m-d H:i:s');
+            
+            $customMessage='';
 
-            $vehiculo=Vehiculo::find($request->vehiculo);
-            $orden=$vehiculo->ordenesMovilizaciones()
-            ->where(function($q)use($startDate,$endDate){
-                $q->where('fecha_salida','<=',$startDate);
-                $q->where('fecha_retorno','>=',$endDate);
-            })
-            ->where('estado','SOLICITADO')
-            ->latest()
-            ->first();
-
-            $customMessage=$orden?'Vehículo ya se encuentra registrado con estas fechas en la orden '.$orden->numero:' ';
+          
+            if(Carbon::now()->greaterThan($startDate)){
+                $customMessage='No se puede crear una orden con fecha de salida menor a la actual.';
+            }
 
             $validator->addReplacer('verificarExistencia', 
                 function($message, $attribute, $rule, $parameters) use ($customMessage) {
@@ -53,7 +47,11 @@ class RqGuardarOrdenMovilizacion extends FormRequest
                 }
             );
 
-            return $orden?false:true;
+            if(Carbon::now()->greaterThan($startDate)){
+                return false;
+            }else{
+                return true;
+            }
 
         },"Error.! :custom_message");
 

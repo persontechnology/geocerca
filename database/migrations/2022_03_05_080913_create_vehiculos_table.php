@@ -28,6 +28,7 @@ class CreateVehiculosTable extends Migration
             $table->enum('estado',['Activo','Inactivo','Presente','Ausente'])->default('Activo');
             $table->enum('tipo',['Normal','Invitados','Especial'])->default('Normal');
 
+            $table->foreignId('parqueadero_id')->constrained('parqueaderos');
             $table->foreignId('conductor_id')->nullable()->constrained('users');
             $table->foreignId('tipo_vehiculo_id')->nullable()->constrained('tipo_vehiculos');
             $table->bigInteger('user_create')->nullable();

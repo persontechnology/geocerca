@@ -25,35 +25,25 @@ class RqActualizarVehiculo extends FormRequest
      */
     public function rules()
     {
-        Validator::extend('existeVehiculoEnEspacio', function($attribute, $value, $parameters){
-            $vehiculo=Vehiculo::findOrFail($this->input('id'));  
-            
-            if($this->input('estado')=='Inactivo'){
-                if($vehiculo->espacios->count()>0){
-                    return false;
-                }
-            }
-            return true;
-
-        },"El vehículo no se puede cambiar el estado a Inactivo, ya que está asignado a un espacio.");
+       
 
         $regPlaca="/^([A-Z]){3}-[0-9]{4}$/";
         return [    
             'id'=>'required|exists:vehiculos,id',
             'numero_movil'=>'required|numeric|gt:0|unique:vehiculos,numero_movil,'.$this->input('id'),
-            'modelo'=>'nullable|string|max:255',
+            'modelo'=>'nullable|numeric|gt:0',
             'marca'=>'nullable|string|max:255',
-            'placa'=>'required|string|max:255|unique:vehiculos,placa,'.$this->input('id').'|regex:'.$regPlaca,
+            'placa'=>'required|string|max:255|unique:vehiculos,placa,'.$this->input('id'),
             'color'=>'nullable|string|max:255',
             'conductor'=>'nullable|exists:users,id',
             'conductorInfo'=>'nullable|string|max:255',
-            'estado'=>'required|in:Activo,Inactivo|existeVehiculoEnEspacio',
+            'estado'=>'required|in:Activo,Inactivo',
             'descripcion'=>'nullable|string|max:255',
             'foto'=>'nullable|image',
             'tipoVehiculo'=>'required|exists:tipo_vehiculos,id',
-            'tipo'=>'required|in:Normal,Invitados,Especial',
-            'imei'=>'nullable|string|max:255',
+            'imei'=>'required|string|max:255|unique:vehiculos,imei,'.$this->input('id'),
             'kilometraje'=>'nullable|numeric|gt:0',
+            'parqueadero'=>'nullable|exists:parqueaderos,id'
             
         ];
     }
