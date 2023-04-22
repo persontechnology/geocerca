@@ -36,9 +36,9 @@ class GeocercaController extends Controller
                                 $vehiculosDeviceData=$apiResVehiculos->firstWhere('device_data.imei',$vehiculo->imei);
                                 return [[$vehiculosDeviceData['lat'],$vehiculosDeviceData['lng'],$vehiculo->placa,$vehiculo->numero_movil]];
                             });
-        if(App::isLocal()){
-            $this->coordenadasAutos();
-        }
+        
+        $this->coordenadasAutos();
+        
         return $vehiculosRegitrados;
         
     
