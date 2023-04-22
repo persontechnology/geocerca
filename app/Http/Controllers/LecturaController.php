@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\LecturaDataTable;
 use App\Models\Lectura;
 use Illuminate\Http\Request;
 
@@ -12,74 +13,35 @@ class LecturaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(LecturaDataTable $dataTable)
     {
-        //
+        return $dataTable->render('lecturas.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function eliminar(Request $request)
     {
-        //
+        $tv=Lectura::find($request->id);
+        try {
+            $tv->delete();
+            request()->session()->flash('success','Lectura eliminado');
+        } catch (\Throwable $th) {
+            request()->session()->flash('success','Lectura no eliminado');
+        }
+        return redirect()->route('lecturas');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function editar($id)
     {
-        //
+        $lec=Lectura::findOrFail($id);
+        return view('lecturas.editar',['lec'=>$lec]);
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Lectura  $lectura
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Lectura $lectura)
+    public function actualizar(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Lectura  $lectura
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Lectura $lectura)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Lectura  $lectura
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Lectura $lectura)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Lectura  $lectura
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Lectura $lectura)
-    {
-        //
+        $lec=Lectura::findOrFail($request->id);
+        $lec->descripcion=$request->descripcion;
+        $lec->estado=$request->estado;
+        $lec->save();
+        $request->session()->flash('success','Lectura actualizado');
+        return redirect()->route('lecturas');
     }
 }

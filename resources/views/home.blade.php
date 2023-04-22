@@ -20,15 +20,17 @@
   let marker=[];
   let map;
   function initMap() {
+   
     map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 18,
-      center: { lat: -1.0433796366054373, lng: -78.5907589882176 },
-    });
-    
+        zoom: 8,
+        center: { lat: -0.9017404846945926, lng: -78.88722629962153 },
+      });
 
     const cargarCoordenadasParqueaderos=async()=>{
       const response=await fetch("{{ route('coordenadasParqueaderos') }}");
       const myJson=await response.json();
+
+      
 
       myJson.forEach((nombre,indice)=>{
         var triangleCoordenadas=[];  
@@ -45,8 +47,8 @@
           strokeWeight: 2,
           fillColor: "#FF0000",
           fillOpacity: 0.35,
-          draggable: true,
-          geodesic: true,
+          draggable: false,
+          geodesic: false,
         });
       });
     }
@@ -58,25 +60,28 @@
 
     async function dibujarMarcadores() {
       
-      quitarMarcadores();
+      
       const response = await fetch("{{ route('coordenadasAutosMapa') }}");
       const myJson = await response.json();
       
 
-      myJson.forEach(([position, title], i) => {
-        position={lat: position[0], lng: position[1]};
+      myJson.forEach((data, i) => {
+        quitarMarcadores(data[0]);
+        position={lat: data[0][0], lng: data[0][1]};
+        
         marker.push(
           new google.maps.Marker({
             position: position,
             map,
             // animation: google.maps.Animation.DROP,
-            title: `${i + 1}. ${title}`,
-            label: `${i +1}`,
+            title: data[0][2],
+            label: data[0][3],
             optimized: false,
           })
         );
 
         marker[i].addListener("click", () => {
+          console.log(marker[i])
           infoWindow.close();
           infoWindow.setContent(marker[i].getTitle());
           infoWindow.open(marker[i].getMap(), marker[i]);
@@ -85,9 +90,16 @@
     }
     
 
-    function quitarMarcadores(){
+    function quitarMarcadores(data){
+      var p1 = new google.maps.LatLng(data[0], data[1]);
       for (let i = 0; i < marker.length; i++) {
-        marker[i].setMap(null);
+        var p2 = new google.maps.LatLng(marker[i].getPosition().lat(), marker[i].getPosition().lng());
+        if(p1.equals(p2)){
+
+        }else{
+          marker[i].setMap(null);
+        }
+      
       }
       marker = [];
       

@@ -145,8 +145,8 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
 
                 @can('Lecturas Entrada/Salida vehiculos')
                     <li class="nav-item">
-                        <a href="{{ route('controlOdernMovilizacion') }}"
-                            class="nav-link {{ request()->routeIs('controlOdernMovilizacion*') ? 'active' : '' }}">
+                        <a href="{{ route('lecturas') }}"
+                            class="nav-link {{ request()->routeIs('lecturas*') ? 'active' : '' }}">
                             <i class="fa-solid fa-check-double"></i>
                             <span>
                                 Lecturas Entrada/Salida vehiculos

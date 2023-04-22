@@ -7,6 +7,7 @@ use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KilometrajeController;
+use App\Http\Controllers\LecturaController;
 use App\Http\Controllers\OrdenMovilizacionController;
 use App\Http\Controllers\ParqueaderoController;
 use App\Http\Controllers\Reportes\DashboardVehiculoController;
@@ -96,15 +97,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/vehiculos-ubicacion-mapa/{id}', [VehiculoController::class, 'ubicacionMapa'])->name('vehiculosUbicacionMapa');
     
     // vehiculos orden de movilización
-    Route::get('/vehiculos-orden-movilizaciones/{id}', [VehiculoController::class, 'ordenMovilizaciones'])->name('vehiculosOrdenMovilizacion');
-
-    // lectura especial
-    Route::get('/vehiculos-lecturas-especial/{id}', [VehiculoController::class, 'lecturaEspecial'])->name('vehiculosLecturaEspecial');
-    // lectura normal
-    Route::get('/vehiculos-lecturas-normal/{id}', [VehiculoController::class, 'lecturaNormal'])->name('vehiculosLecturaNormal');
-    // lectura invitados
-    Route::get('/vehiculos-lecturas-invitados/{id}', [VehiculoController::class, 'lecturaInvitados'])->name('vehiculosLecturaInvitados');
-    
+    Route::get('/vehiculos-orden-movilizaciones/{id}', [VehiculoController::class, 'ordenMovilizaciones'])->name('vehiculosOrdenMovilizacion');  
     
 
     // kilometrajes
@@ -127,6 +120,13 @@ Route::middleware(['verified', 'auth'])->group(function () {
     
     
 
+    // lecturas
+    Route::get('/lecturas', [LecturaController::class, 'index'])->name('lecturas');
+    Route::post('/lecturas-eliminar', [LecturaController::class, 'eliminar'])->name('lecturaEliminar');
+    Route::get('/lecturas-editar/{id}', [LecturaController::class, 'editar'])->name('lecturaEditar');
+    Route::post('/lecturas-actualizar', [LecturaController::class, 'actualizar'])->name('lecturaActualizar');
+    
+    
 
     // control orden de mobilizacion
     Route::get('/control-odern-movilizacion', [ControlOrdenMovilizacionController::class, 'index'])->name('controlOdernMovilizacion');

@@ -10,6 +10,7 @@ use App\Models\Parqueadero;
 use App\Models\Vehiculo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 
@@ -33,9 +34,11 @@ class GeocercaController extends Controller
         $vehiculosRegitrados=Vehiculo::whereIn('imei',$apiResVehiculos->pluck('device_data.imei'))
                             ->get()->map(function($vehiculo) use ($apiResVehiculos){
                                 $vehiculosDeviceData=$apiResVehiculos->firstWhere('device_data.imei',$vehiculo->imei);
-                                return [[$vehiculosDeviceData['lat'],$vehiculosDeviceData['lng'],$vehiculo->placa]];
+                                return [[$vehiculosDeviceData['lat'],$vehiculosDeviceData['lng'],$vehiculo->placa,$vehiculo->numero_movil]];
                             });
-        $this->coordenadasAutos();
+        if(App::isLocal()){
+            $this->coordenadasAutos();
+        }
         return $vehiculosRegitrados;
         
     

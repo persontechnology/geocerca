@@ -209,31 +209,6 @@ class VehiculoController extends Controller
         return view('vehiculos.ordenMovilizaciones',$data);
     }
 
-    public function lecturaEspecial($id)
-    {
-        $le=LecturaEspecial::where('vehiculo_id',$id)
-        ->orderBy('created_at','desc')
-        ->paginate(6);
-        $data = array('lecturasEspecial' => $le);
-        return view('vehiculos.lecturas.especial.index',$data);
-    }
-
-    public function lecturaNormal($id)
-    {
-        $le=LecturaNormal::where('vehiculo_id',$id)
-        ->orderBy('created_at','desc')
-        ->paginate(6);
-        $data = array('lecturasNormal' => $le);
-        return view('vehiculos.lecturas.normal.index',$data);
-    }
-
-    public function LecturaInvitados($id)
-    {
-        $le=LecturaInvitado::where('vehiculo_id',$id)
-        ->orderBy('created_at','desc')
-        ->paginate(6);
-        $data = array('lecturasInvitado' => $le);
-        return view('vehiculos.lecturas.invitado.index',$data);
-    }
+    
 
 }

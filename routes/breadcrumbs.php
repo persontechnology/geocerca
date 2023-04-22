@@ -96,6 +96,16 @@ Breadcrumbs::for('parqueaderosEditar', function (BreadcrumbTrail $trail,$parquea
     $trail->push('Editar', route('parqueaderosEditar', $parqueadero->id));
 });
 
+// lecturas
+Breadcrumbs::for('lecturas', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Lecturas', route('lecturas'));
+});
+Breadcrumbs::for('lecturaEditar', function (BreadcrumbTrail $trail,$lec) {
+    $trail->parent('lecturas');
+    $trail->push('Editar', route('lecturaEditar',$lec->id));
+});
+
 
 
 // orden de movilización
