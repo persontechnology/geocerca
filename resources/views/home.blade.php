@@ -81,7 +81,7 @@
         );
 
         marker[i].addListener("click", () => {
-          console.log(marker[i])
+          
           infoWindow.close();
           infoWindow.setContent(marker[i].getTitle());
           infoWindow.open(marker[i].getMap(), marker[i]);
