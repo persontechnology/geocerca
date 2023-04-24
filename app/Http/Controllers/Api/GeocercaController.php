@@ -19,20 +19,17 @@ class GeocercaController extends Controller
 
     public function apiRestVehiculos()
     {
-         try {
-            $empresa=Empresa::first();
-            $responseApi=Http::get($empresa->url_web_gps,[
-                'user_api_hash'=>$empresa->token,
-                'lang'=>'es'
-            ]);
+        $empresa=Empresa::first();
+        $responseApi=Http::get($empresa->url_web_gps,[
+            'user_api_hash'=>$empresa->token,
+            'lang'=>'es'
+        ]);
 
-            if( $responseApi->status()===200){
-                return collect($responseApi->json('0.items', []));
-            }
-         } catch (\Throwable $th) {
-            
-         }
-         return [];
+        if( $responseApi->status()===200){
+            return collect($responseApi->json('0.items', []));
+        }else{
+            return[];
+        }
     }
    
     public function coordenadasAutosMapa()
