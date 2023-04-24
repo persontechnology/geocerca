@@ -270,7 +270,8 @@
                                 <option value="SOLICITADO" {{ old('estado',$orden->estado)=='SOLICITADO'?'selected':'' }}>SOLICITADO</option>
                                 <option value="ACEPTADA" {{ old('estado',$orden->estado)=='ACEPTADA'?'selected':'' }}>ACEPTADA</option>
                                 <option value="DENEGADA" {{ old('estado',$orden->estado)=='DENEGADA'?'selected':'' }}>DENEGADA</option>
-                                <option value="RECORRIDO" {{ old('estado',$orden->estado)=='RECORRIDO'?'selected':'' }}>RECORRIDO</option>
+                                <option value="EJECUCIÓN DENTRO" {{ old('estado',$orden->estado)=='EJECUCIÓN DENTRO'?'selected':'' }}>EJECIÓN DENTRO</option>
+                                <option value="EJECUCIÓN FUERA" {{ old('estado',$orden->estado)=='EJECUCIÓN FUERA'?'selected':'' }}>EJECIÓN FUERA</option>
                                 <option value="FINALIZADO" {{ old('estado',$orden->estado)=='FINALIZADO'?'selected':'' }}>FINALIZADO</option>
                                 <option value="INCUMPLIDA" {{ old('estado',$orden->estado)=='INCUMPLIDA'?'selected':'' }}>INCUMPLIDA</option>
                                 <option value="FUERA DE HORARIO" {{ old('estado',$orden->estado)=='FUERA DE HORARIO'?'selected':'' }}>FUERA DE HORARIO</option>

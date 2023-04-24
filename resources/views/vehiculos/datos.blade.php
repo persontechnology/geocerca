@@ -6,7 +6,7 @@
             @if ($parqueaderos->count()>0)
             <div class="form-group">
                 <label for="parqueadero">Seleccione parquedero<i class="text-danger">*</i></label>
-                <select name="parqueadero" id="parqueadero" class="form-control @error('parqueadero') is-invalid @enderror">
+                <select name="parqueadero" id="parqueadero" class="form-control @error('parqueadero') is-invalid @enderror" required>
                     <option value="">--Seleccione--</option>
                     @foreach ($parqueaderos as $parqueadero)
                         <option value="{{ $parqueadero->id }}" {{ $vehiculo->parqueadero_id??''===$parqueadero->id?'selected':'' }}>{{ $parqueadero->nombre }}</option>

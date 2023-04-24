@@ -106,9 +106,12 @@ class OrdenMovilizacion extends Model
             case 'DENEGADA':
                 $color='danger';
                  break;
-            case 'RECORRIDO':
+            case 'EJECUCIÓN FUERA':
                 $color='warning';
                  break;
+            case 'EJECUCIÓN DENTRO':
+                $color='primary';
+                break;
             case 'FINALIZADO':
                 $color='secondary';
                  break;

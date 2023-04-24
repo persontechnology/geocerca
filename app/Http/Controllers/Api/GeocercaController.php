@@ -106,7 +106,7 @@ class GeocercaController extends Controller
             $tieneUltimaLectura->estado=$estadoGeocerca;
             $tieneUltimaLectura->descripcion='VEHÍCULO INICIO '.$estadoGeocerca;
             $tieneUltimaLectura->save();
-            $om->estado='RECORRIDO';
+            $om->estado=$estadoGeocerca==='DENTRO'?'EJECUCIÓN DENTRO':'EJECUCIÓN FUERA';
             $om->save();
         }
 
@@ -119,7 +119,7 @@ class GeocercaController extends Controller
             $ultimaLectura->estado='FUERA';
             $ultimaLectura->descripcion='EL VEHICULO SALIO';
             $ultimaLectura->save();
-            $om->estado='RECORRIDO';
+            $om->estado='EJECUCIÓN FUERA';
             $om->save();
         }
 

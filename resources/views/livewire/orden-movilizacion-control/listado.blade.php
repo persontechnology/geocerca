@@ -65,8 +65,11 @@
                     <option value="SOLICITADO">SOLICITADO</option>
                     <option value="ACEPTADA">ACEPTADA</option>
                     <option value="DENEGADA">DENEGADA</option>
-                    <option value="OCUPADO">OCUPADO</option>
+                    <option value="EJECUCIÓN FUERA">EJECUCIÓN FUERA</option>
+                    <option value="EJECUCIÓN DENTRO">EJECUCIÓN DENTRO</option>
                     <option value="FINALIZADO">FINALIZADO</option>
+                    <option value="INCUMPLIDA">INCUMPLIDA</option>
+                    <option value="FUERA DE HORARIO">FUERA DE HORARIO</option>
                 </select>
             </div>
         </div>
