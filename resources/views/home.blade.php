@@ -70,6 +70,7 @@
         var p1 = new google.maps.LatLng(position.lat, position.lng);
         var p2 = new google.maps.LatLng(marker[i].getPosition().lat(), marker[i].getPosition().lng());
         if(!p1.equals(p2)){
+          
           marker[i].setMap(null);
           marker.push(
             new google.maps.Marker({
@@ -86,6 +87,8 @@
             infoWindow.setContent(marker[i].getTitle());
             infoWindow.open(marker[i].getMap(), marker[i]);
           });
+
+          consoel.log(marker[i])
         }
         
 
