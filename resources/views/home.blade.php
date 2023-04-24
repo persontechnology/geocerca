@@ -64,7 +64,7 @@
       const response = await fetch("{{ route('coordenadasAutosMapa') }}");
       const myJson = await response.json();
       
-    console.log(myJson)
+      
       myJson.forEach((data, i) => {
         
         position={lat: data[0][0], lng: data[0][1]};
