@@ -76,7 +76,7 @@ class RqAprobarReprobarGuardar extends FormRequest
             'conductor_info'=>'nullable|string|max:255',
             'solicitante'=>'nullable|exists:users,id',
             'solicitante_info'=>'nullable|string|max:255',
-            'accion'=>'required|in:ACEPTADA,DENEGADA'
+            'estado'=>'required|in:ACEPTADA,DENEGADA'
         ];
     }
 

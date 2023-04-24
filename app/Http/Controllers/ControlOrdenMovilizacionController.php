@@ -8,6 +8,7 @@ use App\DataTables\OrdenMovilizacion\Control\VehiculoDataTable;
 use App\Http\Requests\OrdenMovilizacion\Control\RqAprobarReprobarGuardar;
 use App\Models\Empresa;
 use App\Models\OrdenMovilizacion;
+use App\Notifications\OMInformarAceptadoNoty;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PDF;
@@ -38,7 +39,7 @@ class ControlOrdenMovilizacionController extends Controller
     public function AprobarReprobarGuardar(RqAprobarReprobarGuardar $request)
     {
         $orden=OrdenMovilizacion::find($request->id_orden_parqueadero);
-        $orden->estado=$request->accion;
+        $orden->estado=$request->estado;
         $orden->autorizado_id=Auth::id();
         $orden->conductor_id=$request->conductor;
         $orden->solicitante_id=$request->solicitante;
@@ -47,6 +48,15 @@ class ControlOrdenMovilizacionController extends Controller
         $orden->vehiculo->conductor_id=$request->conductor;
         $orden->vehiculo->save();
         // enviar email al conductor
+        if($orden->estado==='ACEPTADA' || $orden->estado==='DENEGADA'){
+            
+            if($orden->conductor){
+                $orden->conductor->notify(new OMInformarAceptadoNoty($orden));
+            }
+            if($orden->solicitante){
+                $orden->solicitante->notify(new OMInformarAceptadoNoty($orden));
+            }
+        }
         request()->session()->flash('success','Orden de movilización '.$orden->estado);
         return redirect()->route('controlOdernMovilizacionAprobarReprobar',$orden->id);
 

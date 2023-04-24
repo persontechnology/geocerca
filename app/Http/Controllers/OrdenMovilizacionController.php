@@ -12,9 +12,13 @@ use App\Models\Empresa;
 use App\Models\Lectura;
 use App\Models\OrdenMovilizacion;
 use App\Models\Parqueadero;
+use App\Models\User;
+use App\Notifications\OMInformarAceptadoNoty;
+use App\Notifications\OrdenMovilizacionIngresadaNoty;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use PDF;
 class OrdenMovilizacionController extends Controller
 {
@@ -59,6 +63,14 @@ class OrdenMovilizacionController extends Controller
         $orden->user_create=Auth::user()->id;
         $orden->save();
         
+
+        $usuariosControlOrdenMovilizacion = User::permission('Control Orden de Movilización')->get();
+        if($usuariosControlOrdenMovilizacion->count()>0){
+            Notification::sendNow($usuariosControlOrdenMovilizacion, new OrdenMovilizacionIngresadaNoty($orden));
+        }
+
+
+        
         request()->session()->flash('success','Orden de movilización '.$orden->numero.' guardado');
         
         return redirect()->route('odernMovilizacionListado');
@@ -89,6 +101,16 @@ class OrdenMovilizacionController extends Controller
         $orden->vehiculo->conductor_id=$request->conductor;
         $orden->vehiculo->save();
         
+        if($orden->estado==='ACEPTADA' || $orden->estado==='DENEGADA'){
+            
+            if($orden->conductor){
+                $orden->conductor->notify(new OMInformarAceptadoNoty($orden));
+            }
+            if($orden->solicitante){
+                $orden->solicitante->notify(new OMInformarAceptadoNoty($orden));
+            }
+        }
+
         request()->session()->flash('success','Orden de movilización '.$orden->numero.' actualizado');
         
         return redirect()->route('odernMovilizacionListado');

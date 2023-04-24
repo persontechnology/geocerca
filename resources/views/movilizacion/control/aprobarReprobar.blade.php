@@ -292,12 +292,28 @@
             <p><strong>Información:</strong></p>
             <p>Creado por: {{ $orden->usuarioCreado->apellidos_nombres??'' }}</p>
             <p>Autorizado por: {{ $orden->autorizado->apellidos_nombres??'' }} </p>
+            <hr>
+            <h1>APROBAR O DENEGAR</h1>
             
+            <div class="form-group">
+                <label for="estado">Estado<i class="text-danger">*</i></label>
+                <select name="estado" id="estado" class="form-control @error('estado') is-invalid @enderror" required>
+                    <option value="SOLICITADO" {{ old('estado', $orden->estado) == 'SOLICITADO' ? 'selected' : '' }} disabled>SOLICITADO</option>
+                    <option value="ACEPTADA" {{ old('estado', $orden->estado) == 'ACEPTADA' ? 'selected' : '' }}>ACEPTADA</option>
+                    <option value="DENEGADA" {{ old('estado', $orden->estado) == 'DENEGADA' ? 'selected' : '' }}>DENEGADA</option>
+                </select>
+
+                @error('estado')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+
+
         </div>
         <div class="card-footer text-muted">
-            
-            <input type="submit" name="accion" class="btn btn-primary" value="ACEPTADA">
-            <input type="submit" name="accion" class="btn btn-danger" value="DENEGADA">
+            <button type="submit" class="btn btn-primary">Guardar</button>
         </div>
     </div>
 </form>

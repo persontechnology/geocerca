@@ -44,6 +44,8 @@ Route::get('/', function () {
 
 
 
+
+
 Auth::routes(['verify' => true, 'register' => false]);
 
 
@@ -130,8 +132,8 @@ Route::middleware(['verified', 'auth'])->group(function () {
 
     // control orden de mobilizacion
     Route::get('/control-odern-movilizacion', [ControlOrdenMovilizacionController::class, 'index'])->name('controlOdernMovilizacion');
-    Route::get('/control-odern-movilizacion-aprobar-reprobar/{id}', [ControlOrdenMovilizacionController::class, 'AprobarReprobar'])->name('controlOdernMovilizacionAprobarReprobar');
-    Route::post('/control-odern-movilizacion-aprobar-reprobar-guardar', [ControlOrdenMovilizacionController::class, 'AprobarReprobarGuardar'])->name('controlOdernMovilizacionAprobarReprobarGuardar');
+    Route::get('/control-odern-movilizacion-aprobar-denegar/{id}', [ControlOrdenMovilizacionController::class, 'AprobarReprobar'])->name('controlOdernMovilizacionAprobarReprobar');
+    Route::post('/control-odern-movilizacion-aprobar-dnegar-guardar', [ControlOrdenMovilizacionController::class, 'AprobarReprobarGuardar'])->name('controlOdernMovilizacionAprobarReprobarGuardar');
     Route::get('/control-odern-movilizacion-pdf/{id}', [ControlOrdenMovilizacionController::class, 'AprobarReprobarPdf'])->name('controlOdernMovilizacionPdf');
     
     // parqueaderos

@@ -7,19 +7,20 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-
-class OrdenMovilizacionIngresadaNoty extends Notification
+use PDF;
+class OMInformarAceptadoNoty extends Notification
 {
     use Queueable;
+
     protected $orden;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(OrdenMovilizacion $orden)
+    public function __construct(OrdenMovilizacion $om)
     {
-        $this->orden=$orden;
+        $this->orden=$om;
     }
 
     /**
@@ -41,13 +42,29 @@ class OrdenMovilizacionIngresadaNoty extends Notification
      */
     public function toMail($notifiable)
     {
+
+        $headerHtml = view()->make('empresa.pdfHeader')->render();
+        $footerHtml = view()->make('empresa.pdfFooter')->render();
+
+        $orden=$this->orden;
+        $data = array('orden' => $orden);
+
+       $pdf = PDF::loadView('movilizacion.pdf',$data)
+        ->setOrientation('landscape')
+        ->setOption('margin-top', '2.5cm')
+        ->setOption('margin-bottom', '1cm')
+        ->setOption('header-html', $headerHtml)
+        ->setOption('footer-html', $footerHtml);
+        $pdf_data = $pdf->output();
+
         return (new MailMessage)
-                    ->subject('Nueva orden de movilización ingresado')
-                    ->line('Nueva orden de movilización ingresado')
-                    ->line('ACEPTAR o DENEGAR')
-                    ->line('Orden de movilización '.$this->orden->numero)
-                    ->action('Aceptar O Denegar', route('controlOdernMovilizacionAprobarReprobar',$this->orden->id))
-                    ->line('Gracias por usar nuestra aplicación!');
+        ->subject('Orden de Movilización '.$this->orden->estado)
+        ->line('Orden de movilización '.$this->orden->numero)
+        ->line('# '.$this->orden->estado)
+        // ->action('Ver', route('controlOdernMovilizacionPdf',$this->orden->id))
+        ->line('Gracias por usar nuestra aplicación!')
+        ->attachData($pdf_data,'Orden Movilización '.$orden->numero.'.pdf')
+        ;
     }
 
     /**
