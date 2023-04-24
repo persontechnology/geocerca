@@ -71,7 +71,7 @@
         var p1 = new google.maps.LatLng(position.lat, position.lng);
 
         var markerNuevos = marker.filter(function(item) {
-          console.log(item.getPosition().lat()+"-"+item.getPosition().lng())
+          console.log(item.getPosition().lat())
         })
 
 
