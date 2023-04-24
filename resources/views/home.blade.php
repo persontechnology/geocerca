@@ -120,8 +120,9 @@ window.initMap = initMap;
   
   @endpush
 
-@prepend('scripts')
-<script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>    
-@prepend
+  @push('scripts')
+  <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>          
+  @endpush
+
 
 @endsection
