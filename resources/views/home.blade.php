@@ -56,7 +56,7 @@
     const infoWindow = new google.maps.InfoWindow();
     
     var tiempo={{ ($empresa->tiempo_api_rest??1)*60000 }}
-    setInterval(dibujarMarcadores,5000);
+    setInterval(dibujarMarcadores,tiempo);
 
     async function dibujarMarcadores() {
       
