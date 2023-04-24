@@ -60,13 +60,13 @@
 
     async function dibujarMarcadores() {
       
-      quitarMarcadores();
+      
       const response = await fetch("{{ route('coordenadasAutosMapa') }}");
       const myJson = await response.json();
       
 
       myJson.forEach((data, i) => {
-        
+        quitarMarcadores(data[0]);
         position={lat: data[0][0], lng: data[0][1]};
         
         marker.push(
@@ -90,9 +90,14 @@
     }
     
 
-    function quitarMarcadores(){
+    function quitarMarcadores(data){
+      var p1 = new google.maps.LatLng(data[0], data[1]);
       for (let i = 0; i < marker.length; i++) {
-        marker[i].setMap(null);
+        var p2 = new google.maps.LatLng(marker[i].getPosition().lat(), marker[i].getPosition().lng());
+        if(!p1.equals(p2)){
+          marker[i].setMap(null);
+        }
+      
       }
       marker = [];
       
