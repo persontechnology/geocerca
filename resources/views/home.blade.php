@@ -56,24 +56,56 @@
     const infoWindow = new google.maps.InfoWindow();
     
     var tiempo={{ ($empresa->tiempo_api_rest??1)*60000 }}
-    setInterval(dibujarMarcadores,5000);
+    setInterval(actualizarMarkerAutos,5000);
 
-    async function dibujarMarcadores() {
-      
-      
+    async function actualizarMarkerAutos() {
+
+      // quitarMarcadores();
       const response = await fetch("{{ route('coordenadasAutosMapa') }}");
       const myJson = await response.json();
-      
 
       myJson.forEach((data, i) => {
-        quitarMarcadores(data[0]);
+        
+        position={lat: data[0][0], lng: data[0][1]};
+        var p1 = new google.maps.LatLng(position.lat, position.lng);
+        var p2 = new google.maps.LatLng(marker[i].getPosition().lat(), marker[i].getPosition().lng());
+        if(!p1.equals(p2)){
+          marker[i].setMap(null);
+        }else{
+          marker.push(
+            new google.maps.Marker({
+              position: position,
+              map,
+              title: data[0][2],
+              label: data[0][3],
+              optimized: false,
+            })
+          );
+
+          marker[i].addListener("click", () => {
+            infoWindow.close();
+            infoWindow.setContent(marker[i].getTitle());
+            infoWindow.open(marker[i].getMap(), marker[i]);
+          });
+        }
+        
+
+      });
+    }
+
+    async function cargarMarkerAutos() {
+
+      const response = await fetch("{{ route('coordenadasAutosMapa') }}");
+      const myJson = await response.json();
+
+      myJson.forEach((data, i) => {
+        
         position={lat: data[0][0], lng: data[0][1]};
         
         marker.push(
           new google.maps.Marker({
             position: position,
             map,
-            // animation: google.maps.Animation.DROP,
             title: data[0][2],
             label: data[0][3],
             optimized: false,
@@ -81,29 +113,26 @@
         );
 
         marker[i].addListener("click", () => {
-          console.log(marker[i])
           infoWindow.close();
           infoWindow.setContent(marker[i].getTitle());
           infoWindow.open(marker[i].getMap(), marker[i]);
         });
+
       });
     }
     
 
-    function quitarMarcadores(data){
-      var p1 = new google.maps.LatLng(data[0], data[1]);
+    function quitarMarcadores(){
       for (let i = 0; i < marker.length; i++) {
-        var p2 = new google.maps.LatLng(marker[i].getPosition().lat(), marker[i].getPosition().lng());
-        if(!p1.equals(p2)){
-          marker[i].setMap(null);
-        }
-      
+        marker[i].setMap(null);
       }
       marker = [];
       
     }
+
+
     cargarCoordenadasParqueaderos();
-    dibujarMarcadores();
+    cargarMarkerAutos();
 
 }
 
