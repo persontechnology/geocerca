@@ -70,9 +70,7 @@
         var p1 = new google.maps.LatLng(position.lat, position.lng);
         var p2 = new google.maps.LatLng(marker[i].getPosition().lat(), marker[i].getPosition().lng());
         if(!p1.equals(p2)){
-          console.log(p1)
           marker[i].setMap(null);
-        }else{
           marker.push(
             new google.maps.Marker({
               position: position,
