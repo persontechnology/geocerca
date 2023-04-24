@@ -100,7 +100,8 @@
     cargarCoordenadasParqueaderos();
     dibujarMarcadores();
 
-    new markerClusterer.MarkerClusterer({ marker, map });
+    const markerCluster = new MarkerClusterer({ map, marker });
+
 }
 
 
