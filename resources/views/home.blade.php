@@ -56,53 +56,15 @@
     const infoWindow = new google.maps.InfoWindow();
     
     var tiempo={{ ($empresa->tiempo_api_rest??1)*60000 }}
-    setInterval(actualizarMarcadores,5000);
+    setInterval(dibujarMarcadores,5000);
 
-    async function actualizarMarcadores() {
+    async function dibujarMarcadores() {
       
       quitarMarcadores();
       const response = await fetch("{{ route('coordenadasAutosMapa') }}");
       const myJson = await response.json();
       
-      myJson.forEach((data, i) => {
-        
-        position={lat: data[0][0], lng: data[0][1]};
-        
-        var p1 = new google.maps.LatLng(position.lat, position.lng);
 
-        var markerNuevos = marker.filter(function(item) {
-          console.log(item.getPosition().lat())
-        })
-
-
-
-        // marker.push(
-        //   new google.maps.Marker({
-        //     position: position,
-        //     map,
-        //     title: data[0][2],
-        //     label: data[0][3],
-        //     optimized: false,
-        //   })
-        // );
-
-        // marker[i].addListener("click", () => {
-        //   infoWindow.close();
-        //   infoWindow.setContent(marker[i].getTitle());
-        //   infoWindow.open(marker[i].getMap(), marker[i]);
-        // });
-
-
-      });
-    }
-
-
-    async function dibujarMarcadores() {
-      
-      
-      const response = await fetch("{{ route('coordenadasAutosMapa') }}");
-      const myJson = await response.json();
-      
       myJson.forEach((data, i) => {
         
         position={lat: data[0][0], lng: data[0][1]};
@@ -119,6 +81,7 @@
         );
 
         marker[i].addListener("click", () => {
+          console.log(marker[i])
           infoWindow.close();
           infoWindow.setContent(marker[i].getTitle());
           infoWindow.open(marker[i].getMap(), marker[i]);
