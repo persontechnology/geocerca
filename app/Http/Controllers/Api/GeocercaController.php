@@ -38,7 +38,9 @@ class GeocercaController extends Controller
                                 return [[$vehiculosDeviceData['lat'],$vehiculosDeviceData['lng'],$vehiculo->placa,$vehiculo->numero_movil]];
                             });
         
-        $this->coordenadasAutos();
+        if(App::isLocal()){
+            $this->coordenadasAutos();
+        }
         
         return $vehiculosRegitrados;
         
