@@ -66,7 +66,7 @@
       
 
       myJson.forEach((data, i) => {
-        
+        console.log(data)
         position={lat: data[0][0], lng: data[0][1]};
         
         marker.push(
@@ -81,7 +81,7 @@
         );
 
         marker[i].addListener("click", () => {
-          
+          console.log(marker[i])
           infoWindow.close();
           infoWindow.setContent(marker[i].getTitle());
           infoWindow.open(marker[i].getMap(), marker[i]);

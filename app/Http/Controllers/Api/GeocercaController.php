@@ -31,7 +31,7 @@ class GeocercaController extends Controller
     public function coordenadasAutosMapa()
     {
         
-      return  $apiResVehiculos=$this->apiRestVehiculos();
+       $apiResVehiculos=$this->apiRestVehiculos();
         $vehiculosRegitrados=Vehiculo::whereIn('imei',$apiResVehiculos->pluck('device_data.imei'))
                             ->get()->map(function($vehiculo) use ($apiResVehiculos){
                                 $vehiculosDeviceData=$apiResVehiculos->firstWhere('device_data.imei',$vehiculo->imei);
