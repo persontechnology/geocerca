@@ -73,7 +73,7 @@
         if((position.lat===marker[i].getPosition().lat())&&(position.lng===marker[i].getPosition().lng())){
           
         }else{
-          console.log(p1+p2)  
+          console.log(data[0][3])  
           marker[i].setMap(null);
           marker.push(
             new google.maps.Marker({
