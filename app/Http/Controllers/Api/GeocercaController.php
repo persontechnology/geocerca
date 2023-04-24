@@ -25,11 +25,7 @@ class GeocercaController extends Controller
             'lang'=>'es'
         ]);
 
-        if( $responseApi->status()===200){
-            return collect($responseApi->json('0.items', []));
-        }else{
-            return[];
-        }
+        return collect($responseApi->json('0.items', []));
     }
    
     public function coordenadasAutosMapa()
