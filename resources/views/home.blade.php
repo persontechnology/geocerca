@@ -97,10 +97,13 @@
       marker = [];
       
     }
+    
+    const markerCluster = new markerClusterer.MarkerClusterer({ marker,map });
+    
     cargarCoordenadasParqueaderos();
     dibujarMarcadores();
 
-    const markerCluster = new markerClusterer.MarkerClusterer({ marker,map });
+    
 
 }
 
