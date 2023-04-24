@@ -19,18 +19,26 @@ class GeocercaController extends Controller
 
     public function apiRestVehiculos()
     {
-         $empresa=Empresa::first();
-        $responseApi=Http::get($empresa->url_web_gps,[
-            'user_api_hash'=>$empresa->token,
-            'lang'=>'es'
-        ]);
-        return collect($responseApi->json('0.items', []));
+         try {
+            $empresa=Empresa::first();
+            $responseApi=Http::get($empresa->url_web_gps,[
+                'user_api_hash'=>$empresa->token,
+                'lang'=>'es'
+            ]);
+
+            if( $responseApi->status()===200){
+                return collect($responseApi->json('0.items', []));
+            }
+         } catch (\Throwable $th) {
+            
+         }
+         return [];
     }
    
     public function coordenadasAutosMapa()
     {
         
-        $apiResVehiculos=$this->apiRestVehiculos();
+      return  $apiResVehiculos=$this->apiRestVehiculos();
         $vehiculosRegitrados=Vehiculo::whereIn('imei',$apiResVehiculos->pluck('device_data.imei'))
                             ->get()->map(function($vehiculo) use ($apiResVehiculos){
                                 $vehiculosDeviceData=$apiResVehiculos->firstWhere('device_data.imei',$vehiculo->imei);
