@@ -90,8 +90,6 @@
           });
 
           
-        }else{
-          console.log(p1+p2)  
         }
         
 
