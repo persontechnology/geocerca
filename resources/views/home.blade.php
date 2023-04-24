@@ -100,7 +100,10 @@
     cargarCoordenadasParqueaderos();
     dibujarMarcadores();
 
+    new markerClusterer.MarkerClusterer({ marker, map });
 }
+
+
 
 window.initMap = initMap;
 
@@ -113,6 +116,7 @@ window.initMap = initMap;
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDxUyVFlNpM-HwzkAokj9g1I1OOpS4kZI&callback=initMap&v=weekly"
       defer
   ></script>
+  <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
   @endpush
 
 
