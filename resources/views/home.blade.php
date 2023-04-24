@@ -56,11 +56,52 @@
     const infoWindow = new google.maps.InfoWindow();
     
     var tiempo={{ ($empresa->tiempo_api_rest??1)*60000 }}
-    setInterval(dibujarMarcadores,5000);
+    setInterval(actualizarMarcadores,5000);
+
+    async function actualizarMarcadores() {
+      
+      
+      const response = await fetch("{{ route('coordenadasAutosMapa') }}");
+      const myJson = await response.json();
+      
+
+      myJson.forEach((data, i) => {
+        
+        position={lat: data[0][0], lng: data[0][1]};
+        
+        marker.filter(function(item,i) {
+              if(!((item.getPosition().lat()===position.lat)&&(item.getPosition().lng()===position.lng))){
+                marker[i].setMap(null);
+                marker.splice(i, 1);
+              }
+          })
+
+        marker.push(
+          new google.maps.Marker({
+            position: position,
+            map,
+            // animation: google.maps.Animation.DROP,
+            title: data[0][2],
+            label: data[0][3],
+            optimized: false,
+          })
+        );
+
+        marker[i].addListener("click", () => {
+          console.log(marker[i])
+          infoWindow.close();
+          infoWindow.setContent(marker[i].getTitle());
+          infoWindow.open(marker[i].getMap(), marker[i]);
+        });
+      });
+    }
+
+
+
 
     async function dibujarMarcadores() {
       
-      quitarMarcadores();
+      
       const response = await fetch("{{ route('coordenadasAutosMapa') }}");
       const myJson = await response.json();
       
