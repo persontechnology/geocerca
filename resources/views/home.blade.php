@@ -69,7 +69,7 @@
       myJson.forEach((data, i) => {
         
          marker.filter(function(item,i) {
-            console.log(i)
+            console.log(item[i])
         })
 
       });
