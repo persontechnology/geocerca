@@ -69,7 +69,7 @@
         position={lat: data[0][0], lng: data[0][1]};
         var p1 = new google.maps.LatLng(position.lat, position.lng);
         var p2 = new google.maps.LatLng(marker[i].getPosition().lat(), marker[i].getPosition().lng());
-        consoel.log(p1+p2)
+        console.log(p1+p2)
         if(!p1.equals(p2)){
           
           marker[i].setMap(null);
