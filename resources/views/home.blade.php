@@ -68,8 +68,10 @@
       
       myJson.forEach((data, i) => {
         
-         marker.filter(function(item,i) {
-            console.log(item.getPosition().lat())
+         marker.filter(function(item) {
+          if(!((item.getPosition().lat()===data[0][0])&&item.getPosition().lng()===data[0][1])){
+            console.log(data[0][3])
+          }
         })
 
       });
