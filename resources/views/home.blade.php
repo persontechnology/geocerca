@@ -56,51 +56,15 @@
     const infoWindow = new google.maps.InfoWindow();
     
     var tiempo={{ ($empresa->tiempo_api_rest??1)*60000 }}
-    setInterval(actualizarMarkerAutos,5000);
+    setInterval(dibujarMarcadores,5000);
 
-    async function actualizarMarkerAutos() {
-
-      // quitarMarcadores();
+    async function dibujarMarcadores() {
+      
+      quitarMarcadores();
       const response = await fetch("{{ route('coordenadasAutosMapa') }}");
       const myJson = await response.json();
-
-      myJson.forEach((data, i) => {
-        
-        position={lat: data[0][0], lng: data[0][1]};
-        var p1 = new google.maps.LatLng(position.lat, position.lng);
-        var p2 = new google.maps.LatLng(marker[i].getPosition().lat(), marker[i].getPosition().lng());
-        
-        if((position.lat===marker[i].getPosition().lat())&&(position.lng===marker[i].getPosition().lng())){
-          
-        }else{
-          console.log(data[0][3])  
-          marker[i].setMap(null);
-          marker.push(
-            new google.maps.Marker({
-              position: position,
-              map,
-              title: data[0][2],
-              label: data[0][3],
-              optimized: false,
-            })
-          );
-
-          marker[i].addListener("click", () => {
-            infoWindow.close();
-            infoWindow.setContent(marker[i].getTitle());
-            infoWindow.open(marker[i].getMap(), marker[i]);
-          });
-        }
-        
-
-      });
-    }
-
-    async function cargarMarkerAutos() {
-
-      const response = await fetch("{{ route('coordenadasAutosMapa') }}");
-      const myJson = await response.json();
-
+      
+    console.log(myJson)
       myJson.forEach((data, i) => {
         
         position={lat: data[0][0], lng: data[0][1]};
@@ -109,6 +73,7 @@
           new google.maps.Marker({
             position: position,
             map,
+            // animation: google.maps.Animation.DROP,
             title: data[0][2],
             label: data[0][3],
             optimized: false,
@@ -116,11 +81,11 @@
         );
 
         marker[i].addListener("click", () => {
+          console.log(marker[i])
           infoWindow.close();
           infoWindow.setContent(marker[i].getTitle());
           infoWindow.open(marker[i].getMap(), marker[i]);
         });
-
       });
     }
     
@@ -132,10 +97,8 @@
       marker = [];
       
     }
-
-
     cargarCoordenadasParqueaderos();
-    cargarMarkerAutos();
+    dibujarMarcadores();
 
 }
 
