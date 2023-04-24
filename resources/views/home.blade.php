@@ -89,7 +89,7 @@
             infoWindow.open(marker[i].getMap(), marker[i]);
           });
 
-          consoel.log(marker[i])
+          
         }
         
 
