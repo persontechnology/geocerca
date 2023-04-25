@@ -188,10 +188,7 @@
         window.initMap = initMap;
     </script>
 
-    <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDxUyVFlNpM-HwzkAokj9g1I1OOpS4kZI&callback=initMap&libraries=drawing,places&v=weekly"
-    defer
-    ></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDxUyVFlNpM-HwzkAokj9g1I1OOpS4kZI&callback=initMap&libraries=drawing,places&v=weekly" defer></script>
 @endpush
 
 

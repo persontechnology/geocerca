@@ -23,15 +23,24 @@
 		</div>
 
 		<div class="navbar-brand text-center text-lg-left">
-			<a href="{{ route('welcome') }}" class="d-inline-block">
-				<img src="{{ asset('global_assets/images/logo_light.png') }}" class="d-none d-sm-block" alt="">
-				<img src="{{ asset('global_assets/images/logo_icon_light.png') }}" class="d-sm-none" alt="">
-			</a>
+			@auth
+				<a href="{{ route('home') }}" class="d-inline-block">
+					<img src="{{ asset('global_assets/images/logo_light.png') }}" class="d-none d-sm-block" alt="">
+					<img src="{{ asset('global_assets/images/logo_icon_light.png') }}" class="d-sm-none" alt="">
+				</a>
+			@else
+				<a href="{{ route('welcome') }}" class="d-inline-block">
+					<img src="{{ asset('global_assets/images/logo_light.png') }}" class="d-none d-sm-block" alt="">
+					<img src="{{ asset('global_assets/images/logo_icon_light.png') }}" class="d-sm-none" alt="">
+				</a>
+			@endauth
+			
+				
 		</div>
 
 		<div class="collapse navbar-collapse order-2 order-lg-1" id="navbar-mobile">
 			@auth
-				<ul class="navbar-nav">
+				{{-- <ul class="navbar-nav">
 					<li class="nav-item dropdown">
 						<a href="#" class="navbar-nav-link" data-toggle="dropdown">
 							<i class="icon-git-compare"></i>
@@ -113,11 +122,11 @@
 							</div>
 						</div>
 					</li>
-				</ul>
+				</ul> --}}
 
-				<span class="badge badge-success my-3 my-lg-0 ml-lg-3" id="online">Online</span>
+				<span class="badge badge-success my-3 my-lg-0 ml-lg-3" id="online">Conectado</span>
 
-				<ul class="navbar-nav ml-lg-auto">
+				{{-- <ul class="navbar-nav ml-lg-auto">
 					<li class="nav-item dropdown">
 						<a href="#" class="navbar-nav-link" data-toggle="dropdown">
 							<i class="icon-people"></i>
@@ -195,14 +204,14 @@
 							</div>
 						</div>
 					</li>
-				</ul>
+				</ul> --}}
 			@endauth
 		</div>
 
 		<ul class="navbar-nav flex-row order-1 order-lg-2 flex-1 flex-lg-0 justify-content-end align-items-center">
 			
 			@auth
-				<li class="nav-item nav-item-dropdown-lg dropdown">
+				{{-- <li class="nav-item nav-item-dropdown-lg dropdown">
 					<a href="#" class="navbar-nav-link navbar-nav-link-toggler" data-toggle="dropdown">
 						<i class="icon-bubbles4"></i>
 						<span class="badge badge-warning badge-pill ml-auto ml-lg-0">2</span>
@@ -304,7 +313,7 @@
 							<a href="#" class="btn btn-light btn-block border-0 rounded-top-0" data-popup="tooltip" title="Load more"><i class="icon-menu7"></i></a>
 						</div>
 					</div>
-				</li>
+				</li> --}}
 
 				<li class="nav-item nav-item-dropdown-lg dropdown dropdown-user h-100">
 					<a href="#" class="navbar-nav-link navbar-nav-link-toggler dropdown-toggle d-inline-flex align-items-center h-100" data-toggle="dropdown">
