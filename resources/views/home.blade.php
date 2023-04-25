@@ -64,12 +64,12 @@
       }
   </style>
 @endpush
-@push('linksCabeza')
-<script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>          
-@endpush
+
 @push('scripts')
+<script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+@endpush
 
-
+@push('scriptsPie')
 <script>
 
 
@@ -199,9 +199,7 @@
  
 </script>
 
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDxUyVFlNpM-HwzkAokj9g1I1OOpS4kZI&callback=initMap&libraries=drawing,places&v=weekly" defer></script>
-  
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDxUyVFlNpM-HwzkAokj9g1I1OOpS4kZI&callback=initMap&libraries=drawing,places&v=weekly" defer></script>
 @endpush
 
 

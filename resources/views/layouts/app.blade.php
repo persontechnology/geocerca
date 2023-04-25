@@ -23,9 +23,11 @@
     <script src="{{ asset('global_assets/js/main/jquery.min.js') }}"></script>
     <script src="{{ asset('global_assets/js/main/bootstrap.bundle.min.js') }}"></script>
     <!-- /core JS files -->
+    
+    @stack('linksCabeza')
 
     @stack('scripts')
-	@stack('linksCabeza')
+	
 
     
     <!-- Theme JS files -->
