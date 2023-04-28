@@ -20,6 +20,7 @@ class CreateKilometrajesTable extends Migration
             $table->bigInteger('user_create')->nullable();
             $table->bigInteger('user_update')->nullable();
             $table->timestamps();
+            $table->enum('llenado',['SI','NO']);
         });
     }
 

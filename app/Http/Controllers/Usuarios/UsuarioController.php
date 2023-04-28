@@ -63,6 +63,18 @@ class UsuarioController extends Controller
                     $user->foto=$path;
                 }
             }
+
+            if ($request->hasFile('firma')) {
+                $archivo=$request->file('firma');
+                if ($archivo->isValid()) {
+                    $path = Storage::putFileAs(
+                        'public/firmas', $archivo, $user->id.'.'.$archivo->extension()
+                    );
+                    $user->firma=$path;
+                }
+            }
+
+
             $conf=new Configuracion();
             $conf->user_id=$user->save();
             $conf->save();

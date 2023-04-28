@@ -170,4 +170,14 @@ class GeocercaController extends Controller
         return $coordenadas;
     }
 
+    public function VerificarVigenciaOrdenMovilizacion($id)
+    {
+        $estado='no';
+        $om=OrdenMovilizacion::findOrFail($id);
+        if($om->estado=='ACEPTADA' || $om->estado==='EJECUCIÓN FUERA' || $om->estado==='EJECUCIÓN DENTRO'){
+            $estado='si';
+        }
+        return view('movilizacion.verificarVigencia',['om'=>$om,'estado'=>$estado]);
+    }
+
 }

@@ -38,6 +38,17 @@ class PerfilController extends Controller
                     $user->foto=$path;
                 }
             }
+
+            if ($request->hasFile('firma')) {
+                $archivo=$request->file('firma');
+                if ($archivo->isValid()) {
+                    Storage::delete($user->firma);
+                    $path = Storage::putFileAs(
+                        'public/firmas', $archivo, $user->id.'.'.$archivo->extension()
+                    );
+                    $user->firma=$path;
+                }
+            }
             
             $user->user_update=Auth::user()->id;
             $user->save();

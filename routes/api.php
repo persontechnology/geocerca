@@ -36,7 +36,7 @@ Route::post('/reset-password', [LoginController::class,'resetPassword']);
 Route::get('/coordenadas-autos', [GeocercaController::class,'coordenadasAutos'])->name('coordenadasAutos');
 Route::get('/coordenadas-autos-mapa', [GeocercaController::class,'coordenadasAutosMapa'])->name('coordenadasAutosMapa');
 Route::get('/coordenadas-parqueaderos', [GeocercaController::class,'coordenadasParqueaderos'])->name('coordenadasParqueaderos');
-
+Route::get('/verificar-vigencia-orden-movilizacion/{id}', [GeocercaController::class,'VerificarVigenciaOrdenMovilizacion'])->name('VerificarVigenciaOrdenMovilizacion');
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();

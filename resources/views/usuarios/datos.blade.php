@@ -141,7 +141,7 @@
                 @if (Storage::exists($user->foto??''))
                     <a href="{{ Storage::url($user->foto??'') }}">
                         <img src="{{ Storage::url($user->foto??'') }}" class="rounded-circle" width="45" alt="">
-                        <i>Ver logo</i>
+                        <i>Ver foto de perfil</i>
                     </a>
                 @endif
                 @error('foto')
@@ -151,6 +151,29 @@
                 @enderror
             </div>
         </div>
+
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label for="firma">Foto de firma</label>
+                <label class="custom-file">
+                    <input type="file" accept="image/*" id="firma" name="firma" class="custom-file-input @error('firma') is-invalid @enderror">
+                    <span class="custom-file-label">Seleccione foto</span>
+                </label>
+                <span class="form-text text-muted">Formatos aceptados: gif, png, jpg, jpeg.</span>
+                @if (Storage::exists($user->firma??''))
+                    <a href="{{ Storage::url($user->firma??'') }}">
+                        <img src="{{ Storage::url($user->firma??'') }}" class="rounded-circle" width="45" alt="">
+                        <i>Ver firma</i>
+                    </a>
+                @endif
+                @error('firma')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+        </div>
+        
     </div>
     
 </fieldset>

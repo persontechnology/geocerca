@@ -33,7 +33,7 @@ class CreateUsersTable extends Migration
             $table->string('foto')->nullable();
             $table->enum('estado',['Activo','Inactivo'])->default('Inactivo');
             $table->date('fecha_bloqueo')->nullable();
-
+            $table->string('firma')->nullable();
             $table->bigInteger('user_create')->nullable();
             $table->bigInteger('user_update')->nullable();
         });

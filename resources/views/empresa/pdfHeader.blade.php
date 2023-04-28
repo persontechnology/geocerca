@@ -54,7 +54,7 @@
                 </tr>
                 <tr>
                     <th >FECHA</th>
-                    <td >{{ \Carbon\Carbon::now() }}</td>
+                    <td >{{ $empresa->fecha }}</td>
                 </tr>
                 <tr>
                     <th >NORMA</th>

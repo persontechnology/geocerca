@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <div class="form-group">
                                 <label for="codigo">Código<i class="text-danger">*</i></label>
                                 <input id="codigo" type="text" class="form-control @error('codigo') is-invalid @enderror"
@@ -57,7 +57,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <div class="form-group">
                                 <label for="version">Versión<i class="text-danger">*</i></label>
                                 <input id="version" type="text" class="form-control @error('version') is-invalid @enderror"
@@ -71,13 +71,26 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <div class="form-group">
                                 <label for="norma">Norma<i class="text-danger">*</i></label>
                                 <input id="norma" type="text" class="form-control @error('norma') is-invalid @enderror"
                                     name="norma" value="{{ old('norma', $empresa->norma) }}" required>
 
                                 @error('norma')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="fecha">Fecha<i class="text-danger">*</i></label>
+                                <input id="fecha" type="date" class="form-control @error('fecha') is-invalid @enderror"
+                                    name="fecha" value="{{ old('fecha', $empresa->fecha) }}" required>
+
+                                @error('fecha')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

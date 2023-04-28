@@ -20,6 +20,14 @@
         width: 30px;
         height: 25px;
     }
+
+    #fotoEvidencia {
+        background: url("{!! public_path( $orden->autorizado->firma_link) !!}");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        height: 95px;
+        
+    }  
     
 </style>
 <body>
@@ -83,13 +91,24 @@
                 </tr>
                 <tr>
                     <th>Autorizado por</th>
-                    <td colspan="7">
+                    <td colspan="3">
+                        <div id="fotoEvidencia" style="margin: 1em;"></div>
                         <p>
+                            
                             {{ $orden->autorizado->apellidos_nombres??'' }}
                             <br>
                             <strong>{{ $orden->autorizado->descripcion??'' }}</strong>
                         </p>
-                        
+                    </td>
+                    <th>
+                        Código QR, para verificar vigencia de Orden Movilización.
+                    </th>
+                    <td colspan="3">
+                        {!! QrCode::
+                            encoding('UTF-8')
+                            ->margin(1)
+                            ->errorCorrection('H')
+                            ->size(175)->generate(route('VerificarVigenciaOrdenMovilizacion',$orden->id)); !!}
                     </td>
                 </tr>
             </tbody>

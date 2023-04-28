@@ -42,7 +42,8 @@ class EmpresaController extends Controller
             'norma'=>'required|string|max:255',
             'codigo_tarjeta_vehiculo_invitado'=>'required|string|max:255|unique:vehiculos,codigo_tarjeta',
             'minutos_extras_entrada_vehiculos'=>'required|integer|between:0,60',
-            'tiempo_api_rest'=>'required|integer|between:1,60'
+            'tiempo_api_rest'=>'required|integer|between:1,60',
+            'fecha'=>'required|date'
         ]); 
 
         $empresa=Empresa::first();
@@ -56,6 +57,7 @@ class EmpresaController extends Controller
         $empresa->codigo_tarjeta_vehiculo_invitado=$request->codigo_tarjeta_vehiculo_invitado;
         $empresa->minutos_extras_entrada_vehiculos=$request->minutos_extras_entrada_vehiculos;
         $empresa->tiempo_api_rest=$request->tiempo_api_rest;
+        $empresa->fecha=$request->fecha;
 
         if ($request->hasFile('foto')) {
             $archivo = $request->file('foto');
