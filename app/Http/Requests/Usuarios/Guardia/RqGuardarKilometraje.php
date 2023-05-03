@@ -36,7 +36,7 @@ class RqGuardarKilometraje extends FormRequest
                 'numeric',
                 'gt:'.$this->request->get('ultimoKilometraje'),
             ],
-            'ultimoKilometraje'=>'required_if:ingreso,SI|nullable|numeric|gt:0',
+            'ultimoKilometraje'=>'required_if:ingreso,SI|nullable|numeric|gte:0',
             'parqueadero'=>'required|exists:parqueaderos,id',
             'numeroMovil'=>'nullable',
             'marca'=>'nullable',
