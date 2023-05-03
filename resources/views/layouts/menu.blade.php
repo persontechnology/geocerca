@@ -207,17 +207,7 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
                     </li>
                 @endcan
 
-                @hasanyrole('Guardia')
-                <li class="nav-item">
-                    <a href="{{ route('guardia.IngresarKilometraje') }}"
-                        class="nav-link {{ request()->routeIs(['guardia.*']) ? 'active' : '' }}">
-                        <i class="fa-solid fa-gauge"></i>
-                        <span>
-                            Ingresar kilometraje
-                        </span>
-                    </a>
-                </li>
-                @endhasanyrole
+                
 
                 @hasanyrole('SuperAdmin|SiteAdmin')
                     <li class="nav-item-header">
