@@ -135,7 +135,7 @@ class IngresoKilometrajeController extends Controller
 
             DB::commit();
             $request->session()->flash('success','Nuevo kilometraje ingresado al vehículo '.$ve->numero_movil_placa.' exitoso.!');
-            return redirect()->route('guardia.IngresarKilometraje');
+            return redirect()->route('ingresoKilometraje.ingresar');
         } catch (\Throwable $th) {
             DB::rollBack();
             $request->session()->flash('danger','Ocurrio un error, vuelva intentar.! '.$th->getMessage());
