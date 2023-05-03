@@ -6,12 +6,15 @@ use App\Http\Controllers\DespachoCombustibleController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IngresoKilometrajeController;
 use App\Http\Controllers\KilometrajeController;
 use App\Http\Controllers\LecturaController;
+use App\Http\Controllers\MapaController;
 use App\Http\Controllers\OrdenMovilizacionController;
 use App\Http\Controllers\ParqueaderoController;
 use App\Http\Controllers\Reportes\DashboardVehiculoController;
 use App\Http\Controllers\RolesPermisosController;
+use App\Http\Controllers\Usuarios\GuardiaController;
 use App\Http\Controllers\Usuarios\PerfilController;
 use App\Http\Controllers\Usuarios\UsuarioController;
 use App\Http\Controllers\VehiculoController;
@@ -57,7 +60,8 @@ Route::middleware(['verified', 'auth'])->group(function () {
 
     // pruebas
     Route::get('/geo', [HomeController::class, 'geo'])->name('geo');
-    
+    // mapa
+    Route::get('/mapa', [MapaController::class, 'index'])->name('mapa.index');
 
     // Deivid,Perfil de usuario
     Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil');
@@ -152,6 +156,11 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/despacho-combustible-pdf/{id}', [DespachoCombustibleController::class, 'pdf'])->name('despacho-combustible.pdf');
     // estaciones de combustible
     Route::resource('estacion', EstacionController::class);
+
+
+    // ingreso de kilometraje
+    Route::get('ingresar-kilometraje', [IngresoKilometrajeController::class,'ingresarKilometraje'])->name('ingresoKilometraje.ingresar');
+    Route::post('guardar-kilometraje', [IngresoKilometrajeController::class,'guardarKilometraje'])->name('ingresoKilometraje.guardar');
     
 
      

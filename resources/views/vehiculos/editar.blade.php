@@ -15,7 +15,7 @@
                 @include('vehiculos.datos',['vehiculo'=>$vehiculo])
                 <div class="form-group">
                     <label for="kilometraje">Kilometraje<i class="text-danger">*</i></label>
-                    <input id="kilometraje" type="number" class="form-control @error('kilometraje') is-invalid @enderror" name="kilometraje" value="{{ old('kilometraje', $kilometraje) }}" />
+                    <input id="kilometraje" type="number" class="form-control @error('kilometraje') is-invalid @enderror" name="kilometraje" value="{{ old('kilometraje', $kilometraje) }}" required />
                     @error('kilometraje')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

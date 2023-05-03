@@ -63,10 +63,11 @@ class User extends Authenticatable
         
     }
 
-    public function parqueadero()
-    {
-        return $this->belongsTo(Parqueadero::class);
-    }
+    // DEivid creo que ya no funciona cuando programe para el ingreso de kilometrajes en la consulat de usuario esta en varios parqueaderos
+    // public function parqueadero()
+    // {
+    //     return $this->belongsTo(Parqueadero::class);
+    // }
 
     // Un usuario tiene una sola configuracion
     public function configuracion()
@@ -85,6 +86,12 @@ class User extends Authenticatable
     public function estacionServicios()
     {
         return $this->belongsToMany(Estacion::class, 'despachadors', 'despachador_id', 'estacion_id');
+    }
+
+    // DEivid, un guardia esta en varias parqueaderos
+    public function parqueaderos()
+    {
+        return $this->belongsToMany(Parqueadero::class, 'guardia_parqueaderos', 'guardia_id', 'parqueadero_id');
     }
     
 }

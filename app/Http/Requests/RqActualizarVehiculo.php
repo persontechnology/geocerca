@@ -42,8 +42,8 @@ class RqActualizarVehiculo extends FormRequest
             'foto'=>'nullable|image',
             'tipoVehiculo'=>'required|exists:tipo_vehiculos,id',
             'imei'=>'required|string|max:255|unique:vehiculos,imei,'.$this->input('id'),
-            'kilometraje'=>'nullable|numeric|gt:0',
-            'parqueadero'=>'nullable|exists:parqueaderos,id'
+            'kilometraje'=>'required|numeric|gt:0',
+            'parqueadero'=>'required|exists:parqueaderos,id'
             
         ];
     }

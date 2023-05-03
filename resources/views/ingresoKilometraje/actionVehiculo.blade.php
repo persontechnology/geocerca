@@ -1,4 +1,5 @@
-<a href="#"  onclick="event.preventDefault(); seleccionarVehiculo(this);" 
+<div class="d-flex align-items-center">
+    <input type="radio" 
     data-id="{{ $vehiculo->id }}" 
     data-numeromovil="{{ $vehiculo->numero_movil }}" 
     data-marca="{{ $vehiculo->marca }}"
@@ -8,6 +9,6 @@
     data-color="{{ $vehiculo->color }}"
     data-conductorid="{{ $vehiculo->id_conductor }}"
     data-conductorinfo="{{ $vehiculo->conductor->apellidos_nombres??'' }}"
->
-    <i class="fa-solid fa-hand-pointer fa-2x"></i>
-</a>
+    data-ultimokilometraje="{{ $vehiculo->ultimoKilometraje() }}"
+    onchange="selecionarVehiculo(this)" name="vehiculo" id="id_ve_{{ $vehiculo->id }}">
+</div>

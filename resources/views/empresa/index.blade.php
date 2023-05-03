@@ -256,11 +256,13 @@
                         <label for="url_web_gps">URL web service GPS</label>
                         <input id="url_web_gps" type="text" class="form-control @error('url_web_gps') is-invalid @enderror"
                             name="url_web_gps" value="{{ old('url_web_gps', $empresa->url_web_gps) }}" />
+                            <i>Ingresar solo el host. Ejm: <strong>http://www.ecuatracker.com/</strong></i>
                         @error('url_web_gps')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
+                        
                     </div>
 
                     <div class="form-group">

@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Arr;
+use Point;
+
 class HomeController extends Controller
 {
     /**
@@ -30,21 +32,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $empresa=Empresa::first();
-        return view('home',['empresa'=>$empresa]);
+        return view('home');
     }
 
-    public function geo()
-    {
-
-        $parqueaderos=Parqueadero::get();
-
-        foreach ($parqueaderos as $parqueadero) {
-            $parqueadero->query()
-            ->whereContains('area', new Point(0, 0, 4326))
-            ->exists();
-        }
-        return $parqueaderos;
-    }
 
 }

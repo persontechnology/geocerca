@@ -57,6 +57,8 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
                     <div class="text-uppercase font-size-xs line-height-xs">Principal</div> <i class="icon-menu"
                         title="Principal"></i>
                 </li>
+
+             
                 <li class="nav-item">
                     <a href="{{ route('home') }}"
                         class="nav-link {{ request()->routeIs(['home', 'welcome']) ? 'active' : '' }}">
@@ -66,6 +68,30 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
                         </span>
                     </a>
                 </li>
+                
+                @can('Mapa')
+                <li class="nav-item">
+                    <a href="{{ route('mapa.index') }}"
+                        class="nav-link {{ request()->routeIs(['mapa.*']) ? 'active' : '' }}">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>
+                            Mapa
+                        </span>
+                    </a>
+                </li>
+                @endcan
+
+                @can('Ingreso de Kilometraje')
+                <li class="nav-item">
+                    <a href="{{ route('ingresoKilometraje.ingresar') }}"
+                        class="nav-link {{ request()->routeIs(['ingresoKilometraje.*']) ? 'active' : '' }}">
+                        <i class="fa-solid fa-gauge"></i>
+                        <span>
+                            Ingreso de Kilometraje
+                        </span>
+                    </a>
+                </li>
+                @endcan
 
                 @can('Empresa')
                     <li class="nav-item">
@@ -181,10 +207,17 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
                     </li>
                 @endcan
 
-                
-        
-
-
+                @hasanyrole('Guardia')
+                <li class="nav-item">
+                    <a href="{{ route('guardia.IngresarKilometraje') }}"
+                        class="nav-link {{ request()->routeIs(['guardia.*']) ? 'active' : '' }}">
+                        <i class="fa-solid fa-gauge"></i>
+                        <span>
+                            Ingresar kilometraje
+                        </span>
+                    </a>
+                </li>
+                @endhasanyrole
 
                 @hasanyrole('SuperAdmin|SiteAdmin')
                     <li class="nav-item-header">

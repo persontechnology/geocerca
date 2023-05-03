@@ -25,11 +25,7 @@ class Parqueadero extends Model
     protected $casts = [
         'area' => Polygon::class,
     ];
-
-    // public function guardias()
-    // {
-    //     return $this->hasMany(GuardiaParqueadero::class);
-    // }
+    
 
     public function guardias()
     {

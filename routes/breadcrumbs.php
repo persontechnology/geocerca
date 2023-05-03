@@ -182,17 +182,9 @@ Breadcrumbs::for('estacion.edit', function (BreadcrumbTrail $trail,$es) {
     $trail->push('Editar', route('estacion.edit',$es->id));
 });
 
-// lecturas 
-// normales
-Breadcrumbs::for('lectura-normal.index', function (BreadcrumbTrail $trail) {
+
+// ingreso de kilometraje guardias
+Breadcrumbs::for('ingresoKilometraje.ingresar', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
-    $trail->push('Lecturas normales', route('lectura-normal.index'));
-});
-Breadcrumbs::for('lectura-especial.index', function (BreadcrumbTrail $trail) {
-    $trail->parent('home');
-    $trail->push('Lecturas especiales', route('lectura-especial.index'));
-});
-Breadcrumbs::for('lectura-invitado.index', function (BreadcrumbTrail $trail) {
-    $trail->parent('home');
-    $trail->push('Lecturas invitados', route('lectura-invitado.index'));
+    $trail->push('Ingreso de kilometraje', route('ingresoKilometraje.ingresar'));
 });

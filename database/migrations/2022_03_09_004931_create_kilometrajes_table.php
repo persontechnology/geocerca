@@ -16,11 +16,15 @@ class CreateKilometrajesTable extends Migration
         Schema::create('kilometrajes', function (Blueprint $table) {
             $table->id();
             $table->string('numero');
+            $table->string('detalle')->nullable();
+            $table->enum('llenado',['SI','NO']);
             $table->foreignId('vehiculo_id')->constrained('vehiculos');
+            $table->foreignId('parqueadero_id')->constrained('parqueaderos');
             $table->bigInteger('user_create')->nullable();
             $table->bigInteger('user_update')->nullable();
+            
             $table->timestamps();
-            $table->enum('llenado',['SI','NO']);
+            
         });
     }
 

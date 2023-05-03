@@ -97,6 +97,8 @@ class KilometrajeDataTable extends DataTable
             //       ->addClass('text-center'),
             // Column::make('id'),
             Column::make('numero')->title('Kilometraje'),
+            Column::make('llenado')->title('Ingreso con kilometraje SI/NO'),
+            Column::make('detalle')->title('Detalle'),
             Column::make('created_at')->title('Creado'),
             Column::make('updated_at')->title('Actualizado'),
             Column::make('user_create')->title('Creado por'),

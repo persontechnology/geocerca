@@ -103,6 +103,8 @@ class VehiculoController extends Controller
             $kilometraje->vehiculo_id=$ve->id;
             $kilometraje->numero=$request->kilometraje;
             $kilometraje->user_create=Auth::user()->id;
+            $kilometraje->parqueadero_id=$request->parqueadero;
+            $kilometraje->detalle='Ingresado en el sistema';
             $kilometraje->save();
 
             DB::commit();
@@ -162,6 +164,8 @@ class VehiculoController extends Controller
         }
         $kilometraje->numero=$request->kilometraje;
         $kilometraje->user_update=Auth::user()->id;
+        $kilometraje->parqueadero_id=$request->parqueadero;
+        $kilometraje->detalle='Actualizado en el sistema';
         $kilometraje->save();
         request()->session()->flash('success','Vehículo actualizado');
         return redirect()->route('vehiculos');
