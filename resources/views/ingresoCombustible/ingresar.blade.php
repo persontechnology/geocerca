@@ -367,7 +367,7 @@
             $.alert({
                 theme: 'Modern',
                 type: 'blue',
-                closeIcon: true,
+                closeIcon: false,
                 icon: 'fa-solid fa-triangle-exclamation fa-beat',
                 title: 'Ubicación',
                 content: msgerror,
