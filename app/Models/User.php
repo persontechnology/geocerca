@@ -94,4 +94,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Parqueadero::class, 'guardia_parqueaderos', 'guardia_id', 'parqueadero_id');
     }
     
+    // Deivid, un chofer tiene asignado varios despacho de combustible
+    public function despachoCombustibles()
+    {
+        return $this->hasMany(DespachoCombustible::class,'chofer_id');
+    }
+
 }

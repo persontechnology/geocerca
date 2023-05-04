@@ -164,7 +164,10 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::post('guardar-kilometraje', [IngresoKilometrajeController::class,'guardarKilometraje'])->name('ingresoKilometraje.guardar');
     
     // Ingreso de comustible
-    Route::get('ingresar-combustible', [IngresoCombustibleController::class,'ingresar'])->name('ingresoCombustible.ingresar');
+    
+    Route::get('mis-ingresos-de-combustible', [IngresoCombustibleController::class,'index'])->name('ingresoCombustible.index');
+    Route::get('ingresar-combustible/{id}', [IngresoCombustibleController::class,'ingresar'])->name('ingresoCombustible.ingresar');
+    Route::get('ingresar-combustible-pdf/{id}', [IngresoCombustibleController::class,'pdf'])->name('ingresoCombustible.pdf');
     Route::post('guardar-combustible', [IngresoCombustibleController::class,'guardar'])->name('ingresoCombustible.guardar');
 
      

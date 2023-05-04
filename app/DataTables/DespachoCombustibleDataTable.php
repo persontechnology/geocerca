@@ -67,18 +67,8 @@ class DespachoCombustibleDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-        // ->setTableId('users-table')
         ->columns($this->getColumns())
         ->minifiedAjax()
-        // ->dom('Bfrtip')
-        // ->orderBy(1)
-        // ->buttons(
-        //     Button::make('create'),
-        //     Button::make('export'),
-        //     Button::make('print'),
-        //     Button::make('reset'),
-        //     Button::make('reload')
-        // );
         ->parameters($this->getBuilderParameters());
     }
 
@@ -109,6 +99,7 @@ class DespachoCombustibleDataTable extends DataTable
             Column::make('cantidad_galones')->title('Cantidad'),
             Column::make('valor')->title('Valor'),
             Column::make('observaciones')->title('Observaciones'),
+            Column::make('detalle_mapa')->title('Det. Mapa'),
         ];
     }
 
