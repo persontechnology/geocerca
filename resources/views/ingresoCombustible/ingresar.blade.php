@@ -197,16 +197,7 @@
         <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
         </div>
     </div>
-    <div class="col-12">
-        <h1>Acceder a la ubicación con JavaScript</h1>
-        <a href="//parzibyte.me/blog" target="_blank">By Parzibyte</a>
-        <br>
-        <strong>Latitud: </strong> <p id="latitud"></p>
-        <br>
-        <strong>Longitud: </strong> <p id="longitud"></p>
-        <br>
-        <a target="_blank" id="enlace" href="#">Abrir en Google Maps</a>
-    </div>
+    <p id="demo"></p>
 </form>
 
 <!-- Full width modal -->
@@ -260,6 +251,48 @@
             }
         }
 
+
+        var x = document.getElementById("demo");
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else { 
+                alert("La geolocalización no es compatible con este navegador.");
+            }
+        }
+
+        function showPosition(position) {
+            alert(position.coords.latitude )
+        }
+
+        function showError(error) {
+            let msgerror=''
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    msgerror="El usuario denegó la solicitud de geolocalización. Porfavor active su ubicación.";
+                break;
+                case error.POSITION_UNAVAILABLE:
+                    msgerror="La información de ubicación no está disponible.";
+                break;
+                case error.TIMEOUT:
+                    msgerror="Se agotó el tiempo de espera de la solicitud para obtener la ubicación del usuario.";
+                break;
+                case error.UNKNOWN_ERROR:
+                    msgerror="Un error desconocido ocurrió. en Ubicación.";
+                break;
+            }
+
+            $.dialog({
+                theme: 'Modern',
+                type: 'blue',
+                closeIcon: true,
+                icon: 'fa-solid fa-triangle-exclamation fa-beat',
+                title: 'Ubicación',
+                content: msgerror,
+            });
+        }
+        getLocation()
 
     </script>
 @endpush
