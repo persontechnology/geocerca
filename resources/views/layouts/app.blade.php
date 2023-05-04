@@ -290,7 +290,6 @@
 		$longitud = document.querySelector("#longitud"),
 		$enlace = document.querySelector("#enlace");
 
-
 	const onUbicacionConcedida = ubicacion => {
 		console.log("Tengo la ubicación: ", ubicacion);
 		const coordenadas = ubicacion.coords;
