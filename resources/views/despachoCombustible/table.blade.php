@@ -107,21 +107,19 @@
     @if ($fotoPdf==='SI')
         <style>
             #fotoEvidencia {
-                background: url("{!! public_path($dc->foto_link) !!}");
+                background-image: url("{!! public_path($dc->foto_link) !!}");
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
                 height: 750px;
-                
             }  
         </style> 
     @else
         <style>
             #fotoEvidencia {
-                background: url("{{ $dc->foto_link }}");
+                background-image: url("{{ $dc->foto_link }}");
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
-                height: 750px;
-                
+                height: 750px; 
             }  
         </style>   
     @endif
