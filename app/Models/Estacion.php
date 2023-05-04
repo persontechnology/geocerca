@@ -4,23 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use MatanYadaev\EloquentSpatial\Objects\Polygon;
+use MatanYadaev\EloquentSpatial\Traits\HasSpatial;
 class Estacion extends Model
 {
-    use HasFactory;
-    public function despachadores()
-    {
-        return $this->belongsToMany(User::class, 'despachadors', 'estacion_id', 'despachador_id');
-    }
+    use HasSpatial;
 
-    // Deivid, verificar si una estacion tiene despachador
-    public function hasDespachador($idEstacion,$idDespachador)
-    {
-        $despachador=Despachador::where(['estacion_id'=>$idEstacion,'despachador_id'=>$idDespachador])->first();
-        if($despachador){
-            return true;
-        }else{
-            return false;
-        }
-    }
+    protected $casts = [
+        'area' => Polygon::class,
+    ];
+    
+    
 }

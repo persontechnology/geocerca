@@ -6,7 +6,7 @@
         @csrf
         <input type="hidden" name="id" value="{{ $parqueadero->id }}">
         <div class="card">
-<h1>EXISTE: {{ $existe?'SI':'NO' }}</h1>
+            
             <div class="card-body">
                 <div class="row">
                     @include('parqueaderos.datos',['parqueadero'=>$parqueadero])
@@ -97,126 +97,126 @@
     @endpush
 
     @push('scripts')
-    <script>
-        // This example requires the Drawing library. Include the libraries=drawing
-        // parameter when you first load the API. For example:
-        // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=drawing">
+        <script>
+            // This example requires the Drawing library. Include the libraries=drawing
+            // parameter when you first load the API. For example:
+            // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=drawing">
 
-        let drawingManager;
-        let map;
-        let coordenadas = {{ json_encode($area) }};
-        let triangleCoords = [];
+            let drawingManager;
+            let map;
+            let coordenadas = {{ json_encode($area) }};
+            let triangleCoords = [];
 
-        var bounds;
-        function initMap() {
+            var bounds;
+            function initMap() {
 
-            bounds= new google.maps.LatLngBounds()
+                bounds= new google.maps.LatLngBounds()
 
-            if(coordenadas.length>0){
-                coordenadas[0].forEach( function(valor, indice, array) {
-                    triangleCoords.push({lat:valor[1],lng: valor[0]})
-                    bounds.extend(triangleCoords[indice]);
-                });
-            }
-
-
-            map = new google.maps.Map(document.getElementById("map"), {
-                center: bounds.getCenter(),
-                zoom: 15,
-            });
-            
-            const input = document.getElementById("pac-input");
-            // Specify just the place data fields that you need.
-            const autocomplete = new google.maps.places.Autocomplete(input, {
-                fields: ["place_id", "geometry", "formatted_address", "name"],
-            });
-
-            autocomplete.bindTo("bounds", map);
-            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-           
-
-            const marker = new google.maps.Marker({ map: map });
-
-           
-            autocomplete.addListener("place_changed", () => {
-              
-
-                const place = autocomplete.getPlace();
-
-                if (!place.geometry || !place.geometry.location) {
-                return;
+                if(coordenadas.length>0){
+                    coordenadas[0].forEach( function(valor, indice, array) {
+                        triangleCoords.push({lat:valor[1],lng: valor[0]})
+                        bounds.extend(triangleCoords[indice]);
+                    });
                 }
 
-                if (place.geometry.viewport) {
-                    map.fitBounds(place.geometry.viewport);
-                } else {
-                    map.setCenter(place.geometry.location);
-                    map.setZoom(17);
+
+                map = new google.maps.Map(document.getElementById("map"), {
+                    center: bounds.getCenter(),
+                    zoom: 15,
+                });
+                
+                const input = document.getElementById("pac-input");
+                // Specify just the place data fields that you need.
+                const autocomplete = new google.maps.places.Autocomplete(input, {
+                    fields: ["place_id", "geometry", "formatted_address", "name"],
+                });
+
+                autocomplete.bindTo("bounds", map);
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+            
+
+                const marker = new google.maps.Marker({ map: map });
+
+            
+                autocomplete.addListener("place_changed", () => {
+                
+
+                    const place = autocomplete.getPlace();
+
+                    if (!place.geometry || !place.geometry.location) {
+                    return;
+                    }
+
+                    if (place.geometry.viewport) {
+                        map.fitBounds(place.geometry.viewport);
+                    } else {
+                        map.setCenter(place.geometry.location);
+                        map.setZoom(17);
+                    }
+
+                    // Set the position of the marker using the place ID and location.
+                    // @ts-ignore This should be in @typings/googlemaps.
+                    marker.setPlace({
+                        placeId: place.place_id,
+                        location: place.geometry.location,
+                    });
+                    marker.setVisible(true);
+
+                });
+
+                // Construct the polygon.
+                drawingManager = new google.maps.Polygon({
+                    paths: triangleCoords,
+                    strokeColor: "#FF0000",
+                    strokeOpacity: 0.8,
+                    strokeWeight: 1,
+                    fillColor: "#FF0000",
+                    fillOpacity: 0.35,
+                });
+
+                drawingManager.setMap(map);
+                
+                drawingManager = new google.maps.drawing.DrawingManager({
+                    drawingControl: true,
+                    drawingControlOptions: {
+                        position: google.maps.ControlPosition.TOP_CENTER,
+                        drawingModes: [
+                            google.maps.drawing.OverlayType.POLYGON,
+                        ],
+                    },
+                    polygonOptions: {
+                        fillColor: "#ffff00",
+                        fillOpacity: 1,
+                        strokeWeight: 5,
+                        editable:true
+                    },
+                });
+
+                drawingManager.setMap(map);
+                
+                google.maps.event.addListener(drawingManager, "overlaycomplete", function(event){
+                    overlayDragListener(event.overlay);
+                    $('#area').val(event.overlay.getPath().getArray());
+                });
+                function overlayDragListener(overlay) {
+                    google.maps.event.addListener(overlay.getPath(), 'set_at', function(event){
+                        $('#area').val(overlay.getPath().getArray());
+                    });
+                    google.maps.event.addListener(overlay.getPath(), 'insert_at', function(event){
+                        $('#area').val(overlay.getPath().getArray());
+                    });
                 }
 
-                // Set the position of the marker using the place ID and location.
-                // @ts-ignore This should be in @typings/googlemaps.
-                marker.setPlace({
-                    placeId: place.place_id,
-                    location: place.geometry.location,
-                });
-                marker.setVisible(true);
-
-            });
-
-            // Construct the polygon.
-            drawingManager = new google.maps.Polygon({
-                paths: triangleCoords,
-                strokeColor: "#FF0000",
-                strokeOpacity: 0.8,
-                strokeWeight: 1,
-                fillColor: "#FF0000",
-                fillOpacity: 0.35,
-            });
-
-            drawingManager.setMap(map);
-            
-            drawingManager = new google.maps.drawing.DrawingManager({
-                drawingControl: true,
-                drawingControlOptions: {
-                    position: google.maps.ControlPosition.TOP_CENTER,
-                    drawingModes: [
-                        google.maps.drawing.OverlayType.POLYGON,
-                    ],
-                },
-                polygonOptions: {
-                    fillColor: "#ffff00",
-                    fillOpacity: 1,
-                    strokeWeight: 5,
-                    editable:true
-                },
-            });
-
-            drawingManager.setMap(map);
-            
-            google.maps.event.addListener(drawingManager, "overlaycomplete", function(event){
-                overlayDragListener(event.overlay);
-                $('#area').val(event.overlay.getPath().getArray());
-            });
-            function overlayDragListener(overlay) {
-                google.maps.event.addListener(overlay.getPath(), 'set_at', function(event){
-                    $('#area').val(overlay.getPath().getArray());
-                });
-                google.maps.event.addListener(overlay.getPath(), 'insert_at', function(event){
-                    $('#area').val(overlay.getPath().getArray());
-                });
             }
+            
 
-        }
-        
+            window.initMap = initMap;
+        </script>
 
-        window.initMap = initMap;
-    </script>
-
-     <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDxUyVFlNpM-HwzkAokj9g1I1OOpS4kZI&callback=initMap&libraries=drawing,places&v=weekly"
-    defer
-    ></script>
-@endpush
+        <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDxUyVFlNpM-HwzkAokj9g1I1OOpS4kZI&callback=initMap&libraries=drawing,places&v=weekly"
+        defer
+        ></script>
+    @endpush
 @endsection

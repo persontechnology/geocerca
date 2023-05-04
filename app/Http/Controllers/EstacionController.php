@@ -7,6 +7,10 @@ use App\Models\Estacion;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use MatanYadaev\EloquentSpatial\Objects\Point;
+use MatanYadaev\EloquentSpatial\Objects\Polygon;
+use MatanYadaev\EloquentSpatial\Objects\LineString;
+
 
 class EstacionController extends Controller
 {
@@ -31,30 +35,51 @@ class EstacionController extends Controller
      */
     public function create()
     {
-        $despachadores=User::role('Despachador')->get();
-        return view('estacion.crear',['despachadores'=>$despachadores]);
+        return view('estacion.crear');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
+    public function generarCoordenadas($area)
+    {
+        $pattern = "/(\((?:[^()]++|(?1))*\))(*SKIP)(*F)|,/";
+        $coordenadas=preg_split($pattern, $area);
+        
+        $contador=0;
+        $ultimo_array = array();
+        $nuevas_coordenadas = array();
+        foreach ($coordenadas as $coor) {
+            
+            $latlon_data = explode('(' , rtrim($coor, ')'));    
+            $latlon=explode(',',$latlon_data[1]);
+            array_push($nuevas_coordenadas,  new Point(floatval($latlon[0]), floatval($latlon[1])));
+
+            if($contador===0){
+                $ultimo_array=new Point(floatval($latlon[0]), floatval($latlon[1]));
+            }
+            $contador++;
+        }
+        array_push($nuevas_coordenadas,$ultimo_array);
+        return $nuevas_coordenadas;
+    }
+
+
     public function store(Request $request)
     {
+
         $request->validate([
             'nombre'=>'required|string|max:255|unique:estacions,nombre',
-            'despachador'    => 'required|array',
-            'despachador.*'  => 'required|exists:users,id',
+            'area'    => 'required'
         ]);
         
         try {
             DB::beginTransaction();
             $estacion=new Estacion();
             $estacion->nombre=$request->nombre;
+            $estacion->area=new Polygon([
+                new LineString($this->generarCoordenadas($request->area))
+            ]);
             $estacion->save();
-            $estacion->despachadores()->sync($request->despachador);
+            
             DB::commit();
             request()->session()->flash('success','Estación ingresada');
         } catch (\Throwable $th) {
@@ -84,8 +109,10 @@ class EstacionController extends Controller
      */
     public function edit(Estacion $estacion)
     {
-        $despachadores=User::role('Despachador')->get();
-        $data = array('despachadores' => $despachadores,'estacion'=>$estacion );
+        $data = array(
+            'estacion'=>$estacion,
+            'area'=>$estacion->area?$estacion->area->getCoordinates():[],
+        );
         return view('estacion.editar',$data);
     }
 
@@ -100,15 +127,19 @@ class EstacionController extends Controller
     {
         $request->validate([
             'nombre'=>'required|string|max:255|unique:estacions,nombre,'.$estacion->id,
-            'despachador'    => 'required|array',
-            'despachador.*'  => 'required|exists:users,id',
+            'area'    => 'required',
         ]);
         
         try {
             DB::beginTransaction();
             $estacion->nombre=$request->nombre;
+            
+            if($request->area){
+                $estacion->area=new Polygon([
+                    new LineString($this->generarCoordenadas($request->area))
+                ]);
+            }
             $estacion->save();
-            $estacion->despachadores()->sync($request->despachador);
             DB::commit();
             request()->session()->flash('success','Estación actualizado');
         } catch (\Throwable $th) {
@@ -128,7 +159,6 @@ class EstacionController extends Controller
     {
         try {
             DB::beginTransaction();
-            $estacion->despachadores()->detach();
             $estacion->delete();
             DB::commit();
             request()->session()->flash('success','Estación eliminado');
@@ -136,7 +166,6 @@ class EstacionController extends Controller
         } catch (\Throwable $th) {
             DB::rollback();
             request()->session()->flash('danger','Ocurrio un error, vuelva intentar o consulte con administrador');
-            
         }
         return redirect()->route('estacion.index');
     }

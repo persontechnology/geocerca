@@ -93,6 +93,18 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
                 </li>
                 @endcan
 
+                @can('Ingreso de Combustible')
+                <li class="nav-item">
+                    <a href="{{ route('ingresoCombustible.ingresar') }}"
+                        class="nav-link {{ request()->routeIs(['ingresoCombustible.*']) ? 'active' : '' }}">
+                        <i class="fa-sharp fa-solid fa-gas-pump"></i>
+                        <span>
+                            Ingreso de Combustible
+                        </span>
+                    </a>
+                </li>
+                @endcan
+
                 @can('Empresa')
                     <li class="nav-item">
                         <a href="{{ route('empresa') }}"

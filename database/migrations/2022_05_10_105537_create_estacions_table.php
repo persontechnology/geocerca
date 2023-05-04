@@ -6,25 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateEstacionsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    
     public function up()
     {
         Schema::create('estacions', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->polygon('area')->nullable();
             $table->timestamps();
+            
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    
     public function down()
     {
         Schema::dropIfExists('estacions');

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\HtmlString;
-
+use PDF;
 class EnviarNotiChoferDespachoCombustible extends Notification
 {
     use Queueable;
@@ -41,16 +41,31 @@ class EnviarNotiChoferDespachoCombustible extends Notification
      */
     public function toMail($notifiable)
     {
+        $despachoCombustible=$this->dc;
+
+        $headerHtml = view()->make('empresa.pdfHeader',['titulo'=>'FORMULARIO AUTORIZACIÓN PARA EL DESPACHO DEL COMBUSTIBLE'])->render();
+        $footerHtml = view()->make('empresa.pdfFooter')->render();
+        $data = array('dc' => $despachoCombustible);
+
+       $pdf = PDF::loadView('despachoCombustible.pdf',$data)
+        // ->setOrientation('landscape')
+        ->setOption('margin-top', '3cm')
+        ->setOption('margin-bottom', '1cm')
+        ->setOption('header-html', $headerHtml)
+        ->setOption('footer-html', $footerHtml);
+        $pdf_data = $pdf->output();
+
         return (new MailMessage)
-                    ->subject('DESPACHO DE COMBUSTIBLE '.$this->dc->estado)
-                    ->line('FORMULARIO DE AUTORIZACIÓN PARA EL DESPACHO DEL COMBUSTIBLE '.$this->dc->estado)
-                    ->LINE(new HtmlString('<strong>CÓDIGO: '.$this->dc->codigo.'</strong>'))
-                    ->LINE('N° ORDEN: '.$this->dc->numero)
-                    ->line('FECHA: '.$this->dc->fecha)
-                    ->line('N° MOVIL: '.$this->dc->vehiculo->numero_movil)
-                    ->line('CONCEPTO: '.$this->dc->concepto)
-                    ->line('CANTIDAD GALONES: '.$this->dc->cantidad_galones)
-                    ->line('VALOR: '.$this->dc->valor);
+                    ->subject('DESPACHO DE COMBUSTIBLE '.$despachoCombustible->estado)
+                    ->line('FORMULARIO DE AUTORIZACIÓN PARA EL DESPACHO DEL COMBUSTIBLE '.$despachoCombustible->estado)
+                    ->LINE(new HtmlString('<strong>CÓDIGO: '.$despachoCombustible->codigo.'</strong>'))
+                    ->LINE('N° ORDEN: '.$despachoCombustible->numero)
+                    ->line('FECHA: '.$despachoCombustible->fecha)
+                    ->line('N° MOVIL: '.$despachoCombustible->vehiculo->numero_movil)
+                    ->line('CONCEPTO: '.$despachoCombustible->concepto)
+                    ->line('CANTIDAD GALONES: '.$despachoCombustible->cantidad_galones)
+                    ->line('VALOR: '.$despachoCombustible->valor)
+                    ->attachData($pdf_data,'FORM-ADC- '.$despachoCombustible->numero.'.pdf');
     }
 
     /**

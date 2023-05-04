@@ -33,11 +33,11 @@ class RqEditar extends FormRequest
             'conductor_info'=>'required',
             'destino'=>'required|string|max:255',
             'concepto'=>'required|in:Gasolina extra,Gasolina Super,Diesel',
-            'galones'=>'required|regex:'.$rg_decimal,
-            'valor'=>'required|regex:'.$rg_decimal,
+            // 'galones'=>'required|regex:'.$rg_decimal,
+            // 'valor'=>'required|regex:'.$rg_decimal,
             'observaciones'=>'nullable|string|max:255',
-            'cantidad_letras'=>'required|string|max:255',
-            'valor_letras'=>'required|string|max:255',
+            // 'cantidad_letras'=>'required|string|max:255',
+            // 'valor_letras'=>'required|string|max:255',
             'estado'=>'required|in:Autorizado,Anulado',
             'noti'=>'nullable'
 

@@ -36,7 +36,8 @@ class DatabaseSeeder extends Seeder
             'Control Orden de Movilización',
             'Despacho de combustible',
             'Mapa',
-            'Ingreso de Kilometraje'
+            'Ingreso de Kilometraje',
+            'Ingreso de Combustible'
             
         );
         foreach ($permisos as $per) {

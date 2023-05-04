@@ -98,7 +98,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4">
+    {{-- <div class="col-lg-4">
         <div class="form-group">
             <label for="galones">Cantidad Galones<i class="text-danger">*</i></label>
             <input id="galones" type="text" class="form-control @error('galones') is-invalid @enderror" name="galones" value="{{ old('galones',$dc->cantidad_galones??'') }}" required />
@@ -141,7 +141,7 @@
                 </span>
             @enderror
         </div>
-    </div>
+    </div> --}}
 
     <div class="col-lg-8">
         <div class="form-group">

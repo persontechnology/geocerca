@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\Usuarios\Guardia\IngresarKilometrajeDataTable;
+use App\DataTables\IngresarKilometrajeDataTable;
 use App\Http\Controllers\Api\GeocercaController;
 use App\Http\Requests\Usuarios\Guardia\RqGuardarKilometraje;
 use App\Models\Empresa;

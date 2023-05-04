@@ -52,10 +52,10 @@ class ParqueaderoController extends Controller
             }
             $contador++;
         }
-         array_push($nuevas_coordenadas,$ultimo_array);
-         return $nuevas_coordenadas;
-
+        array_push($nuevas_coordenadas,$ultimo_array);
+        return $nuevas_coordenadas;
     }
+    
     public function guardar(RqGuardar $request)
     {
         
@@ -84,12 +84,12 @@ class ParqueaderoController extends Controller
     {
         $parqueadero = Parqueadero::find($id);
         $guardias = $guardias = User::where('estado','Activo')->role('Guardia')->get();
-        $existe=Parqueadero::query()->whereContains('area', new Point(-1.0430571679279186, -78.59103092302097))->exists();
+        
         
         $data = array(
             'parqueadero' => $parqueadero, 'guardias' => $guardias,
             'area'=>$parqueadero->area?$parqueadero->area->getCoordinates():[],
-            'existe'=>$existe
+        
         );
         
         return view('parqueaderos.editar', $data);

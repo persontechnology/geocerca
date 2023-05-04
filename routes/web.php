@@ -6,6 +6,7 @@ use App\Http\Controllers\DespachoCombustibleController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IngresoCombustibleController;
 use App\Http\Controllers\IngresoKilometrajeController;
 use App\Http\Controllers\KilometrajeController;
 use App\Http\Controllers\LecturaController;
@@ -162,6 +163,9 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('ingresar-kilometraje', [IngresoKilometrajeController::class,'ingresarKilometraje'])->name('ingresoKilometraje.ingresar');
     Route::post('guardar-kilometraje', [IngresoKilometrajeController::class,'guardarKilometraje'])->name('ingresoKilometraje.guardar');
     
+    // Ingreso de comustible
+    Route::get('ingresar-combustible', [IngresoCombustibleController::class,'ingresar'])->name('ingresoCombustible.ingresar');
+    Route::post('guardar-combustible', [IngresoCombustibleController::class,'guardar'])->name('ingresoCombustible.guardar');
 
      
 });

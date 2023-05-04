@@ -28,6 +28,7 @@ class CreateDespachoCombustiblesTable extends Migration
             $table->string('cantidad_letras')->nullable();
             $table->decimal('valor',9,2)->nullable();
             $table->string('valor_letras')->nullable();
+            
             $table->string('observaciones')->nullable();
             $table->string('foto')->nullable();
             $table->enum('estado',['Autorizado','Anulado','Despachado'])->default('Autorizado');
@@ -36,7 +37,7 @@ class CreateDespachoCombustiblesTable extends Migration
             $table->foreignId('despachador_id')->nullable()->constrained('users');
             $table->foreignId('estacion_id')->nullable()->constrained('estacions');
             $table->foreignId('autorizado_id')->constrained('users');
-
+            $table->string('detalle_mapa')->nullable();
 
         });
     }

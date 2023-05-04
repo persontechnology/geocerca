@@ -63,8 +63,7 @@ class OMInformarAceptadoNoty extends Notification
         ->line('# '.$this->orden->estado)
         // ->action('Ver', route('controlOdernMovilizacionPdf',$this->orden->id))
         ->line('Gracias por usar nuestra aplicación!')
-        ->attachData($pdf_data,'Orden Movilización '.$orden->numero.'.pdf')
-        ;
+        ->attachData($pdf_data,'Orden Movilización '.$orden->numero.'.pdf');
     }
 
     /**

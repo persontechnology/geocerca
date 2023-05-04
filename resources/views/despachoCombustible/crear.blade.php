@@ -2,7 +2,7 @@
 @section('breadcrumbs', Breadcrumbs::render('despacho-combustible.create'))
 
 @section('content')
-    <form action="{{ route('despacho-combustible.store') }}" method="POST">
+    <form action="{{ route('despacho-combustible.store') }}" method="POST" autocomplete="off">
         @csrf
         <div class="card">
             <div class="card-header">

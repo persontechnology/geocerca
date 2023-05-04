@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataTables\Usuarios\Guardia;
+namespace App\DataTables;
 
 use App\Models\Vehiculo;
 use Yajra\DataTables\Html\Button;
@@ -67,18 +67,8 @@ class IngresarKilometrajeDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    // ->setTableId('vehiculo-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    // ->dom('Bfrtip')
-                    // ->orderBy(1)
-                    // ->buttons(
-                    //     Button::make('create'),
-                    //     Button::make('export'),
-                    //     Button::make('print'),
-                    //     Button::make('reset'),
-                    //     Button::make('reload')
-                    // );
                     ->parameters($this->getBuilderParameters());
     }
 
