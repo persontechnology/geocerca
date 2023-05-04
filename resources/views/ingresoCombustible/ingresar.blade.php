@@ -5,6 +5,8 @@
 <form action="{{ route('ingresoCombustible.guardar') }}" method="POST" id="formGuardarKilometraje" enctype="multipart/form-data">
     @csrf
 
+    <input type="hidden" name="latitude_txt" id="latitude_txt">
+    <input type="hidden" name="longitude_txt" id="longitude_txt">
     <div class="card">
         <div class="card-header">
         Comlete los siguentes datos.
@@ -197,7 +199,7 @@
         <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
         </div>
     </div>
-    <p id="demo"></p>
+    
 </form>
 
 <!-- Full width modal -->
@@ -329,12 +331,20 @@
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition, showError);
             } else { 
-                alert("La geolocalización no es compatible con este navegador.");
+                $.dialog({
+                    theme: 'Modern',
+                    type: 'blue',
+                    closeIcon: true,
+                    icon: 'fa-solid fa-triangle-exclamation fa-beat',
+                    title: 'Ubicación',
+                    content: "La geolocalización no es compatible con este navegador.",
+                });
             }
         }
 
         function showPosition(position) {
-            alert(position.coords.latitude )
+             $('#latitude_txt').val(position.coords.latitude);
+             $('#longitude_txt').val(position.coords.longitude);
         }
 
         function showError(error) {
@@ -354,13 +364,18 @@
                 break;
             }
 
-            $.dialog({
+            $.alert({
                 theme: 'Modern',
                 type: 'blue',
                 closeIcon: true,
                 icon: 'fa-solid fa-triangle-exclamation fa-beat',
                 title: 'Ubicación',
                 content: msgerror,
+                buttons: {
+                    ok: function () {
+                        window.location.reload();
+                    }
+                }
             });
         }
         getLocation();
