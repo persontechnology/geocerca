@@ -197,7 +197,16 @@
         <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
         </div>
     </div>
-
+    <div class="col-12">
+        <h1>Acceder a la ubicación con JavaScript</h1>
+        <a href="//parzibyte.me/blog" target="_blank">By Parzibyte</a>
+        <br>
+        <strong>Latitud: </strong> <p id="latitud"></p>
+        <br>
+        <strong>Longitud: </strong> <p id="longitud"></p>
+        <br>
+        <a target="_blank" id="enlace" href="#">Abrir en Google Maps</a>
+    </div>
 </form>
 
 <!-- Full width modal -->
@@ -251,8 +260,6 @@
             }
         }
 
-
-        
 
     </script>
 @endpush
