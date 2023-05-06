@@ -41,8 +41,6 @@ class LoginController extends Controller
     // Deivid, ordenes despues de autenticar
     protected function authenticated(Request $request, $user)
     {
-        if($user->hasRole('Guardia')){
-            return redirect()->route('guardia.IngresarKilometraje');
-        }
+        
     }
 }
