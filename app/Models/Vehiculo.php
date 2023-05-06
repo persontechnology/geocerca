@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Vehiculo extends Model
 {
@@ -77,6 +78,13 @@ class Vehiculo extends Model
     public function parqueadero()
     {
         return $this->belongsTo(Parqueadero::class,'parqueadero_id');
+    }
+    public function getFotoLinkAttribute()
+    {
+        if(Storage::exists($this->foto)){
+            return asset( Storage::url($this->foto) );
+        }
+        
     }
     
 

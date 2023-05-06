@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\BrazoController;
 use App\Http\Controllers\Api\DespachoCombustibleController;
 use App\Http\Controllers\Api\GeocercaController;
 use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Api\IngresoKilometrajeController;
 use App\Http\Controllers\Api\LecturaController;
 use App\Http\Controllers\Api\LecturaEspecialController;
 use App\Http\Controllers\Api\LecturaInvitadoController;
@@ -48,8 +49,13 @@ Route::middleware('auth:sanctum')->group(function(){
 
     // despacho de combustible
     Route::post('/dc-consulta', [DespachoCombustibleController::class,'consulta']);
-    Route::post('/dc-consulta-estaciones', [DespachoCombustibleController::class,'consultaEstaciones']);
     Route::post('/dc-enviarFoto', [DespachoCombustibleController::class,'guardarFoto']);
+
+    // ingreso de combustible
+    Route::post('/ingresar-kilometraje', [IngresoKilometrajeController::class,'ingresar']);
+    Route::post('/ingresar-kilometraje-mis-estaciones', [IngresoKilometrajeController::class,'misEstaciones']);
+    
+    
     
 
 });
