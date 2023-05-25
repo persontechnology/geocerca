@@ -192,13 +192,13 @@ class VehiculoController extends Controller
     {
         $vehiculo=Vehiculo::findOrFail($vehiculoId);
         $empresa=Empresa::first();
-        $url = $empresa->url_web_gps.'WS/WSTrack2.asmx?wsdl';
+        $url = 'https://www.ecuatrack.com/WS/WSTrack2.asmx?wsdl';
         
         $lat = null;
         $lon = null;
         try {
             $client = new \SoapClient($url);
-            $result = $client->GetCurrentPositionByIMEI(["SecurityToken" => $empresa->token, "IMEI" => $vehiculo->imei]);
+            $result = $client->GetCurrentPositionByIMEI(["SecurityToken" => 'a1bc4322-6c7e-4b02-9ff7-fe1904884257', "IMEI" => $vehiculo->imei]);
             $xml = simplexml_load_string($result->GetCurrentPositionByIMEIResult);
             $lat = $xml->Table->Lat;
             $lon = $xml->Table->Lon;
