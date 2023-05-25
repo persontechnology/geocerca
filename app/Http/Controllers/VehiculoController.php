@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
 
 class VehiculoController extends Controller
 {
@@ -191,21 +192,21 @@ class VehiculoController extends Controller
     public function ubicacionMapa($vehiculoId)
     {
         $vehiculo=Vehiculo::findOrFail($vehiculoId);
-        $empresa=Empresa::first();
-        $url = 'https://www.ecuatrack.com/WS/WSTrack2.asmx?wsdl';
         
-        $lat = null;
-        $lon = null;
-        try {
-            $client = new \SoapClient($url);
-            $result = $client->GetCurrentPositionByIMEI(["SecurityToken" => 'a1bc4322-6c7e-4b02-9ff7-fe1904884257', "IMEI" => $vehiculo->imei]);
-            $xml = simplexml_load_string($result->GetCurrentPositionByIMEIResult);
-            $lat = $xml->Table->Lat;
-            $lon = $xml->Table->Lon;
-        } catch (\SoapFault $e) {
-            return  $e->getMessage();
-        }
-        return view('vehiculos.mapa', ['vehiculo'=>$vehiculo,'lat' => $lat, 'lon' => $lon]);
+
+        $empresa=Empresa::first();
+        $responseApi=Http::get($empresa->url_web_gps.'api/get_devices',[
+            'user_api_hash'=>$empresa->token,
+            'lang'=>'es'
+        ]);
+
+        $apiResVehiculos= collect($responseApi->json('0.items', []));
+
+        $vehiculoDeviceData = $apiResVehiculos->firstWhere('device_data.imei', $vehiculo->imei);
+        
+        return view('vehiculos.mapa', ['vehiculo'=>$vehiculo,'lat' => $vehiculoDeviceData['lat'] ?? null, 'lon' => $vehiculoDeviceData['lng'] ??null]);
+        
+                    
     }
 
     public function ordenMovilizaciones($vehiculoId)
