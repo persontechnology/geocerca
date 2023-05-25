@@ -204,7 +204,7 @@ class VehiculoController extends Controller
 
         $vehiculoDeviceData = $apiResVehiculos->firstWhere('device_data.imei', $vehiculo->imei);
         
-        return view('vehiculos.mapa', ['vehiculo'=>$vehiculo,'lat' => $vehiculoDeviceData['lat'], 'lon' => $vehiculoDeviceData['lng']]);
+        return view('vehiculos.mapa', ['vehiculo'=>$vehiculo,'lat' => $vehiculoDeviceData['lat'] ?? null, 'lon' => $vehiculoDeviceData['lng'] ??null]);
         
                     
     }
