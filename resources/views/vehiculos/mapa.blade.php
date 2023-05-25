@@ -13,6 +13,8 @@
         var map;
         var marker;
 
+        console.log("{{ $lat.'--'.$lon }}")
+
         function initMap() {
             var myLatLng = {
                 lat: {{ $lat ?? -2.282374 }},
