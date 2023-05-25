@@ -15,10 +15,13 @@
 
         console.log("{{ $lat.'--'.$lon }}")
 
+        var lat={{ $lat }};
+        var lng={{ $lon }};
+        
         function initMap() {
             var myLatLng = {
-                lat: {{ $lat ?? -2.282374 }},
-                lng: {{ $lon ?? -78.122086999999993 }}
+                lat: lat,
+                lng: lng
             }
             map = new google.maps.Map(document.getElementById('map'), {
                 center: myLatLng,
@@ -33,13 +36,11 @@
                 position: myLatLng,
                 title: "Ubicación",
             });
+           if(lat){
             marker.setMap(map);
-            marker.addListener('dragend', function() {
-                var destinationLat = marker.getPosition().lat();
-                var destinationLng = marker.getPosition().lng();
-            });
-            var geocoder = new google.maps.Geocoder;
-            var infowindow = new google.maps.InfoWindow;
+           }
+            
+           
 
         }
     </script>
