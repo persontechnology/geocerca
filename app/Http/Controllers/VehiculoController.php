@@ -192,7 +192,8 @@ class VehiculoController extends Controller
     {
         $vehiculo=Vehiculo::findOrFail($vehiculoId);
         $empresa=Empresa::first();
-        $url = $empresa->url_web_gps;
+        $url = $empresa->url_web_gps.'WS/WSTrack2.asmx?wsdl';
+        
         $lat = null;
         $lon = null;
         try {
