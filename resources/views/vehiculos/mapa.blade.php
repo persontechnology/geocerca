@@ -20,14 +20,16 @@
         
         function initMap() {
             var myLatLng = {
-                lat: lat,
-                lng: lng
+                lat: {{ $lat ?? -2.282374 }},
+                lng: {{ $lon ?? -78.122086999999993 }}
             }
             map = new google.maps.Map(document.getElementById('map'), {
                 center: myLatLng,
                 zoom: 10,
                 mapTypeId: 'hybrid'
             });
+            
+           if(lng){
             var marker = new google.maps.Marker({
                 map: map,
                 draggable: true,
@@ -36,7 +38,6 @@
                 position: myLatLng,
                 title: "Ubicación",
             });
-           if(lat){
             marker.setMap(map);
            }
             
