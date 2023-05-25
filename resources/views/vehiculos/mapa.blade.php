@@ -15,8 +15,8 @@
 
         console.log("{{ $lat.'--'.$lon }}")
 
-        var lat={{ $lat }};
-        var lng={{ $lon }};
+        var lat={{ $lat??null }};
+        var lng={{ $lon??null }};
         
         function initMap() {
             var myLatLng = {
