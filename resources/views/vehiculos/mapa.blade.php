@@ -15,8 +15,8 @@
 
         console.log("{{ $lat.'--'.$lon }}")
 
-        var lat={{ $lat??'' }};
-        var lng={{ $lon??'' }};
+        var lat={{ $lat??0 }};
+        var lng={{ $lon??0 }};
         
         function initMap() {
             var myLatLng = {
@@ -29,7 +29,7 @@
                 mapTypeId: 'hybrid'
             });
             
-           if(lng!=''){
+           if(lng!=0){
             var marker = new google.maps.Marker({
                 map: map,
                 draggable: true,
