@@ -89,7 +89,7 @@
                     <th>Cargo</th>
                     <td colspan="3">{{ $orden->solicitante->descripcion??'' }}</td>
                 </tr>
-                {{-- <tr>
+                <tr>
                     <th>Autorizado por</th>
                     <td colspan="3">
                         <div id="fotoEvidencia" style="margin: 1em;"></div>
@@ -110,7 +110,7 @@
                             ->errorCorrection('H')
                             ->size(175)->generate(route('VerificarVigenciaOrdenMovilizacion',$orden->id)); !!}
                     </td>
-                </tr> --}}
+                </tr>
             </tbody>
         </table>
 
