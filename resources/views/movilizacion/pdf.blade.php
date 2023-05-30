@@ -32,7 +32,7 @@
 </style>
 <body>
     <div style="padding-top: 5px;">
-        {{-- <table>
+        <table>
             <tbody>
                 <tr>
                     <th>NÚMERO DE ORDEN</th>
@@ -103,16 +103,16 @@
                     <th>
                         Código QR, para verificar vigencia de Orden Movilización.
                     </th>
-                    <td colspan="3">
+                    {{-- <td colspan="3">
                         {!! QrCode::
                             encoding('UTF-8')
                             ->margin(1)
                             ->errorCorrection('H')
                             ->size(175)->generate(route('VerificarVigenciaOrdenMovilizacion',$orden->id)); !!}
-                    </td>
+                    </td> --}}
                 </tr>
             </tbody>
-        </table> --}}
+        </table>
 
         @if ($orden->lecturas->count()>0)
         <br>
