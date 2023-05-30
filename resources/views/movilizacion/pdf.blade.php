@@ -20,16 +20,21 @@
         width: 30px;
         height: 25px;
     }
-
-    #fotoEvidencia {
-        background: url("{!! public_path( $orden->autorizado->firma_link??'') !!}");
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-        height: 95px;
-        
-    }  
     
 </style>
+
+@if ($orden->autorizado)
+    <style>
+        #fotoEvidencia {
+        
+            background: url("{!! public_path( $orden->autorizado->firma_link'') !!}");
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            height: 95px;
+            
+        }  
+    </style>
+@endif
 <body>
     <div style="padding-top: 5px;">
         <table>
