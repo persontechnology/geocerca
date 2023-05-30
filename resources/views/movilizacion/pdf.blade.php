@@ -32,7 +32,7 @@
 </style>
 <body>
     <div style="padding-top: 5px;">
-        <table>
+        {{-- <table>
             <tbody>
                 <tr>
                     <th>NÚMERO DE ORDEN</th>
@@ -112,11 +112,11 @@
                     </td>
                 </tr>
             </tbody>
-        </table>
+        </table> --}}
 
         @if ($orden->lecturas->count()>0)
         <br>
-        {{-- <table>
+        <table>
             <thead>
                 <tr>
                     <th colspan="3">LECTURAS DE MOVILIZACIÓN</th>
@@ -137,7 +137,7 @@
                 @endforeach
             </tbody>
 
-        </table> --}}
+        </table>
         @else
         <p>Orden de movilización no tiene lecturas de ingreso y salida</p>
         @endif
