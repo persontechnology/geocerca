@@ -34,6 +34,7 @@ Route::post('/reset-password', [LoginController::class,'resetPassword']);
 
 
 // Deivid, geocerca
+Route::get('/listado-global', [GeocercaController::class,'listadoGllobal'])->name('verListadoGlobal');
 Route::get('/coordenadas-autos', [GeocercaController::class,'coordenadasAutos'])->name('coordenadasAutos');
 Route::get('/coordenadas-autos-mapa', [GeocercaController::class,'coordenadasAutosMapa'])->name('coordenadasAutosMapa');
 Route::get('/coordenadas-parqueaderos', [GeocercaController::class,'coordenadasParqueaderos'])->name('coordenadasParqueaderos');

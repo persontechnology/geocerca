@@ -27,6 +27,10 @@ class GeocercaController extends Controller
 
         return collect($responseApi->json('0.items', []));
     }
+    public function listadoGllobal()
+    {
+        return $this->apiRestVehiculos();
+    }
    
     public function coordenadasAutosMapa()
     {
