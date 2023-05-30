@@ -83,13 +83,13 @@
                     <th>Cargo</th>
                     <td colspan="3">{{ $orden->conductor->descripcion??'' }}</td>
                 </tr>
-                {{-- <tr>
+                <tr>
                     <th>Datos del solicitante</th>
                     <td colspan="3">{{ $orden->solicitante->apellidos_nombres??'' }}</td>
                     <th>Cargo</th>
                     <td colspan="3">{{ $orden->solicitante->descripcion??'' }}</td>
                 </tr>
-                <tr>
+                {{-- <tr>
                     <th>Autorizado por</th>
                     <td colspan="3">
                         <div id="fotoEvidencia" style="margin: 1em;"></div>
