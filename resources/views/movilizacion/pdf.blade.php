@@ -58,7 +58,7 @@
                     <th>Modelo</th>
                     <td colspan="3">{{ $orden->vehiculo->modelo }}</td>
                 </tr>
-                <tr>
+                {{-- <tr>
                     <th>Placa</th>
                     <td>{{ $orden->vehiculo->placa }}</td>
                     <th>Tipo</th>
@@ -103,14 +103,14 @@
                     <th>
                         Código QR, para verificar vigencia de Orden Movilización.
                     </th>
-                    {{-- <td colspan="3">
+                    <td colspan="3">
                         {!! QrCode::
                             encoding('UTF-8')
                             ->margin(1)
                             ->errorCorrection('H')
                             ->size(175)->generate(route('VerificarVigenciaOrdenMovilizacion',$orden->id)); !!}
-                    </td> --}}
-                </tr>
+                    </td>
+                </tr> --}}
             </tbody>
         </table>
 
