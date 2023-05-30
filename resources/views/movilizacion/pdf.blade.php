@@ -27,7 +27,7 @@
     <style>
         #fotoEvidencia {
         
-            background: url("{!! public_path( $orden->autorizado->firma_link'') !!}");
+            background: url("{!! public_path( $orden->autorizado->firma_link) !!}");
             background-repeat: no-repeat;
             background-size: 100% 100%;
             height: 95px;
