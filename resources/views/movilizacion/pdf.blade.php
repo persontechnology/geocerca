@@ -58,7 +58,7 @@
                     <th>Modelo</th>
                     <td colspan="3">{{ $orden->vehiculo->modelo }}</td>
                 </tr>
-                {{-- <tr>
+                <tr>
                     <th>Placa</th>
                     <td>{{ $orden->vehiculo->placa }}</td>
                     <th>Tipo</th>
@@ -77,7 +77,7 @@
                     <th>Comisión a cumplir</th>
                     <td colspan="7">{{ $orden->comision_cumplir }}</td>
                 </tr>
-                <tr>
+                {{-- <tr>
                     <th>Datos del conductor</th>
                     <td colspan="3">{{ $orden->conductor->apellidos_nombres??'' }}</td>
                     <th>Cargo</th>
