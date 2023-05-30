@@ -91,7 +91,7 @@
                 </tr>
                 <tr>
                     <th>Autorizado por</th>
-                    <td colspan="3">
+                    {{-- <td colspan="3">
                         <div id="fotoEvidencia" style="margin: 1em;"></div>
                         <p>
                             
@@ -99,7 +99,7 @@
                             <br>
                             <strong>{{ $orden->autorizado->descripcion??'' }}</strong>
                         </p>
-                    </td>
+                    </td> --}}
                     <th>
                         Código QR, para verificar vigencia de Orden Movilización.
                     </th>
