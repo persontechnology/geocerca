@@ -77,13 +77,13 @@
                     <th>Comisión a cumplir</th>
                     <td colspan="7">{{ $orden->comision_cumplir }}</td>
                 </tr>
-                {{-- <tr>
+                <tr>
                     <th>Datos del conductor</th>
                     <td colspan="3">{{ $orden->conductor->apellidos_nombres??'' }}</td>
                     <th>Cargo</th>
                     <td colspan="3">{{ $orden->conductor->descripcion??'' }}</td>
                 </tr>
-                <tr>
+                {{-- <tr>
                     <th>Datos del solicitante</th>
                     <td colspan="3">{{ $orden->solicitante->apellidos_nombres??'' }}</td>
                     <th>Cargo</th>
