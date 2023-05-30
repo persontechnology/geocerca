@@ -95,9 +95,9 @@
                         <div id="fotoEvidencia" style="margin: 1em;"></div>
                         <p>
                             
-                            {{-- {{ $orden->autorizado->apellidos_nombres??'' }}
+                            {{ $orden->autorizado->apellidos_nombres??'' }}
                             <br>
-                            <strong>{{ $orden->autorizado->descripcion??'' }}</strong> --}}
+                            <strong>{{ $orden->autorizado->descripcion??'' }}</strong>
                         </p>
                     </td>
                     <th>
