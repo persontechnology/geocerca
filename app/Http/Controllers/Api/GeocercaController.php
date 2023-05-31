@@ -95,7 +95,7 @@ class GeocercaController extends Controller
        
 
         $estadoGeocerca=$parqueadero->query()
-        ->whereContains('area', new Point($lat, $lng,))
+        ->whereContains('area', new Point((float)$lat, (float)$lng,))
         ->exists()?'DENTRO':'FUERA';
 
         $tieneUltimaLectura=$om->lecturas()->latest()->first();        

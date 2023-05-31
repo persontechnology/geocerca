@@ -38,4 +38,5 @@ class RqEliminarOrdenMOvilizacion extends FormRequest
             'id.exists'=>'No se puede eliminar orden de movilización.'
         ];
     }
+    
 }

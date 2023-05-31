@@ -10,7 +10,7 @@
             <a href="{{ route('odernMovilizacionLecturas',$om->id) }}" class="dropdown-item"><i class="fa-solid fa-file-pdf text-warning"></i> Lecturas</a>
             <div class="dropdown-divider"></div>
             <a href="{{ route('odernMovilizacionEditar',$om->id) }}" class="dropdown-item"><i class="fa-solid fa-pen-to-square text-primary"></i> Editar</a>
-            <a href="#" onclick="event.preventDefault();eliminar(this);" data-id="{{ $om->id }}" data-url="{{ route('odernMovilizacionEliminar',$om->id) }}" data-msg="Está seguro de eliminar Orden de movilización {{ $om->numero }}!" class="dropdown-item"><i class="fa-solid fa-trash text-danger"></i> Eliminar</a>
+            <a href="#" onclick="event.preventDefault();eliminar(this);" data-id="{{ $om->id }}" data-url="{{ route('odernMovilizacionEliminar') }}" data-msg="Está seguro de eliminar Orden de movilización {{ $om->numero }}!" class="dropdown-item"><i class="fa-solid fa-trash text-danger"></i> Eliminar</a>
             
         </div>
     </div>
