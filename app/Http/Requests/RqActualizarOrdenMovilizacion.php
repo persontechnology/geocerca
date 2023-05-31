@@ -36,7 +36,7 @@ class RqActualizarOrdenMovilizacion extends FormRequest
             'modelo'=>'nullable|string|max:255',
             'placa'=>'nullable|string|max:255',
             'tipo'=>'nullable|string|max:255',
-            'color'=>'required|string|max:255',
+            'color'=>'nullable|string|max:255',
             'procedencia'=>'required|string|max:255',
             'destino'=>'required|string|max:255',
             'comision_cumplir'=>'required|string|max:255',
