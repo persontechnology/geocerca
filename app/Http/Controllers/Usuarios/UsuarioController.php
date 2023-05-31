@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Usuarios;
 
+use App\DataTables\User\PorRolDataTable;
 use App\DataTables\UsersDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Usuarios\RqActualizarUsuario;
@@ -27,8 +28,23 @@ class UsuarioController extends Controller
     }
     public function index(UsersDataTable $dataTable)
     {
-        return $dataTable->render('usuarios.index');
+        $data = array('roles' => Role::whereNotIn('name',['SuperAdmin','SuperAdmin','SiteAdmin'])->get());
+        return $dataTable->render('usuarios.index',$data);
     }
+    public function usuariosPoRol(PorRolDataTable $dataTable, $nombreRol)
+    {
+        
+        try {
+            $role = Role::findByName($nombreRol);
+            
+            $roles=Role::whereNotIn('name',['SuperAdmin','SuperAdmin','SiteAdmin'])->get();
+            
+            return $dataTable->with('rol',$role->name)->render('usuarios.index',['roles'=>$roles]);
+        } catch (\Exception $th) {
+            return abort(404);
+        }
+    }
+
     public function nuevo()
     {
         $roles=Role::whereNotIn('name',['SuperAdmin'])->get();

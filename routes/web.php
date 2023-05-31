@@ -85,6 +85,8 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/usuarios-editar/{id}', [UsuarioController::class, 'editar'])->name('usuariosEditar');
     Route::post('/usuarios-actualizar', [UsuarioController::class, 'actualizar'])->name('actualizarUsuario');
     Route::post('/usuarios-eliminar', [UsuarioController::class, 'eliminar'])->name('usuariosEliminar');
+    Route::get('/usuarios-rol/{rol}', [UsuarioController::class, 'usuariosPoRol'])->name('usuariosPoRol');
+    
 
 
     // empresa

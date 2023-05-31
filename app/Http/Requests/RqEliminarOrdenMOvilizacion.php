@@ -28,14 +28,7 @@ class RqEliminarOrdenMOvilizacion extends FormRequest
     public function rules()
     {
         return [
-            'id'=>['required',Rule::exists('orden_movilizacions','id')->where('estado','SOLICITADO')],
-        ];
-    }
-
-    function messages()
-    {
-        return [
-            'id.exists'=>'No se puede eliminar orden de movilización.'
+            'id'=>'required|exists:orden_movilizacions,id',
         ];
     }
     

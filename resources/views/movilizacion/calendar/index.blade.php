@@ -294,11 +294,11 @@
                                         <div class="form-group">
                                             <label for="solicitante_info">Datos del solicitante</label>
                                             <div class="input-group">
-                                                <input type="hidden" name="solicitante" id="solicitante" value="{{ old('solicitante') }}">
-                                                <input type="text" data-opcion="solicitante" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()" readonly id="solicitante_info" name="solicitante_info" value="{{ old('solicitante_info') }}"  data-toggle="modal" data-target="#modal_large" class="form-control @error('solicitante') is-invalid @enderror" placeholder="Seleccionar solicitante..">
-                                                <span class="input-group-append">
-                                                    <span data-toggle="modal" data-target="#modal_large" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
-                                                </span>
+                                                <input type="hidden" name="solicitante" id="solicitante" value="{{ old('solicitante',Auth::user()->id) }}">
+                                                <input type="text" data-opcion="solicitante" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()" readonly id="solicitante_info" name="solicitante_info" value="{{ old('solicitante_info',Auth::user()->apellidos_nombres??'') }}"  data-toggle="modal" data-target="#modal_larged" class="form-control @error('solicitante') is-invalid @enderror" placeholder="Seleccionar solicitante..">
+                                                {{-- <span class="input-group-append">
+                                                    <span data-toggle="modal" data-target="#modal_larges" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                                </span> --}}
                                             </div>
         
                                             @error('solicitante')
@@ -321,7 +321,7 @@
                             
                         </div>
 
-                        <div class="modal-footer pt-3">
+                        <div class="modal-footer pt-3" id="contenedorGuardar">
                             <button type="submit" class="btn btn-primary">Guardar</button>
                             <button type="button" onclick="eliminar(this)" data-msg="" class="btn btn-warning" data-id="" data-url="{{ route('odernMovilizacionEliminar') }}" id="buttonEliminar" style="display: none;">Eliminar</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
@@ -339,7 +339,7 @@
 
     <!-- Large modal -->
     <div id="modal_large" class="modal fade" tabindex="-1">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="tituloModalConductorSolicitante"></h5>
@@ -382,6 +382,10 @@
     <link rel="stylesheet" href="{{ asset('js/tempus-dominus/dist/css/tempus-dominus.css') }}">
     <script src="{{ asset('js/monent.js') }}"></script>
 
+    <script src="{{ asset('js/jquery.blockUI.js') }}"></script>
+    <script src="{{ asset('js/validate/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('js/validate/messages_es.min.js') }}"></script>
+
     
     @if (Storage::exists($empresa->logo))
         <style>
@@ -393,6 +397,40 @@
         </style>
     @endif
     
+
+    <script>
+        $.blockUI.defaults.message = `<div class="d-flex align-items-center">
+										<strong class="mx-2">Procesando...</strong>
+										<div class="spinner-grow spinner-grow-sm ms-auto mx-2" role="status" aria-hidden="true"></div>
+									</div>`; 
+
+		$.validator.setDefaults( {
+			
+			errorElement: "strong",
+			errorPlacement: function ( error, element ) {
+				// Add the `invalid-feedback` class to the error element
+				error.addClass( "invalid-feedback" );
+
+				if ( element.prop( "type" ) === "checkbox" ) {
+					error.insertAfter( element.next( "label" ) );
+				} else {
+					error.insertAfter( element );
+				}
+			},
+			highlight: function ( element, errorClass, validClass ) {
+				$( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+			},
+			unhighlight: function (element, errorClass, validClass) {
+				$( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+			}
+		} );
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+    </script>
 
 @endpush
 
@@ -673,6 +711,15 @@
         $('#modal_large').modal('hide');
     }
 
+
+
+    
+    $('#formOrdenMovilizacion').validate({
+        submitHandler: function(form) {
+                $('#contenedorGuardar').block(); 
+                form.submit();
+            },
+    });
 
 </script>
 @endprepend

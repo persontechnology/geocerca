@@ -1,15 +1,16 @@
 <?php
 
-namespace App\DataTables\OrdenMovilizacion;
+namespace App\DataTables\User;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ConductorSolicitanteDataTable extends DataTable
+class PorRolDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -25,20 +26,20 @@ class ConductorSolicitanteDataTable extends DataTable
             return view('usuarios.foto',['user'=>$user])->render();
         })
         ->addColumn('action', function($user){
-            return view('movilizacion.calendar.conductorSolicitante',['user'=>$user])->render();
-        })->rawColumns(['foto','action']);
+            return view('usuarios.action',['user'=>$user])->render();
+        })
+        ->rawColumns(['action','foto']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\OrdenMovilizacion/ConductorSolicitante $model
+     * @param \App\Models\User/PorRolDataTable $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(User $model)
     {
-        
-        return $model->role('Conductor');
+        return $model->role($this->rol)->where('id','!=',Auth::user()->id);
     }
 
     /**
@@ -73,16 +74,19 @@ class ConductorSolicitanteDataTable extends DataTable
     {
         return [
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->title('Acción')
-                  ->searchable(false)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->title('Acción')
+                ->addClass('text-center'),
             Column::make('foto')->searchable(false),
-            Column::make('nombres')->title('Apellidos & Nombres'),
-            Column::make('documento')->title('# Documento'),
+            Column::make('apellidos'),
+            Column::make('nombres'),
             Column::make('email'),
+            Column::make('documento'),
+            Column::make('telefono')->title('Teléfono'),
+            Column::make('cuidad'),
+            Column::make('direccion')->title('Dirección'),
         ];
     }
 
@@ -93,6 +97,6 @@ class ConductorSolicitanteDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'OrdenMovilizacion_ConductorSolicitante_' . date('YmdHis');
+        return 'User_PorRol_' . date('YmdHis');
     }
 }

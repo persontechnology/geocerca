@@ -263,7 +263,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-12">
+                    {{-- <div class="col-lg-12">
                         <div class="form-group">
                             <label for="estado">Estado<i class="text-danger">*</i></label>
                             <select name="estado" id="estado" class="form-control @error('estado') is-invalid @enderror" required>
@@ -283,7 +283,7 @@
                                 </span>
                             @enderror
                         </div>
-                    </div>
+                    </div> --}}
 
                 </div>
             </fieldset>

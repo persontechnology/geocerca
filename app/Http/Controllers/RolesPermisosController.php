@@ -74,7 +74,7 @@ class RolesPermisosController extends Controller
         try {
             
             $role=Role::find($request->id);
-            if(in_array($role->name,['SuperAdmin','SiteAdmin','Supervisor','Operador','Despachador'])){
+            if(in_array($role->name,['SuperAdmin','SiteAdmin','Supervisor','Operador','Despachador','Conductor','Guardia','Solicitante'])){
                 request()->session()->flash('info','No se puede eliminar rol '.$role->name);    
             }else{
                 DB::beginTransaction();

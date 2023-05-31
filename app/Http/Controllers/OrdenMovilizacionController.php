@@ -121,10 +121,15 @@ class OrdenMovilizacionController extends Controller
         
         $or=OrdenMovilizacion::find($request->id);
         try {
-            $or->delete();
+            if(Auth::user()->hasRole('SuperAdmin') || Auth::user()->hasRole('SiteAdmin')){
+                $or->delete();
+                request()->session()->flash('success','Ordén de movilización eliminado exitosamente');
+            }else{
+                request()->session()->flash('info','NO ELIMINADO, porque solo usuario SuperAdmin y SiteAdmin, pueden eliminar O.M');
+            }
             
         } catch (\Throwable $th) {
-            request()->session()->flash('success','Ordén de movilización no eliminado');
+            request()->session()->flash('info','Ordén de movilización no eliminado, porque contiene información relacionado con otro modulos.');
         }
         return redirect()->route('odernMovilizacionListado');
     }
