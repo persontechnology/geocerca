@@ -65,9 +65,9 @@ class OrdenMovilizacionController extends Controller
         
 
         $usuariosControlOrdenMovilizacion = User::permission('Control Orden de Movilización')->get();
-        if($usuariosControlOrdenMovilizacion->count()>0){
-            Notification::sendNow($usuariosControlOrdenMovilizacion, new OrdenMovilizacionIngresadaNoty($orden));
-        }
+        // if($usuariosControlOrdenMovilizacion->count()>0){
+        //     Notification::sendNow($usuariosControlOrdenMovilizacion, new OrdenMovilizacionIngresadaNoty($orden));
+        // }
 
 
         
