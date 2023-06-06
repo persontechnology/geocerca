@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('breadcrumbs', Breadcrumbs::render('ingresoKilometraje.ingresar'))
+@section('breadcrumbs', Breadcrumbs::render('ingresoCombustible.index'))
 @section('content')
 
 @if ($dc->estado==='Autorizado')

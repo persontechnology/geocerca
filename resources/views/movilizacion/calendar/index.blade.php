@@ -278,7 +278,7 @@
                                                 <input type="hidden" name="conductor" id="conductor" value="{{ old('conductor') }}">
                                                 <input type="text" data-opcion="conductor" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()" readonly id="conductor_info" name="conductor_info" value="{{ old('conductor_info') }}" data-toggle="modal" data-target="#modal_large" class="form-control @error('conductor') is-invalid @enderror" placeholder="Seleccionar conductor..">
                                                 <span class="input-group-append">
-                                                    <span data-toggle="modal" data-target="#modal_large" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                                    <span data-toggle="modal" data-target="#modal_larges" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
                                                 </span>
                                             </div>
         
@@ -292,15 +292,17 @@
 
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label for="solicitante_info">Datos del solicitante</label>
+                                            <label for="solicitante_info">Datos del solicitante / <small>solo el usuario Supervisor puede cambiar de solicitante</small></label>
                                             <div class="input-group">
                                                 <input type="hidden" name="solicitante" id="solicitante" value="{{ old('solicitante',Auth::user()->id) }}">
-                                                <input type="text" data-opcion="solicitante" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()" readonly id="solicitante_info" name="solicitante_info" value="{{ old('solicitante_info',Auth::user()->apellidos_nombres??'') }}"  data-toggle="modal" data-target="#modal_larged" class="form-control @error('solicitante') is-invalid @enderror" placeholder="Seleccionar solicitante..">
-                                                {{-- <span class="input-group-append">
+                                                <input type="text" data-opcion="solicitante" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()" readonly id="solicitante_info" name="solicitante_info" value="{{ old('solicitante_info',Auth::user()->apellidos_nombres??'') }}"  data-toggle="modal" data-target="#{{ Auth::user()->hasRole('Supervisor')?'modal_large_s':'na' }}" class="form-control @error('solicitante') is-invalid @enderror" placeholder="Seleccionar solicitante..">
+                                                <span class="input-group-append">
                                                     <span data-toggle="modal" data-target="#modal_larges" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
-                                                </span> --}}
+                                                </span>
                                             </div>
         
+                                            
+
                                             @error('solicitante')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -348,7 +350,7 @@
 
                 <div class="modal-body">
                     <div class="table-responsive">
-                        {{$dataTable->table()}}
+                        {!! $udt->html()->table() !!}
                     </div>
                 </div>
 
@@ -361,10 +363,32 @@
     </div>
     <!-- /large modal -->
 
-    @push('scripts')
-        {{$dataTable->scripts()}}
-    @endpush
+       <!-- Large modal -->
+       <div id="modal_large_s" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloModalConductorSolicitante_s">Selecionar solicitante</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
 
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        {!! $pdt->html()->table() !!}
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="buttonModalConductorSolicitante_s" onclick="seleccionarConductorSolicitante(this);" data-id="" data-user="" class="btn btn-primary" data-dismiss="modal">Sin</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /large modal -->
+
+
+ 
 @push('linksCabeza')
     {{-- selct 2 --}}
     <script src="{{ asset('global_assets/js/plugins/forms/selects/select2.min.js') }}"></script>
@@ -435,7 +459,8 @@
 @endpush
 
 @prepend('linksPie')
-
+    {!! $udt->html()->scripts() !!} 
+    {!! $pdt->html()->scripts() !!} 
 <script>
 
 
@@ -579,8 +604,10 @@
         $('#color').val($(event.draggedEl).data('color'));
         $('#conductor').val($(event.draggedEl).data('conductorid'));
         $('#conductor_info').val($(event.draggedEl).data('conductorinfo'));
-        
         $('#numero_orden_movilizacion').html($('#numeroSiguenteOrdenMovilizacion').html());
+
+        $('#solicitante_info').val("{{ old('solicitante_info',Auth::user()->apellidos_nombres??'') }}")
+        $('#solicitante').val("{{ old('solicitante',Auth::user()->id) }}")
     }
     
     // funcion guardar
@@ -653,7 +680,6 @@
         $('#numero_orden_movilizacion').html('');
         $('#buttonEliminar').attr('data-id','').attr('data-msg','').hide();
 
-
         $('#idEventoCalendar').val('');
         $('#numero_ocupantes').val('');
         $('#vehiculo').val('');
@@ -690,8 +716,8 @@
                 $('#buttonModalConductorSolicitante').html('Sin conductor');
                 break;
             case 'solicitante':
-                $('#tituloModalConductorSolicitante').html('Selecionar solicitante');
-                $('#buttonModalConductorSolicitante').html('Sin solicitante');
+                $('#tituloModalConductorSolicitante_s').html('Selecionar solicitante');
+                $('#buttonModalConductorSolicitante_s').html('Sin solicitante');
                 break;
         }
     }
@@ -700,15 +726,18 @@
             case 'conductor':
                 $('#conductor').val($(arg).data('id'));
                 $('#conductor_info').val($(arg).data('user'));
+                $('#modal_large').modal('hide');
                 break;
         
             case 'solicitante':
                 $('#solicitante').val($(arg).data('id'));
                 $('#solicitante_info').val($(arg).data('user'));
+                $('#modal_large_s').modal('hide');
                 break;
         }
 
-        $('#modal_large').modal('hide');
+        
+        
     }
 
 

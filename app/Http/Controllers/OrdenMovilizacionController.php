@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\OrdenMovilizacion\ConductorDataTable;
 use App\DataTables\OrdenMovilizacion\ConductorSolicitanteDataTable;
 use App\DataTables\OrdenMovilizacion\Control\VehiculoDataTable;
 use App\DataTables\OrdenMovilizacion\ListadoOrdenMovilizacionDataTable;
+use App\DataTables\OrdenMovilizacion\SolicitanteDataTable;
 use App\Http\Requests\RqActualizarOrdenMovilizacion;
 use App\Http\Requests\RqEliminarOrdenMOvilizacion;
 use App\Http\Requests\RqGuardarOrdenMovilizacion;
@@ -28,19 +30,28 @@ class OrdenMovilizacionController extends Controller
         $this->middleware(['permission:Orden de Movilización']);
     }
 
-    public function index(ConductorSolicitanteDataTable $dataTable)
+    public function index(ConductorDataTable $udt, SolicitanteDataTable $pdt) 
     {
+
         $parqueaderos=Parqueadero::where('estado','Activo')->get();
         $ordenes=OrdenMovilizacion::whereDate('fecha_salida','>=',Carbon::now()->subMonth(2))->get();
+
         $data = array(
+            'udt' =>$udt ,
+            'pdt'=>$pdt,
             'empresa'=>Empresa::first(),
             'parqueaderos' => $parqueaderos,
             'numero'=>OrdenMovilizacion::NumeroSiguente(),
             'ordenesMovilizaciones'=>$ordenes
         );
-        return $dataTable->render('movilizacion.calendar.index',$data);
-        // return $dataTable->render('movilizacion.index');
+
+        if (request()->get('table') == 'posts') {
+          return $udt->render('movilizacion.calendar.index', $data);
+        }
+        return $pdt->render('movilizacion.calendar.index', $data);
     }
+
+
     
     public function guardar(RqGuardarOrdenMovilizacion $request)
     {
@@ -122,6 +133,7 @@ class OrdenMovilizacionController extends Controller
         $or=OrdenMovilizacion::find($request->id);
         try {
             if(Auth::user()->hasRole('SuperAdmin') || Auth::user()->hasRole('SiteAdmin')){
+                $or->lecturas()->delete();
                 $or->delete();
                 request()->session()->flash('success','Ordén de movilización eliminado exitosamente');
             }else{

@@ -11,17 +11,17 @@
             {{ config('app.name','') }}
         </h1>
         <h5>Sistema de parqueo inteligente.</h5>
-        <img src="{{ asset('img/appmovil.png') }}" class="img-fluid mb-4" height="230" alt="">
+        {{-- <img src="{{ asset('img/appmovil.png') }}" class="img-fluid mb-4" height="230" alt=""> --}}
         
-        <h5>Descarga nuestra aplicación móvil para android</h5>
+        {{-- <h5>Descarga nuestra aplicación móvil para android</h5> --}}
     </div>
     <!-- /error title -->
 
 
     <!-- Error content -->
-    <div class="text-center">
+    {{-- <div class="text-center">
         <a href="{{ asset('apk/app-universal-release-ecuaparqueo.apk') }}" class="btn btn-primary"><i class="icon-download4 mr-2"></i> Descargar</a>
-    </div>
+    </div> --}}
     <!-- /error wrapper -->
 
 </div>

@@ -213,7 +213,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-4">
+                        {{-- <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="codigo_tarjeta_vehiculo_invitado">Código de tarjeta para vehículo invitado<i class="text-danger">*</i></label>
                                 <input id="codigo_tarjeta_vehiculo_invitado" type="text" class="form-control @error('codigo_tarjeta_vehiculo_invitado') is-invalid @enderror"
@@ -224,8 +224,8 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
-                        <div class="col-lg-4">
+                        </div> --}}
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="minutos_extras_entrada_vehiculos">Minutos extras para la entrada de vehículos<i class="text-danger">*</i></label>
                                 <input id="minutos_extras_entrada_vehiculos" type="number" class="form-control @error('minutos_extras_entrada_vehiculos') is-invalid @enderror"
@@ -237,7 +237,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="tiempo_api_rest">Tiempo de api rest <i class="text-danger">*</i></label>
                                 <input id="tiempo_api_rest" type="number" class="form-control @error('tiempo_api_rest') is-invalid @enderror"

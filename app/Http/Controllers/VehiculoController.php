@@ -179,12 +179,14 @@ class VehiculoController extends Controller
         ]);
         $ve=Vehiculo::find($request->id);
         try {
+            
+            $ve->kilometrajes()->delete();
             if($ve->delete()){
                 Storage::delete($ve->foto);
             }
             request()->session()->flash('success','Vehículo eliminado');
         } catch (\Throwable $th) {
-            request()->session()->flash('info','Vehículo no eliminado');
+            request()->session()->flash('info','Vehículo no eliminado, porque contiene orden de movilización.');
         }
         return redirect()->route('vehiculos');
     }

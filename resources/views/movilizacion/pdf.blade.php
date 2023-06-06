@@ -23,7 +23,7 @@
     
 </style>
 
-@if ($orden->autorizado->firma)
+@if ($orden->autorizado && $orden->autorizado->firma)
     <style>
         #fotoEvidencia {
         

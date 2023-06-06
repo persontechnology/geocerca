@@ -53,7 +53,7 @@ class VehiculoDataTable extends DataTable
      */
     public function query(Vehiculo $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('numero_movil','asc');
     }
 
     /**

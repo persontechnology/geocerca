@@ -184,6 +184,10 @@ Breadcrumbs::for('estacion.edit', function (BreadcrumbTrail $trail,$es) {
 
 
 // ingreso de kilometraje guardias
+Breadcrumbs::for('ingresoCombustible.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Ingreso de combutible', route('ingresoCombustible.index'));
+});
 Breadcrumbs::for('ingresoKilometraje.ingresar', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Ingreso de kilometraje', route('ingresoKilometraje.ingresar'));
