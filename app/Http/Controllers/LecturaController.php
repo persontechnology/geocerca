@@ -8,11 +8,12 @@ use Illuminate\Http\Request;
 
 class LecturaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
+    public function __construct()
+    {
+        $this->middleware(['permission:Lecturas Entrada/Salida vehículos']);
+    }
+
     public function index(LecturaDataTable $dataTable)
     {
         return $dataTable->render('lecturas.index');

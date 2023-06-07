@@ -39,7 +39,13 @@ class PorRolDataTable extends DataTable
      */
     public function query(User $model)
     {
-        return $model->role($this->rol)->where('id','!=',Auth::user()->id);
+        if($this->rol){
+            return $model->role($this->rol)->where('id','!=',Auth::user()->id);
+        }else{
+            return $model->where('id','!=',Auth::user()->id)->where('estado','INACTIVO');
+        }
+        
+        
     }
 
     /**

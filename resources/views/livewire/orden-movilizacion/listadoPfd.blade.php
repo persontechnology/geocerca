@@ -20,6 +20,15 @@
             height: 25px;
             font-size: 12px
         }
+
+    
+        .fotoEvidencia {
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            height: 95px;
+            
+        }  
+    
         
     </style>
 </head>
@@ -35,13 +44,20 @@
                     <td><strong>Conductor</strong></td>
                     <td><strong>Fecha Salida</strong></td>
                     <td><strong>Fecha Retorno</strong></td>
-                    <td><strong>Estado</strong></td>
+                    @if (Auth::user()->hasRole('SuperAdmin') || Auth::user()->hasRole('SiteAdmin'))
+                    <td><strong>Estado</strong></td>    
+                    @endif
+                    
+
+
                     <td><strong># ocupantes</strong></td>
                     <td><strong>Procedencia</strong></td>
                     <td><strong>Destino</strong></td>
                     <td><strong>Comisión Cumplir</strong></td>
-                    <td><strong>Autorizado</strong></td>
+                    
                     <td><strong>Solicitante</strong></td>
+                    <td><strong>Autorizado</strong></td>
+                    <td><strong>Firma</strong></td>
                 </tr>
                @php
                    $i=1;
@@ -54,14 +70,25 @@
                     <td>{{ $orden->conductor->apellidos_nombres??'' }}</td>
                     <td>{{ $orden->fecha_salida }}</td>
                     <td>{{ $orden->fecha_retorno }}</td>
+                    
+                    @if (Auth::user()->hasRole('SuperAdmin') || Auth::user()->hasRole('SiteAdmin'))
                     <td>{{ $orden->estado }}</td>
+                    @endif
+
+
                     <td>{{ $orden->numero_ocupantes }}</td>
                     <td>{{ $orden->procedencia }}</td>
                     <td>{{ $orden->destino }}</td>
                     <td>{{ $orden->comision_cumplir }}</td>
                     
-                    <td>{{ $orden->autorizado->apellidos_nombres??'' }}</td>
+                    
                     <td>{{ $orden->solicitante->apellidos_nombres??'' }}</td>
+                    <td>{{ $orden->autorizado->apellidos_nombres??'' }}</td>
+                    <td>
+                        @if ($orden->autorizado && $orden->autorizado->firma)
+                        <div class="fotoEvidencia" style="margin: 1em; background: url({!! public_path( $orden->autorizado->firma_link) !!});"></div>
+                        @endif
+                    </td>
                 </tr>
                 @endforeach
               

@@ -11,11 +11,12 @@
 <div class="breadcrumb-elements-item dropdown p-0">
     <a href="#" class="breadcrumb-elements-item dropdown-toggle" data-toggle="dropdown">
         <i class="fas fa-users"></i>
-        Ver usuarios por roles
+        Ver usuarios
     </a>
 
     <div class="dropdown-menu dropdown-menu-right">
         <a href="{{ route('usuarios') }}" class="dropdown-item"><i class="fas fa-user-lock"></i>Todos</a>
+        <a href="{{ route('usuariosPoRol','INACTIVOS') }}" class="dropdown-item"><i class="fa-solid fa-toggle-on"></i>Inactivos</a>
         @foreach ($roles as $rol)
             <a href="{{ route('usuariosPoRol',$rol->name) }}" class="dropdown-item"><i class="fas fa-user-lock"></i>{{ $rol->name }}</a>
         @endforeach

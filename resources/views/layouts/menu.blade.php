@@ -181,13 +181,13 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
                 @endcan
 
 
-                @can('Lecturas Entrada/Salida vehiculos')
+                @can('Lecturas Entrada/Salida vehículos')
                     <li class="nav-item">
                         <a href="{{ route('lecturas') }}"
                             class="nav-link {{ request()->routeIs('lecturas*') ? 'active' : '' }}">
                             <i class="fa-solid fa-check-double"></i>
                             <span>
-                                Lecturas Entrada/Salida vehiculos
+                                Lecturas Entrada/Salida vehículos
                             </span>
                         </a>
                     </li>

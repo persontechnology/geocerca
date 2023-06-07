@@ -35,11 +35,17 @@ class UsuarioController extends Controller
     {
         
         try {
-            $role = Role::findByName($nombreRol);
             
             $roles=Role::whereNotIn('name',['SuperAdmin','SuperAdmin','SiteAdmin'])->get();
+            if($nombreRol!='INACTIVOS'){
+                $role = Role::findByName($nombreRol);
+                return $dataTable->with('rol',$role->name)->render('usuarios.index',['roles'=>$roles]);
+            }else{
+                return $dataTable->with('estado','INACTIVO')->render('usuarios.index',['roles'=>$roles]);
+            }
             
-            return $dataTable->with('rol',$role->name)->render('usuarios.index',['roles'=>$roles]);
+
+
         } catch (\Exception $th) {
             return abort(404);
         }

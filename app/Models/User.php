@@ -58,7 +58,9 @@ class User extends Authenticatable
     public function getFirmaLinkAttribute()
     {
         if(Storage::exists($this->firma)){
-            return Storage::url($this->firma) ;
+            return Storage::url($this->firma);
+        }else{
+            return 'na.jpg';
         }
         
     }
