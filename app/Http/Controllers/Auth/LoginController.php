@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 class LoginController extends Controller
 {
     /*
@@ -41,6 +44,14 @@ class LoginController extends Controller
     // Deivid, ordenes despues de autenticar
     protected function authenticated(Request $request, $user)
     {
-        
+        if($user->estado==='Inactivo'){
+            Auth::logout();
+ 
+            $request->session()->invalidate();
+         
+            $request->session()->regenerateToken();
+            Session::flash('info','CUENTA INACTIVA');
+            return redirect()->route('login');
+        }
     }
 }
