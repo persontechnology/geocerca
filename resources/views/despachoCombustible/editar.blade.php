@@ -34,6 +34,7 @@
             <div class="card-footer bg-transparent">
                 @can('update', $dc)
                     <button type="submit" class="btn btn-primary">Actualizar</button>    
+                    <a href="{{ route('despacho-combustible.index') }}" class="btn btn-danger">Cancelar</a>
                 @else
                     @include('layouts.alert',['type'=>'info','msg'=>'No se puede actualizar despacho de combustible en estado '.$dc->estado])
                 @endcan

@@ -84,7 +84,7 @@ class VehiculoController extends Controller
             $ve->descripcion=$request->descripcion;
             $ve->imei=$request->imei;
             $ve->tipo_vehiculo_id=$request->tipoVehiculo;
-            $ve->codigo_tarjeta=$request->codigo_tarjeta;
+            $ve->codigo_tarjeta='';
             $ve->parqueadero_id=$request->parqueadero;
             $ve->user_create=Auth::user()->id;
             $ve->save();
@@ -144,7 +144,7 @@ class VehiculoController extends Controller
         $ve->imei=$request->imei;
         $ve->tipo_vehiculo_id=$request->tipoVehiculo;
         $ve->user_update=Auth::user()->id;
-        $ve->codigo_tarjeta=$request->codigo_tarjeta;
+        $ve->codigo_tarjeta='';
         $ve->parqueadero_id=$request->parqueadero;
         if ($request->hasFile('foto')) {
             $archivo=$request->file('foto');
@@ -186,7 +186,7 @@ class VehiculoController extends Controller
             }
             request()->session()->flash('success','Vehículo eliminado');
         } catch (\Throwable $th) {
-            request()->session()->flash('info','Vehículo no eliminado, porque contiene orden de movilización.');
+            request()->session()->flash('info','Vehículo no eliminado, porque contiene O.M, Despacho de combustible.');
         }
         return redirect()->route('vehiculos');
     }
@@ -217,6 +217,10 @@ class VehiculoController extends Controller
         return view('vehiculos.ordenMovilizaciones',$data);
     }
 
+    public function reportePdf()
+    {
+        return view('vehiculos.reportePdf');
+    }
     
 
 }

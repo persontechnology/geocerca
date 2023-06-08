@@ -7,6 +7,10 @@
         <i class="fa-solid fa-car-side mr-1 text-info"></i>
         Nuevo vehículo
     </a>
+    <a href="{{ route('vehiculosReportePdf') }}" class="breadcrumb-elements-item">
+        <i class="fa-solid fa-file-pdf mr-1 text-primary"></i>
+        Reporte
+    </a>
 
     <div class="breadcrumb-elements-item dropdown p-0">
         <a href="#" class="breadcrumb-elements-item dropdown-toggle" data-toggle="dropdown">
@@ -48,4 +52,5 @@
 @push('scripts')
     {{$dataTable->scripts()}}
 @endpush
+
 @endsection

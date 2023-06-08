@@ -40,7 +40,7 @@ class RqGuardarVehiculo extends FormRequest
             // 'tipo'=>'required|in:Normal,Invitados,Especial',
             'kilometraje'=>'required|numeric|gt:0',
             'imei'=>'required|string|max:255|unique:vehiculos,imei',
-            'codigo_tarjeta'=>'nullable|unique:vehiculos,codigo_tarjeta|unique:empresas,codigo_tarjeta_vehiculo_invitado',
+            // 'codigo_tarjeta'=>'nullable|unique:vehiculos,codigo_tarjeta|unique:empresas,codigo_tarjeta_vehiculo_invitado',
             'parqueadero'=>'required|exists:parqueaderos,id'
         ];
     }

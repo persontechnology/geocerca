@@ -43,6 +43,7 @@
             </div>
             <div class="card-footer bg-transparent">
                 <button type="submit" class="btn btn-primary mt-3 mt-sm-0 w-100 w-sm-auto">Guardar</button>
+                <a class="btn btn-danger" href="{{ route('parqueaderos') }}">Cancelar</a>
             </div>
         </div>
     </form>

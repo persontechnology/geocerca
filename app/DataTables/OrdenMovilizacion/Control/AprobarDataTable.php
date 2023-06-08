@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataTables\OrdenMovilizacion;
+namespace App\DataTables\OrdenMovilizacion\Control;
 
 use App\Models\OrdenMovilizacion;
 use Yajra\DataTables\Html\Button;
@@ -9,7 +9,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ListadoOrdenMovilizacionDataTable extends DataTable
+class AprobarDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -48,7 +48,7 @@ class ListadoOrdenMovilizacionDataTable extends DataTable
                 });
             })
             ->addColumn('action', function($om){
-                return view('movilizacion.action',['om'=>$om])->render();
+                return view('movilizacion.control.aprobarCheck',['om'=>$om])->render();
             })
             ->rawColumns(['action','estado']);
     }
@@ -56,12 +56,12 @@ class ListadoOrdenMovilizacionDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\OrdenMovilizacion/ListadoOrdenMovilizacion $model
+     * @param \App\Models\OrdenMovilizacion/Control/Aprobar $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(OrdenMovilizacion $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->where('estado','SOLICITADO');
     }
 
     /**
@@ -72,11 +72,11 @@ class ListadoOrdenMovilizacionDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('ordenmovilizacion-listadoordenmovilizacion-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->orderBy(1)
-                    ->parameters($this->getBuilderParameters());
+            ->setTableId('ordenmovilizacion-listadoordenmovilizacion-table-aprobar')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->orderBy(1)
+            ->parameters($this->getBuilderParameters());
     }
 
     /**
@@ -91,7 +91,7 @@ class ListadoOrdenMovilizacionDataTable extends DataTable
                   ->exportable(false)
                   ->printable(false)
                   ->width(60)
-                  ->title('Acción')
+                  ->title('Aceptar')
                   ->addClass('text-center'),
             Column::make('numero')->title('# O.M'),
             Column::make('vehiculo_id')->title('Vehículo'),
@@ -106,10 +106,6 @@ class ListadoOrdenMovilizacionDataTable extends DataTable
             
             Column::make('autorizado_id')->title('Autorizado')->searchable(false),
             Column::make('solicitante_id')->title('Solicitante')->searchable(false),
-            
-            
-
-          
         ];
     }
 
@@ -120,6 +116,6 @@ class ListadoOrdenMovilizacionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'OrdenMovilizacion_ListadoOrdenMovilizacion_' . date('YmdHis');
+        return 'OrdenMovilizacion/Control/Aprobar_' . date('YmdHis');
     }
 }

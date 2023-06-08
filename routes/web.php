@@ -11,6 +11,8 @@ use App\Http\Controllers\IngresoKilometrajeController;
 use App\Http\Controllers\KilometrajeController;
 use App\Http\Controllers\LecturaController;
 use App\Http\Controllers\MapaController;
+use App\Http\Controllers\MisOrdenesMovilizacion;
+use App\Http\Controllers\MisOrdenesMovilizacionController;
 use App\Http\Controllers\OrdenMovilizacionController;
 use App\Http\Controllers\ParqueaderoController;
 use App\Http\Controllers\Reportes\DashboardVehiculoController;
@@ -104,6 +106,10 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::post('/vehiculos-actualizar', [VehiculoController::class, 'actualizar'])->name('actualizarVehiculo');
     Route::post('/vehiculos-eliminar', [VehiculoController::class, 'eliminar'])->name('vehiculosEliminar');
     Route::get('/vehiculos-ubicacion-mapa/{id}', [VehiculoController::class, 'ubicacionMapa'])->name('vehiculosUbicacionMapa');
+    Route::get('/vehiculos-reporte-pdf', [VehiculoController::class, 'reportePdf'])->name('vehiculosReportePdf');
+    
+
+
     
     // vehiculos orden de movilización
     Route::get('/vehiculos-orden-movilizaciones/{id}', [VehiculoController::class, 'ordenMovilizaciones'])->name('vehiculosOrdenMovilizacion');  
@@ -127,6 +133,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/orden-movilizacion-reporte-pdf', [OrdenMovilizacionController::class, 'reportePdf'])->name('odernMovilizacionReportePdf');
     
     
+
     
 
     // lecturas
@@ -142,7 +149,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/control-odern-movilizacion-aprobar-denegar/{id}', [ControlOrdenMovilizacionController::class, 'AprobarReprobar'])->name('controlOdernMovilizacionAprobarReprobar');
     Route::post('/control-odern-movilizacion-aprobar-dnegar-guardar', [ControlOrdenMovilizacionController::class, 'AprobarReprobarGuardar'])->name('controlOdernMovilizacionAprobarReprobarGuardar');
     Route::get('/control-odern-movilizacion-pdf/{id}', [ControlOrdenMovilizacionController::class, 'AprobarReprobarPdf'])->name('controlOdernMovilizacionPdf');
-    
+    Route::post('/control-odern-movilizacion-aprobar-lista', [ControlOrdenMovilizacionController::class, 'AprobarListaGuardar'])->name('controlOdernMovilizacionAprobarLista');
     // parqueaderos
     Route::get('/parqueaderos', [ParqueaderoController::class, 'index'])->name('parqueaderos');
     Route::get('/parqueaderos-nuevo', [ParqueaderoController::class, 'nuevo'])->name('parqueaderosNuevo');
@@ -171,6 +178,11 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('ingresar-combustible/{id}', [IngresoCombustibleController::class,'ingresar'])->name('ingresoCombustible.ingresar');
     Route::get('ingresar-combustible-pdf/{id}', [IngresoCombustibleController::class,'pdf'])->name('ingresoCombustible.pdf');
     Route::post('guardar-combustible', [IngresoCombustibleController::class,'guardar'])->name('ingresoCombustible.guardar');
+
+
+    // mis ordenes de movilizacion
+    Route::resource('mis-ordenes-movilizacion', MisOrdenesMovilizacionController::class);
+
 
      
 });

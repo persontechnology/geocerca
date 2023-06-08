@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\Movilizacion\OrdenMovilizacionDataTable;
 use App\DataTables\OrdenMovilizacion\ConductorSolicitanteDataTable;
+use App\DataTables\OrdenMovilizacion\Control\AprobarDataTable;
 use App\DataTables\OrdenMovilizacion\Control\VehiculoDataTable;
 use App\Http\Requests\OrdenMovilizacion\Control\RqAprobarReprobarGuardar;
 use App\Models\Empresa;
@@ -19,9 +20,9 @@ class ControlOrdenMovilizacionController extends Controller
     {
         $this->middleware(['permission:Control Orden de Movilización']);
     }
-    public function index()
+    public function index(AprobarDataTable $dataTable)
     {
-        return view('movilizacion.control.index');
+        return $dataTable->render('movilizacion.control.index');
     }
 
     public function AprobarReprobar(VehiculoDataTable $dataTableVehiculo,ConductorSolicitanteDataTable $dataTableConductor,$id)
@@ -77,5 +78,29 @@ class ControlOrdenMovilizacionController extends Controller
         ->setOption('header-html', $headerHtml)
         ->setOption('footer-html', $footerHtml);
         return $pdf->inline('Orden '.$orden->numero.'.pdf');
+    }
+
+    public function AprobarListaGuardar(Request $request)
+    {
+        if($request->om){
+            foreach ($request->om as $om) {
+                $orden=OrdenMovilizacion::findOrFail($om);
+                if($orden->estado=='SOLICITADO'){
+                    $orden->estado='ACEPTADA';
+                    $orden->autorizado_id=Auth::id();
+                    $orden->save();
+                    if($orden->conductor){
+                        $orden->conductor->notify(new OMInformarAceptadoNoty($orden));
+                    }
+                    if($orden->solicitante){
+                        $orden->solicitante->notify(new OMInformarAceptadoNoty($orden));
+                    }
+                }
+            }
+            request()->session()->flash('success','Ordenes de movilizaciones aceptadas');
+        }
+        
+        return redirect()->route('controlOdernMovilizacion');
+        
     }
 }

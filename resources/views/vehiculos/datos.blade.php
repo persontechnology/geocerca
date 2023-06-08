@@ -209,7 +209,7 @@
                 @enderror
             </div>
         </div>
-        <div class="col-sm-6">
+        {{-- <div class="col-sm-6">
             <div class="form-group">
                 <label for="codigo_tarjeta">Código de Tarjeta</label>
                 <input id="codigo_tarjeta" type="text" class="form-control @error('codigo_tarjeta') is-invalid @enderror" name="codigo_tarjeta"
@@ -222,8 +222,8 @@
                 @enderror
             </div>
 
-        </div>
-        <div class="col-sm-6">
+        </div> --}}
+        <div class="col-sm-12">
             <div class="form-group">
                 <label for="imei">Número IMEI<i class="text-danger">*</i></label>
                 <input id="imei" type="text" class="form-control @error('imei') is-invalid @enderror" name="imei" value="{{ old('imei', $vehiculo->imei ?? '') }}" required>

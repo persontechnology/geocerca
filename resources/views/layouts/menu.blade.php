@@ -220,6 +220,17 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
                 @endcan
 
                 
+                <li class="nav-item">
+                    <a href="{{ route('mis-ordenes-movilizacion.index') }}"
+                        class="nav-link {{ request()->routeIs('mis-ordenes-movilizacion*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-credit-card"></i>
+                        <span>
+                            Mis ordenes de movilización
+                        </span>
+                    </a>
+                </li>
+
+
 
                 @hasanyrole('SuperAdmin|SiteAdmin')
                     <li class="nav-item-header">

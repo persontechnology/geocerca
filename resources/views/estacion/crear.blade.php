@@ -35,6 +35,7 @@
         </div>
         <div class="card-footer bg-transparent">
             <button class="btn btn-primary">Guardar</button>
+            <a class="btn btn-danger" href="{{ route('estacion.index') }}">Cancelar</a>
         </div>
     </div>
 </form>

@@ -278,7 +278,7 @@
                                                 <input type="hidden" name="conductor" id="conductor" value="{{ old('conductor') }}">
                                                 <input type="text" data-opcion="conductor" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()" readonly id="conductor_info" name="conductor_info" value="{{ old('conductor_info') }}" data-toggle="modal" data-target="#modal_large" class="form-control @error('conductor') is-invalid @enderror" placeholder="Seleccionar conductor..">
                                                 <span class="input-group-append">
-                                                    <span data-toggle="modal" data-target="#modal_larges" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                                    <span data-toggle="modal" data-target="#modal_large_na" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
                                                 </span>
                                             </div>
         
@@ -297,7 +297,7 @@
                                                 <input type="hidden" name="solicitante" id="solicitante" value="{{ old('solicitante',Auth::user()->id) }}">
                                                 <input type="text" data-opcion="solicitante" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()" readonly id="solicitante_info" name="solicitante_info" value="{{ old('solicitante_info',Auth::user()->apellidos_nombres??'') }}"  data-toggle="modal" data-target="#{{ Auth::user()->hasRole('Supervisor')?'modal_large_s':'na' }}" class="form-control @error('solicitante') is-invalid @enderror" placeholder="Seleccionar solicitante..">
                                                 <span class="input-group-append">
-                                                    <span data-toggle="modal" data-target="#modal_larges" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                                    <span data-toggle="modal" data-target="#modal_large_na" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
                                                 </span>
                                             </div>
         

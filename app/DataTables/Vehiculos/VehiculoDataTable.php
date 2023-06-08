@@ -64,7 +64,7 @@ class VehiculoDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    // ->setTableId('vehiculo-table')
+                    ->setTableId('vehiculo-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     // ->dom('Bfrtip')
@@ -101,10 +101,8 @@ class VehiculoDataTable extends DataTable
             Column::make('tipo'),
             Column::make('modelo')->title('Modelo'),
             Column::make('marca')->title('Marca'),
-            
             Column::make('placa'),
             Column::make('color'),
-            
             Column::make('tipo_vehiculo_id')->title('Tipo V.'),
             Column::make('estado'),
             // Column::make('imei')->title('IMEI'),

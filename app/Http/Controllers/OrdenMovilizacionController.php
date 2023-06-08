@@ -51,6 +51,27 @@ class OrdenMovilizacionController extends Controller
         return $pdt->render('movilizacion.calendar.index', $data);
     }
 
+    
+    public function editar(VehiculoDataTable $veht,ConductorDataTable $cont, SolicitanteDataTable $solt, $id)
+    {
+        $orden=OrdenMovilizacion::findOrFail($id);
+
+        $data = array(
+            'orden' => $orden,
+            'veht'=>$veht,
+            'cont'=>$cont,
+            'solt'=>$solt,
+        );
+
+        if (request()->get('table') == 'solicitante') {
+            return $solt->render('movilizacion.editar',$data);
+        }
+        if (request()->get('table') == 'posts') {
+            return $cont->render('movilizacion.editar',$data);
+        }
+
+        return $veht->render('movilizacion.editar',$data);
+    }
 
     
     public function guardar(RqGuardarOrdenMovilizacion $request)
@@ -157,22 +178,7 @@ class OrdenMovilizacionController extends Controller
         return $dataTable->render('movilizacion.calendar.listado');
     }
 
-    // public function AprobarReprobar(VehiculoDataTable $dataTableVehiculo,ConductorSolicitanteDataTable $dataTableConductor,$id)
-    public function editar(VehiculoDataTable $dataTableVehiculo,ConductorSolicitanteDataTable $dataTableConductor, $id)
-    {
-        $orden=OrdenMovilizacion::findOrFail($id);
-
-        $data = array(
-            'orden' => $orden,
-            'dataTableVehiculo'=>$dataTableVehiculo,
-            'dataTableConductor'=>$dataTableConductor
-        );
-
-        if (request()->get('table') == 'vehiculos') {
-            return $dataTableVehiculo->render('movilizacion.editar',$data);
-        }
-        return $dataTableConductor->render('movilizacion.editar',$data);
-    }
+    
 
     public function pdf($id)
     {

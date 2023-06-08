@@ -37,7 +37,7 @@ class ConductorDataTable extends DataTable
      */
     public function query(User $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->role('Conductor');
     }
 
     /**

@@ -14,6 +14,7 @@
             </div>
             <div class="card-footer bg-transparent">
                 <button type="submit" class="btn btn-primary">Guardar</button>
+                <a href="{{ route('despacho-combustible.index') }}" class="btn btn-danger">Cancelar</a>
             </div>
         </div>
     </form>

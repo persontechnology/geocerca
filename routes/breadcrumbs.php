@@ -57,6 +57,11 @@ Breadcrumbs::for('vehiculos', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Vehículos', route('vehiculos'));
 });
+
+Breadcrumbs::for('vehiculosReportePdf', function (BreadcrumbTrail $trail) {
+    $trail->parent('vehiculos');
+    $trail->push('Reporte', route('vehiculosReportePdf'));
+});
 Breadcrumbs::for('vehiculosNuevo', function (BreadcrumbTrail $trail) {
     $trail->parent('vehiculos');
     $trail->push('Nuevo', route('vehiculosNuevo'));

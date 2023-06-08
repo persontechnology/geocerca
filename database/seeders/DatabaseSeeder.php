@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
     {
 
         // crear roles
-        foreach (['SuperAdmin','SiteAdmin','Supervisor','Operador','Guardia','Despachador'] as $rol) {
+        foreach (['SuperAdmin','SiteAdmin','Supervisor','Operador','Guardia','Despachador','Conductor'] as $rol) {
             Role::updateOrCreate(['name' => $rol]);    
         }
         

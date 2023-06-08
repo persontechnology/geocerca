@@ -38,7 +38,7 @@ class ChoferDCDataTable extends DataTable
      */
     public function query(User $model)
     {
-        return $model->newQuery();
+        return $model->role('Conductor');
     }
 
     /**

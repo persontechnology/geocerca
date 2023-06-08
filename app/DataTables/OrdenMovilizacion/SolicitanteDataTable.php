@@ -51,7 +51,7 @@ class SolicitanteDataTable extends DataTable
             ->setTableId('solicitante-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            // ->ajax(['data' => 'function(d) { d.table = "posts"; }'])
+            ->ajax(['data' => 'function(d) { d.table = "solicitante"; }'])
             ->parameters($this->getBuilderParameters());
     }
 

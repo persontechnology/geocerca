@@ -232,7 +232,7 @@
                                 <input type="hidden" name="conductor" id="conductor" value="{{ old('conductor',$orden->conductor_id??'') }}">
                                 <input type="text" data-opcion="conductor" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()"  id="conductor_info" name="conductor_info" value="{{ old('conductor_info',$orden->conductor->apellidos_nombres??'') }}" data-toggle="modal" data-target="#modal_large" class="form-control @error('conductor') is-invalid @enderror" placeholder="Seleccionar conductor.." required>
                                 <span class="input-group-append">
-                                    <span data-toggle="modal" data-target="#modal_large" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                    <span data-toggle="modal" data-target="#modal_large_na" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
                                 </span>
                             </div>
 
@@ -246,12 +246,13 @@
 
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label for="solicitante_info">Datos del solicitante</label>
+                            
+                            <label for="solicitante_info">Datos del solicitante / <small>solo el usuario Supervisor puede cambiar de solicitante</small></label>
                             <div class="input-group">
                                 <input type="hidden" name="solicitante" id="solicitante" value="{{ old('solicitante',$orden->solicitante_id??'') }}">
-                                <input type="text" data-opcion="solicitante" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()"  id="solicitante_info" name="solicitante_info" value="{{ old('solicitante_info',$orden->solicitante->apellidos_nombres??'') }}"  data-toggle="modal" data-target="#modal_large" class="form-control @error('solicitante') is-invalid @enderror" placeholder="Seleccionar solicitante..">
+                                <input type="text" data-opcion="solicitante" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()"  id="solicitante_info" name="solicitante_info" value="{{ old('solicitante_info',$orden->solicitante->apellidos_nombres??'') }}"  data-toggle="modal" data-target="#{{ Auth::user()->hasRole('Supervisor')?'modal_large_solicitante':'na' }}" class="form-control @error('solicitante') is-invalid @enderror" placeholder="Seleccionar solicitante..">
                                 <span class="input-group-append">
-                                    <span data-toggle="modal" data-target="#modal_large" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                    <span data-toggle="modal" data-target="#modal_large_na" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
                                 </span>
                             </div>
 
@@ -294,14 +295,43 @@
         </div>
         <div class="card-footer text-muted">
             <button type="submit" class="btn btn-primary">Actualizar</button>
+            <a class="btn btn-danger" href="{{ route('odernMovilizacionListado') }}">Cancelar</a>
         </div>
     </div>
 </form>
 
 
-<!-- Large modal -->
+
+
+<!-- conductor modal -->
+<div id="modal_large_solicitante" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tituloModalSolicitante"></h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="table-responsive">
+                    {!! $solt->html()->table() !!}
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="buttonModalSolicitante" onclick="seleccionarConductorSolicitante(this);" data-id="" data-user="" class="btn btn-primary" data-dismiss="modal"></button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /conductor modal -->
+
+
+
+<!-- conductor modal -->
 <div id="modal_large" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="tituloModalConductorSolicitante"></h5>
@@ -310,7 +340,7 @@
 
             <div class="modal-body">
                 <div class="table-responsive">
-                    {!! $dataTableConductor->html()->table() !!}
+                    {!! $cont->html()->table() !!}
                 </div>
             </div>
 
@@ -321,11 +351,13 @@
         </div>
     </div>
 </div>
-<!-- /large modal -->
+<!-- /conductor modal -->
 
-<!-- Large modal -->
+
+
+<!-- vehiculo modal -->
 <div id="modal_large_vehiculo" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="tituloModalSeleccionarVehiculo">Seleccionar vehículo</h5>
@@ -334,7 +366,7 @@
 
             <div class="modal-body">
                 <div class="table-responsive">
-                    {!! $dataTableVehiculo->html()->table() !!}
+                    {!! $veht->html()->table() !!}
                 </div>
             </div>
 
@@ -344,11 +376,12 @@
         </div>
     </div>
 </div>
-<!-- /large modal -->
+<!-- /conductor modal -->
 
 @push('scripts')
-    {!! $dataTableVehiculo->html()->scripts() !!} 
-    {!! $dataTableConductor->html()->scripts() !!} 
+    {!! $veht->html()->scripts() !!} 
+    {!! $cont->html()->scripts() !!} 
+    {!! $solt->html()->scripts() !!} 
 @endpush
 
 
@@ -403,8 +436,8 @@
                     $('#buttonModalConductorSolicitante').html('Sin conductor');
                     break;
                 case 'solicitante':
-                    $('#tituloModalConductorSolicitante').html('Selecionar solicitante');
-                    $('#buttonModalConductorSolicitante').html('Sin solicitante');
+                    $('#tituloModalSolicitante').html('Selecionar solicitante');
+                    $('#buttonModalSolicitante').html('Sin solicitante');
                     break;
             }
         }
@@ -413,15 +446,17 @@
                 case 'conductor':
                     $('#conductor').val($(arg).data('id'));
                     $('#conductor_info').val($(arg).data('user'));
+                    $('#modal_large').modal('hide');
                     break;
             
                 case 'solicitante':
                     $('#solicitante').val($(arg).data('id'));
                     $('#solicitante_info').val($(arg).data('user'));
+                    $('#modal_large_solicitante').modal('hide');
                     break;
             }
 
-            $('#modal_large').modal('hide');
+            
         }
 
         function seleccionarVehiculo(arg){
