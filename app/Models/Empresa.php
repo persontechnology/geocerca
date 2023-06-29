@@ -15,6 +15,5 @@ class Empresa extends Model
         if(Storage::exists($this->logo)){
             return Storage::url($this->logo) ;
         }
-        
     }
 }

@@ -79,12 +79,18 @@
         </div>
         
         <div class="card-body">
-            <div class="table-responsive">
+            
+            @if (!empty($selecionados))
+            <button class="btn btn-link" wire:click="pdfSelecionados">
+                Descargar {{ count($selecionados) }} PDF'S selecionados <i class="fa-solid fa-file-pdf ml-1"></i>
+            </button>
+            @endif
+            <div class="table-responsive" style="leng">
                 @if ($ordenMovilizaciones->count()>0)
                     <table class="table table-bordered table-hover table-sm">
                         <thead>
                             <tr>
-                               
+                                <th>-</th>
                                 <th>N° orden</th>
                                 <th>N° ocupantes</th>
                                 <th>N° movil placa</th>
@@ -100,7 +106,11 @@
                         <tbody>
                             @foreach ($ordenMovilizaciones as $com)
                                 <tr>
-                                    
+                                    <td>
+                                        <div class="form-check">
+                                        <input wire:model="selecionados" class="form-check-input" type="checkbox" value="{{ $com->id }}" id="orden{{ $com->id }}">
+                                        </div>
+                                    </td>
                                     <td>{{ $com->numero }}</td>
                                     <td>{{ $com->numero_ocupantes }}</td>
                                     <td>

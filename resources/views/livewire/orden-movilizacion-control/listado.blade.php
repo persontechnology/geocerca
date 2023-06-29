@@ -75,11 +75,17 @@
         </div>
     </div>
     <div class="card-body">
+        @if (!empty($selecionados))
+            <button class="btn btn-link" wire:click="pdfSelecionados">
+                Descargar {{ count($selecionados) }} PDF'S selecionados <i class="fa-solid fa-file-pdf ml-1"></i>
+            </button>
+            @endif
         <div class="table-responsive">
             @if ($ordenMovilizaciones->count()>0)
                 <table class="table table-bordered table-hover table-sm">
                     <thead>
                         <tr>
+                            <th>-</th>
                             <th>Aprobar/Reprobar</th>
                             <th>N° orden</th>
                             <th>N° ocupantes</th>
@@ -96,6 +102,11 @@
                     <tbody>
                         @foreach ($ordenMovilizaciones as $com)
                             <tr>
+                                <td>
+                                    <div class="form-check">
+                                    <input wire:model="selecionados" class="form-check-input" type="checkbox" value="{{ $com->id }}" id="orden{{ $com->id }}">
+                                    </div>
+                                </td>
                                 <td class="text-center">
                                     <a href="{{ route('controlOdernMovilizacionAprobarReprobar',$com->id) }}" class="btn btn-block">
                                         @if ($com->estado=='SOLICITADO')

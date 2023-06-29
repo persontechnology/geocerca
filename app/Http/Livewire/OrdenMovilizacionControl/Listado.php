@@ -21,6 +21,7 @@ class Listado extends Component
     public $desde;
     public $hasta;
     public $mostrar='10';
+    public $selecionados=[];
     // querys
     protected $queryString = [
         'NumeroOrden' => ['except' => '','as'=>'orden'],
@@ -116,6 +117,30 @@ class Listado extends Component
             fn () => print($pdf),
             "Orden".Carbon::now().".pdf"
        );
+    }
 
+    public function pdfSelecionados(){
+        $ordenes=OrdenMovilizacion::whereIn('id',$this->selecionados)->get();
+        $headerHtml = view()->make('empresa.pdfHeader')->render();
+        $footerHtml = view()->make('empresa.pdfFooter')->render();
+
+        $data = array('ordenes' => $ordenes);
+
+        
+       $pdf = PDF::loadView('livewire.orden-movilizacion.listadoPfd',$data)
+        ->setOrientation('landscape')
+        ->setOption('margin-top', '2.5cm')
+        ->setOption('margin-bottom', '1cm')
+        ->setOption('header-html', $headerHtml)
+        ->setOption('footer-html', $footerHtml)
+        ->setOption('footer-right', 'Página [page] de [toPage]')
+        ->setOption('footer-font-size', '10')
+        ->output();
+        // return $pdf->download('Orden '.Carbon::now().'.pdf');
+
+        return response()->streamDownload(
+            fn () => print($pdf),
+            "Orden".Carbon::now().".pdf"
+       );
     }
 }
