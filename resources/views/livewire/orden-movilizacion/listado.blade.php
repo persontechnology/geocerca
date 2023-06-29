@@ -77,9 +77,13 @@
                 </div>
             </div>
             @if (!empty($selecionados))
-            <button class="btn btn-primary" wire:click="pdfSelecionados">
-                Descargar {{ count($selecionados) }} PDF'S selecionados <i class="fa-solid fa-file-pdf ml-1"></i>
-            </button>
+                <button class="btn btn-primary" wire:click="pdfSelecionados">
+                    Descargar opción 1 <i class="fa-solid fa-file-pdf ml-1"></i>
+                </button>
+                <button class="btn btn-info" wire:click="pdfSelecionadosADetalle">
+                    Descargar opción 2 <i class="fa-solid fa-file-pdf ml-1"></i>
+                </button>
+                <i>{{ count($selecionados)  }} selecionados</i>
             @endif
         </div>
         
