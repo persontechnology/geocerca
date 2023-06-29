@@ -73,13 +73,14 @@
                 </select>
             </div>
         </div>
-    </div>
-    <div class="card-body">
         @if (!empty($selecionados))
-            <button class="btn btn-link" wire:click="pdfSelecionados">
+            <button class="btn btn-primary" wire:click="pdfSelecionados">
                 Descargar {{ count($selecionados) }} PDF'S selecionados <i class="fa-solid fa-file-pdf ml-1"></i>
             </button>
-            @endif
+        @endif
+    </div>
+    <div class="card-body">
+        
         <div class="table-responsive">
             @if ($ordenMovilizaciones->count()>0)
                 <table class="table table-bordered table-hover table-sm">
