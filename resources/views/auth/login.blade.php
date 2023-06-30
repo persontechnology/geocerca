@@ -5,8 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                {{-- <img src="{{ asset('img/agent.png') }}" class="card-img-top" alt="..."> --}}
-                
+                <div class="card-header text-center">
+                    <img class="card-img-top" src="{{ asset('img/logo_icon.svg') }}" height="120px" alt="Title">
+                    <h4 class="card-title">Ingresar al sistema</h4>
+                </div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf

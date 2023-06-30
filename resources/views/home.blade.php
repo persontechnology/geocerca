@@ -1,28 +1,13 @@
 @extends('layouts.app')
 @section('breadcrumbs', Breadcrumbs::render('home'))
 @section('content')
-<!-- Container -->
-<div class="flex-fill">
+<!-- Content area -->
+<div class="content d-flex justify-content-center align-items-center">
 
-  <!-- Error title -->
-  <div class="text-center mb-4">
-      <h1 class="display-3 font-weight-semibold line-height-1 mb-2">
-        Ecuaparqueo
-      </h1>
-      <h5>Sistema de Gestión Vehicular</h5>
-      {{-- <img src="{{ asset('img/appmovil.png') }}" class="img-fluid mb-4" height="230" alt=""> --}}
-      
-      {{-- <h5>Descarga nuestra aplicación móvil para android</h5> --}}
+  <div class="d-inline-flex align-items-center justify-content-center mb-4 mt-2">
+      <img src="{{ asset('img/logo-total.svg') }}" height="350px" class="h-48px" alt="">
   </div>
-  <!-- /error title -->
-
-
-  <!-- Error content -->
-  {{-- <div class="text-center">
-      <a href="{{ asset('apk/app-universal-release-ecuaparqueo.apk') }}" class="btn btn-primary"><i class="icon-download4 mr-2"></i> Descargar</a>
-  </div> --}}
-  <!-- /error wrapper -->
 
 </div>
-<!-- /container -->
+<!-- /content area -->
 @endsection

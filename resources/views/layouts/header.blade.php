@@ -1,5 +1,5 @@
 @php
-	$bgtema=Auth::user()->configuracion->tema??'';
+	$bgtema=Auth::user()->configuracion->tema??'warning';
 @endphp
 <div class="navbar navbar-expand-lg navbar-dark bg-{{ $bgtema }} navbar-static">
 		<div class="d-flex flex-1 d-lg-none">
@@ -23,19 +23,10 @@
 		</div>
 
 		<div class="navbar-brand text-center text-lg-left">
-			@auth
-				<a href="{{ route('home') }}" class="d-inline-block">
-					<img src="{{ asset('global_assets/images/logo_light.png') }}" class="d-none d-sm-block" alt="">
-					<img src="{{ asset('global_assets/images/logo_icon_light.png') }}" class="d-sm-none" alt="">
-				</a>
-			@else
-				<a href="{{ route('welcome') }}" class="d-inline-block">
-					<img src="{{ asset('global_assets/images/logo_light.png') }}" class="d-none d-sm-block" alt="">
-					<img src="{{ asset('global_assets/images/logo_icon_light.png') }}" class="d-sm-none" alt="">
-				</a>
-			@endauth
-			
-				
+			<a href="{{ url('/') }}" class="d-inline-flex align-items-center">
+				<img src="{{ asset('img/logo_icon.svg') }}" alt="">
+				<img src="{{ asset('img/logo_text_light.svg') }}" class="d-none d-sm-inline-block h-16px ms-3" alt="">
+			</a>
 		</div>
 
 		<div class="collapse navbar-collapse order-2 order-lg-1" id="navbar-mobile">
