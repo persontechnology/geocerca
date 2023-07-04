@@ -8,7 +8,7 @@
 
     <div class="navbar-collapse collapse" id="navbar-footer">
         <span class="navbar-text">
-            &copy; {{ date('Y') }} <a href="{{ route('welcome') }}">{{ config('app.name','ECUAPARQUEO') }}</a> by <a href="https://persontechnology.com/" target="_blank">Person Technology</a>
+             {{ date('Y') }} &copy; <a href="https://ecuaparqueo.com/">ECUAPARQUEO</a>  | v1.0.1 | Última actualización: 2023-06-23 11:23:55
         </span>
 
         {{-- <ul class="navbar-nav ml-lg-auto">
