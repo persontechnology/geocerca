@@ -11,10 +11,8 @@
              {{ date('Y') }} &copy; <a href="https://ecuaparqueo.com/">ECUAPARQUEO</a>  | v1.0.1 | Última actualización: 2023-06-23 11:23:55
         </span>
 
-        {{-- <ul class="navbar-nav ml-lg-auto">
-            <li class="nav-item"><a href="{{ route('welcome') }}" class="navbar-nav-link"><i class="icon-lifebuoy mr-2"></i> Soporte</a></li>
-            <li class="nav-item"><a href="{{ route('welcome') }}" class="navbar-nav-link"><i class="icon-file-text2 mr-2"></i> Documentación</a></li>
-            <li class="nav-item"><a href="{{ route('welcome') }}" class="navbar-nav-link font-weight-semibold"><span class="text-pink"><i class="icon-cart2 mr-2"></i> Comprar</span></a></li>
-        </ul> --}}
+        <ul class="navbar-nav ml-lg-auto">
+            <li class="nav-item"><a href="{{ asset('apk/geocerca.apk') }}" class="navbar-nav-link font-weight-semibold"><span class="text-success"><i class="fas fa-mobile-alt"></i> DESCARGAR APLICACION ANDROID</span></a></li>
+        </ul>
     </div>
 </div>
