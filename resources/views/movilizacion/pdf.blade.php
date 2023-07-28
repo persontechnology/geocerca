@@ -97,7 +97,9 @@
                 <tr>
                     <th>Autorizado por</th>
                     <td colspan="3">
-                        <div id="fotoEvidencia_c" style="margin: 1em;"></div>
+                        {{-- <div id="fotoEvidencia" style="margin: 1em;"></div> --}}
+                        <br><br><br><br>
+                        <p>........................................</p>
                         <p>
                             
                             {{ $orden->autorizado->apellidos_nombres??'' }}
