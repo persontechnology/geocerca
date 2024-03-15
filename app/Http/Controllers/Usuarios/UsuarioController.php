@@ -190,4 +190,9 @@ class UsuarioController extends Controller
         }
         return redirect()->route('usuarios');
     }
+    public function ingresar(Request $request,$id)  {
+        $user=User::find($id);
+        request()->session()->flash('success','Ingresado con usuario '.$user->email);
+        return redirect()->route('welcome');
+    }
 }
