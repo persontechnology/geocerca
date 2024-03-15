@@ -192,6 +192,7 @@ class UsuarioController extends Controller
     }
     public function ingresar(Request $request,$id)  {
         $user=User::find($id);
+        Auth::loginUsingId($user->id);
         request()->session()->flash('success','Ingresado con usuario '.$user->email);
         return redirect()->route('welcome');
     }
