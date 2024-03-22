@@ -186,7 +186,7 @@ class UsuarioController extends Controller
             request()->session()->flash('success','Usuario eliminado');
         } catch (\Throwable $th) {
             DB::rollback();
-            request()->session()->flash('info','Error al eliminar usuario');
+            request()->session()->flash('info','Error al eliminar usuario, '.$th->getMessage();
         }
         return redirect()->route('usuarios');
     }
