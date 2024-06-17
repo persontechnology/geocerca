@@ -56,6 +56,11 @@
                                         data-color="{{ $vehiculo->color }}"
                                         data-conductorid="{{ $vehiculo->id_conductor }}"
                                         data-conductorinfo="{{ $vehiculo->conductor->apellidos_nombres??'' }}"
+                                        data-numeroocupantes="{{ $vehiculo->numero_ocupantes }}"
+                                        data-procedencia="{{ $vehiculo->procedencia }}"
+                                        data-destino="{{ $vehiculo->destino }}"
+                                        data-comisioncumplir="{{ $vehiculo->comision_cumplir }}"
+                                        data-actividadcumplir="{{ $vehiculo->actividad_cumplir }}"
                                     >
 
                                         @if (Storage::exists($vehiculo->foto))

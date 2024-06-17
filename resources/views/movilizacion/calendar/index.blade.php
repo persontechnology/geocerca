@@ -228,6 +228,7 @@
                                 </div>
 
                                 <div class="row">
+                                    
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label  for="procedencia">Procedencia<i class="text-danger">*</i></label>
@@ -262,6 +263,18 @@
                                     <div class="input-group">
                                         <textarea name="comision_cumplir" class="form-control @error('comision_cumplir') is-invalid @enderror" id="comision_cumplir" required>{{ old('comision_cumplir') }}</textarea>
                                         @error('comision_cumplir')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label  for="actividad_cumplir">Actividad a cumplir</label>
+                                    <div class="input-group">
+                                        <textarea name="actividad_cumplir" class="form-control @error('actividad_cumplir') is-invalid @enderror" id="actividad_cumplir">{{ old('actividad_cumplir') }}</textarea>
+                                        @error('actividad_cumplir')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -604,8 +617,14 @@
         $('#color').val($(event.draggedEl).data('color'));
         $('#conductor').val($(event.draggedEl).data('conductorid'));
         $('#conductor_info').val($(event.draggedEl).data('conductorinfo'));
+        $('#numero_ocupantes').val($(event.draggedEl).data('numeroocupantes'));
+        $('#procedencia').val($(event.draggedEl).data('procedencia'));
+        $('#destino').val($(event.draggedEl).data('destino'));
+        $('#comision_cumplir').val($(event.draggedEl).data('comisioncumplir'));
+        $('#actividad_cumplir').val($(event.draggedEl).data('actividadcumplir'));
+        
         $('#numero_orden_movilizacion').html($('#numeroSiguenteOrdenMovilizacion').html());
-
+        
         $('#solicitante_info').val("{{ old('solicitante_info',Auth::user()->apellidos_nombres??'') }}")
         $('#solicitante').val("{{ old('solicitante',Auth::user()->id) }}")
     }
@@ -629,6 +648,8 @@
             $('#procedencia').val(data.procedencia);
             $('#destino').val(data.destino);
             $('#comision_cumplir').val(data.comision_cumplir);
+            $('#actividad_cumplir').val(data.actividad_cumplir);
+
             console.log(data.conductor)
             if(data.conductor){
                 $('#conductor').val(data.conductor.id);

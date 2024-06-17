@@ -83,6 +83,7 @@ class OrdenMovilizacionController extends Controller
         $orden->procedencia=$request->procedencia;
         $orden->destino=$request->destino;
         $orden->comision_cumplir=$request->comision_cumplir;
+        $orden->actividad_cumplir=$request->actividad_cumplir;
         $orden->estado='SOLICITADO';
         
         $orden->solicitante_id=$request->solicitante;
@@ -121,6 +122,7 @@ class OrdenMovilizacionController extends Controller
         $orden->procedencia=$request->procedencia;
         $orden->destino=$request->destino;
         $orden->comision_cumplir=$request->comision_cumplir;
+        $orden->actividad_cumplir=$request->actividad_cumplir;
         $orden->conductor_id=$request->conductor;
         $orden->solicitante_id=$request->solicitante;
         $orden->vehiculo_id=$request->vehiculo;

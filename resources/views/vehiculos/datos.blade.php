@@ -9,7 +9,7 @@
                 <select name="parqueadero" id="parqueadero" class="form-control @error('parqueadero') is-invalid @enderror" required>
                     <option value="">--Seleccione--</option>
                     @foreach ($parqueaderos as $parqueadero)
-                        <option value="{{ $parqueadero->id }}" {{ $vehiculo->parqueadero_id??''===$parqueadero->id?'selected':'' }}>{{ $parqueadero->nombre }}</option>
+                        <option value="{{ $parqueadero->id }}" {{ $vehiculo->parqueadero_id??''==$parqueadero->id?'selected':'' }}>{{ $parqueadero->nombre }}</option>
                     @endforeach
                 </select>
                 @error('parqueadero')
@@ -143,32 +143,7 @@
                 @enderror
             </div>
         </div>
-        {{-- <div class="col-lg-3">
-            <div class="form-group">
-                <label for="tipo">Tipo</label>
-                <select name="tipo" id="tipo" class="form-control @error('tipo') is-invalid @enderror">
-                    <option value="Normal"
-                        {{ old('tipo', $vehiculo->tipo ?? '') == 'Normal' ? 'selected' : '' }}>
-                        Normal
-                    </option>
-                    <option value="Invitados"
-                        {{ old('tipo', $vehiculo->tipo ?? '') == 'Invitados' ? 'selected' : '' }}>
-                        Invitados
-                    </option>
-                    <option value="Especial"
-                    {{ old('tipo', $vehiculo->tipo ?? '') == 'Especial' ? 'selected' : '' }}>
-                    Especial
-                    </option>
-                </select>
-
-                @error('tipo')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror>$tipo,
-            'kilometraje'=>$ki
-            </div>
-        </div> --}}
+        
     </div>
 
 
@@ -209,21 +184,8 @@
                 @enderror
             </div>
         </div>
-        {{-- <div class="col-sm-6">
-            <div class="form-group">
-                <label for="codigo_tarjeta">Código de Tarjeta</label>
-                <input id="codigo_tarjeta" type="text" class="form-control @error('codigo_tarjeta') is-invalid @enderror" name="codigo_tarjeta"
-                    value="{{ old('codigo_tarjeta', $vehiculo->codigo_tarjeta ?? '') }}">
-
-                @error('codigo_tarjeta')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-
-        </div> --}}
-        <div class="col-sm-12">
+        
+        <div class="col-sm-8">
             <div class="form-group">
                 <label for="imei">Número IMEI<i class="text-danger">*</i></label>
                 <input id="imei" type="text" class="form-control @error('imei') is-invalid @enderror" name="imei" value="{{ old('imei', $vehiculo->imei ?? '') }}" required>
@@ -235,6 +197,79 @@
                 @enderror
             </div>
         </div>
+
+
+
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label  for="numero_ocupantes">N° ocupantes</label>
+                <div class="input-group">
+                    <input type="number" name="numero_ocupantes" value="{{ old('numero_ocupantes',$vehiculo->numero_ocupantes??'') }}" class="form-control @error('numero_ocupantes') is-invalid @enderror" id="numero_ocupantes" >
+                    @error('numero_ocupantes')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label  for="procedencia">Procedencia</label>
+                <div class="input-group">
+                    <input type="text" name="procedencia" value="{{ old('procedencia',$vehiculo->procedencia??'') }}" class="form-control @error('procedencia') is-invalid @enderror" id="procedencia">
+                    @error('procedencia')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label  for="destino">Destino</label>
+                <div class="input-group">
+                    <input type="text" name="destino" value="{{ old('destino',$vehiculo->destino??'') }}" class="form-control @error('destino') is-invalid @enderror" id="destino">
+                    @error('destino')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label  for="comision_cumplir">Comisión a cumplir</label>
+                <div class="input-group">
+                    <textarea name="comision_cumplir" class="form-control @error('comision_cumplir') is-invalid @enderror" id="comision_cumplir">{{ old('comision_cumplir',$vehiculo->comision_cumplir??'') }}</textarea>
+                    @error('comision_cumplir')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label  for="actividad_cumplir">Actividad a cumplir</label>
+                <div class="input-group">
+                    <textarea name="actividad_cumplir" class="form-control @error('actividad_cumplir') is-invalid @enderror" id="actividad_cumplir">{{ old('actividad_cumplir',$vehiculo->actividad_cumplir??'') }}</textarea>
+                    @error('actividad_cumplir')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+            </div>
+        </div>
+        
     </div>
 
 

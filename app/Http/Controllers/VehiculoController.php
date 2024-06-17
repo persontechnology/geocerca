@@ -28,6 +28,7 @@ class VehiculoController extends Controller
     {
         $this->middleware(['permission:Vehículos']);
     }
+
     public function index(VehiculoDataTable $dataTable)
     {
 
@@ -87,6 +88,14 @@ class VehiculoController extends Controller
             $ve->codigo_tarjeta='';
             $ve->parqueadero_id=$request->parqueadero;
             $ve->user_create=Auth::user()->id;
+
+            $ve->numero_ocupantes=$request->numero_ocupantes;
+            $ve->procedencia=$request->procedencia;
+            $ve->destino=$request->destino;
+            $ve->comision_cumplir=$request->comision_cumplir;
+            $ve->actividad_cumplir=$request->actividad_cumplir;
+
+
             $ve->save();
             if ($request->hasFile('foto')) {
                 $archivo=$request->file('foto');
@@ -146,6 +155,14 @@ class VehiculoController extends Controller
         $ve->user_update=Auth::user()->id;
         $ve->codigo_tarjeta='';
         $ve->parqueadero_id=$request->parqueadero;
+
+        $ve->numero_ocupantes=$request->numero_ocupantes;
+        $ve->procedencia=$request->procedencia;
+        $ve->destino=$request->destino;
+        $ve->comision_cumplir=$request->comision_cumplir;
+        $ve->actividad_cumplir=$request->actividad_cumplir;
+
+        
         if ($request->hasFile('foto')) {
             $archivo=$request->file('foto');
             if ($archivo->isValid()) {
