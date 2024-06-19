@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\MisOrdenesMovilizacion;
 
+use App\Models\Departamento;
+use App\Models\Direccion;
 use App\Models\OrdenMovilizacion;
 use App\Models\Parqueadero;
 use App\Models\TipoVehiculo;
@@ -24,9 +26,16 @@ class Index extends Component
     public $desde;
     public $hasta;
     public $mostrar='10';
+
     public $selecionados=[];
     public $selectAll = false;
     public $currentPageIds = [];
+
+     // Nuevas propiedades para manejar departamentos y direcciones
+     public $departamento_id;
+     public $direccion_id;
+
+
     // querys
     protected $queryString = [
         'NumeroOrden' => ['except' => '','as'=>'orden'],
@@ -44,9 +53,14 @@ class Index extends Component
             'ordenMovilizaciones'=>$this->listadoOrdenes(),
             'tipoVehiculos'=>TipoVehiculo::get(),
             'parqueaderos'=>Parqueadero::get(),
+            'departamentos' => Departamento::all(), // Obtener todos los departamentos
+            'direcciones' => [], // Esto se actualizará dinámicamente según la selección del departamento
         );
 
-
+        // Si hay un departamento seleccionado, obtener sus direcciones
+        if ($this->departamento_id) {
+            $data['direcciones'] = Direccion::where('departamento_id', $this->departamento_id)->get();
+        }
 
         return view('livewire.orden-movilizacion.listado',$data);
     }
@@ -66,14 +80,18 @@ class Index extends Component
             if($this->EstadoOrdenMovilizacion){
                 $query->where('estado','like','%'.$this->EstadoOrdenMovilizacion.'%');
             }
+            // Agregar filtro por direccion_id si está seleccionado
+            if ($this->direccion_id) {
+                $query->where('direccion_id', $this->direccion_id);
+            }
         })
         ->whereHas('vehiculo',function($query) {
             $query->whereRaw("tipo_vehiculo_id like ?",["%{$this->IdTipoVehiculo}%"]);
-        })
-        ->where('user_create',Auth::id())
-        ->latest()->paginate($this->mostrar);
-        // Actualiza los IDs de la página actual
-        $this->currentPageIds = $ordenMovilizaciones->pluck('id')->toArray();
+        })->latest()->paginate($this->mostrar);
+        
+         // Actualiza los IDs de la página actual
+         $this->currentPageIds = $ordenMovilizaciones->pluck('id')->toArray();
+
         return $ordenMovilizaciones;
     }
 
@@ -129,8 +147,8 @@ class Index extends Component
             fn () => print($pdf),
             "Orden".Carbon::now().".pdf"
        );
-
     }
+
     public function pdfSelecionados(){
         $ordenes=OrdenMovilizacion::whereIn('id',$this->selecionados)->get();
         $headerHtml = view()->make('empresa.pdfHeader')->render();
@@ -186,4 +204,20 @@ class Index extends Component
             $this->selecionados = array_diff($this->selecionados, $this->currentPageIds);
         }
     }
+
+     // Métodos para actualizar las direcciones basadas en el departamento seleccionado
+     public function updatedDepartamentoId($value)
+     {
+         $this->direccion_id = null; // Reiniciar la selección de dirección al cambiar departamento
+     }
+     public function getDireccionesProperty()
+     {
+         if ($this->departamento_id) {
+             return Direccion::where('departamento_id', $this->departamento_id)->get();
+         } else {
+             return collect(); // Si no hay departamento seleccionado, devolver una colección vacía o null según sea necesario.
+         }
+     }
+     
+
 }

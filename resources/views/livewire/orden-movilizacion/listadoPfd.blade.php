@@ -57,6 +57,8 @@
                     
                     <td><strong>Solicitante</strong></td>
                     <td><strong>Autorizado</strong></td>
+                    <td><strong>Departamento</strong></td>
+                    <td><strong>Dirección</strong></td>
                     <td><strong>Firma conductor</strong></td>
                 </tr>
                @php
@@ -84,6 +86,9 @@
                     
                     <td>{{ $orden->solicitante->apellidos_nombres??'' }}</td>
                     <td>{{ $orden->autorizado->apellidos_nombres??'' }}</td>
+                    <td>{{ $orden->direccion->departamento->nombre??'' }}</td>
+                    <td>{{ $orden->direccion->nombre??'' }}</td>
+
                     <td style="margin: 0px; padding: 0px; width: 10%;">
                         {{-- @if ($orden->autorizado && $orden->autorizado->firma)
                         <div class="fotoEvidencia" style="margin: 1em; background: url({!! public_path( $orden->autorizado->firma_link) !!});"></div>

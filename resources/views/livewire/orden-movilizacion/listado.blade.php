@@ -76,6 +76,33 @@
                     </select>
                 </div>
             </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>Departamento</label>
+                        <select class="form-control" wire:model="departamento_id">
+                            <option value="">Seleccionar departamento</option>
+                            @foreach ($departamentos as $dep)
+                                <option value="{{ $dep->id }}">{{ $dep->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>Dirección</label>
+                        <select class="form-control" wire:model="direccion_id">
+                            <option value="">Seleccionar dirección</option>
+                            @foreach ($direcciones as $dir)
+                                <option value="{{ $dir->id }}">{{ $dir->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+
             @if (!empty($selecionados))
                 <button class="btn btn-primary" wire:click="pdfSelecionados">
                     Descargar opción 1 <i class="fa-solid fa-file-pdf ml-1"></i>
