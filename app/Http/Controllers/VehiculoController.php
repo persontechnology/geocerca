@@ -7,6 +7,7 @@ use App\DataTables\Vehiculos\ConductorDataTable;
 use App\DataTables\Vehiculos\VehiculoDataTable;
 use App\Http\Requests\RqActualizarVehiculo;
 use App\Http\Requests\RqGuardarVehiculo;
+use App\Models\Departamento;
 use App\Models\Empresa;
 use App\Models\Kilometraje;
 use App\Models\LecturaEspecial;
@@ -66,7 +67,8 @@ class VehiculoController extends Controller
     {
         return $dataTable->render('vehiculos.nuevo',[
             'tipoVehiculos'=>TipoVehiculo::get(),
-            'parqueaderos'=>Parqueadero::get()
+            'parqueaderos'=>Parqueadero::get(),
+            'departamentos'=>Departamento::get()
     ]);
     }
 
@@ -94,7 +96,7 @@ class VehiculoController extends Controller
             $ve->destino=$request->destino;
             $ve->comision_cumplir=$request->comision_cumplir;
             $ve->actividad_cumplir=$request->actividad_cumplir;
-
+            
 
             $ve->save();
             if ($request->hasFile('foto')) {
@@ -136,7 +138,9 @@ class VehiculoController extends Controller
             'vehiculo'=>$ve,
             'tipoVehiculos'=>$tipo,
             'kilometraje'=>$kilometraje,
-            'parqueaderos'=>Parqueadero::get()
+            'parqueaderos'=>Parqueadero::get(),
+            'departamentos'=>Departamento::get()
+            
     ]);
     }
     public function actualizar(RqActualizarVehiculo $request)
@@ -161,7 +165,8 @@ class VehiculoController extends Controller
         $ve->destino=$request->destino;
         $ve->comision_cumplir=$request->comision_cumplir;
         $ve->actividad_cumplir=$request->actividad_cumplir;
-
+        $ve->direccion_id=$request->direccion;
+        
         
         if ($request->hasFile('foto')) {
             $archivo=$request->file('foto');

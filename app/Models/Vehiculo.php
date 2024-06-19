@@ -86,6 +86,11 @@ class Vehiculo extends Model
         }
         
     }
+
+    public function direccion()
+    {
+        return $this->belongsTo(Direccion::class);
+    }
     
 
 }

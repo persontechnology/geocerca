@@ -87,10 +87,14 @@
         
         <div class="table-responsive">
             @if ($ordenMovilizaciones->count()>0)
-                <table class="table table-bordered table-hover table-sm">
+                <table class="table table-bordered table-hover table-sm" id="tabla-ordenes">
                     <thead>
                         <tr>
-                            <th>-</th>
+                            <th>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="defaultCheck1" wire:model="selectAll" wire:click="toggleSelectAll">
+                                </div>
+                            </th>
                             <th>Aprobar/Reprobar</th>
                             <th>N° orden</th>
                             <th>N° ocupantes</th>

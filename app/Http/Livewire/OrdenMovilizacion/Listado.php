@@ -23,7 +23,9 @@ class Listado extends Component
     public $mostrar='10';
 
     public $selecionados=[];
-    
+    public $selectAll = false;
+    public $currentPageIds = [];
+
     // querys
     protected $queryString = [
         'NumeroOrden' => ['except' => '','as'=>'orden'],
@@ -68,6 +70,9 @@ class Listado extends Component
             $query->whereRaw("tipo_vehiculo_id like ?",["%{$this->IdTipoVehiculo}%"]);
         })->latest()->paginate($this->mostrar);
         
+         // Actualiza los IDs de la página actual
+         $this->currentPageIds = $ordenMovilizaciones->pluck('id')->toArray();
+
         return $ordenMovilizaciones;
     }
 
@@ -170,6 +175,15 @@ class Listado extends Component
             fn () => print($pdfs),
             "Orden".Carbon::now().".pdf"
        );
+    }
+
+    public function toggleSelectAll()
+    {
+        if ($this->selectAll) {
+            $this->selecionados = array_merge($this->selecionados, $this->currentPageIds);
+        } else {
+            $this->selecionados = array_diff($this->selecionados, $this->currentPageIds);
+        }
     }
 
 }

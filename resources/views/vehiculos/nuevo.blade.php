@@ -12,7 +12,43 @@
         <div class="row">
             <div class="col-lg-10">
                 <legend class="font-weight-semibold"><i class="fa-solid fa-address-card"></i> Detalle de vehículo</legend>
+               
+                <div class="row">
+                    <div class="col-lg-12">
+                    
+                        @if ($departamentos->count()>0)
+            
+                            <div class="form-group">
+                                <label for="departamento">Seleccione departamento</label>
+                                <select name="departamento" id="departamento" class="form-control @error('departamento') is-invalid @enderror">
+                                    @foreach ($departamentos as $departamento)
+                                        <option value="{{ $departamento->id }}" {{ old('departamento')==$departamento->id?'selected':'' }}>{{ $departamento->nombre }}</option>
+                                    @endforeach
+                                </select>
+                                @error('departamento')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="direccion">Seleccione dirección</label>
+                                <select name="direccion" id="direccion" class="form-control">
+                                    <option value="" selected >------</option>
+                                </select>
+                            </div>
+
+                            
+                        @endif
+                        
+                    </div>
+                </div>
+                
                 @include('vehiculos.datos',['vehiculo'=>null,'parqueaderos'=>$parqueaderos])
+                
+                
+                
                 <div class="form-group">
                     <label for="kilometraje">Kilometraje<i class="text-danger">*</i></label>
                     <input id="kilometraje" type="number" class="form-control @error('kilometraje') is-invalid @enderror" name="kilometraje" value="{{ old('kilometraje', $vehiculo->kilometraje ?? '') }}" required />
@@ -23,6 +59,7 @@
                     @enderror
                 </div>
             </div>
+
 
             <div class="col-lg-2">
                 <legend class="font-weight-semibold"><i class="fa-solid fa-truck"></i> Tipo de vehículo<i class="text-danger">*</i></legend>
@@ -37,6 +74,11 @@
                     @endforeach
                     
                 </fieldset>
+
+            
+               
+
+
             </div>
         </div>
     </div>
@@ -85,6 +127,41 @@
             $('#conductorInfo').val(user);
             $('#modal_full').modal('hide');
         }
+
+
+        // cargar direcciones
+        var departamentoId = $('#departamento').val();
+        obtenerListadoDirecciones(departamentoId);
+
+        // Obtener el valor seleccionado cuando cambie la selección
+        $('#departamento').change(function() {
+            var departamentoId = $(this).val();
+            obtenerListadoDirecciones(departamentoId)
+        });
+
+        function obtenerListadoDirecciones(departamentoId){
+            $.ajax({
+                url: '/obtener-direcciones-x-departamento/' + departamentoId,
+                type: 'GET',
+                success: function(data) {
+                    var $direccion = $('#direccion');
+                    $direccion.empty(); // Vaciar el select de direcciones
+                    
+                    $direccion.append('<option value="" selected>------</option>'); // Opción por defecto
+                    
+                    $.each(data, function(index, direccion) {
+                        $direccion.append('<option value="' + direccion.id + '">' + direccion.nombre + '</option>');
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error en la solicitud AJAX:', error);
+                }
+            });
+        }
+
+
+
+
     </script>
 @endprepend
 @endsection

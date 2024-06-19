@@ -1,7 +1,9 @@
 <?php
 
+use App\DataTables\DepartamentoDataTable;
 use App\Http\Controllers\ConexionesApisController;
 use App\Http\Controllers\ControlOrdenMovilizacionController;
+use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\DespachoCombustibleController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EstacionController;
@@ -60,6 +62,8 @@ Route::get('/getConections', [ConexionesApisController::class,'getConections']);
 
 Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/obtener-direcciones-x-departamento/{departamentoId}', [HomeController::class, 'obtenerDirecciones']);
+    
 
     // pruebas
     Route::get('/geo', [HomeController::class, 'geo'])->name('geo');
@@ -131,6 +135,10 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/orden-movilizacion-lecturas/{id}', [OrdenMovilizacionController::class, 'lecturas'])->name('odernMovilizacionLecturas');
     Route::post('/orden-movilizacion-lectura-actualizar', [OrdenMovilizacionController::class, 'lecturaActualizar'])->name('odernMovilizacionLecturaActualizar');
     Route::get('/orden-movilizacion-reporte-pdf', [OrdenMovilizacionController::class, 'reportePdf'])->name('odernMovilizacionReportePdf');
+    Route::get('/orden-movilizacion-multiple', [OrdenMovilizacionController::class, 'multiple'])->name('odernMovilizacionMultiple');
+    Route::post('/orden-movilizacion-multiple-guardar', [OrdenMovilizacionController::class, 'multipleGuardar'])->name('odernMovilizacionMultipleGuardar');
+    
+    
     
     
 
@@ -182,6 +190,14 @@ Route::middleware(['verified', 'auth'])->group(function () {
 
     // mis ordenes de movilizacion
     Route::resource('mis-ordenes-movilizacion', MisOrdenesMovilizacionController::class);
+
+    Route::resource('direcciones-departamentos', DepartamentoController::class);
+    Route::post('direcciones-departamentos.guardar', [DepartamentoController::class,'guardar'])->name('direcciones-departamentos.guardar');
+    Route::post('direcciones-eliminar', [DepartamentoController::class,'eliminarDireccion'])->name('direcciones.eliminar');
+    Route::post('departamentos-eliminar', [DepartamentoController::class,'eliminarDepartamento'])->name('departamentos.eliminar');
+    
+
+    
 
 
      

@@ -9,7 +9,7 @@
                 <select name="parqueadero" id="parqueadero" class="form-control @error('parqueadero') is-invalid @enderror" required>
                     <option value="">--Seleccione--</option>
                     @foreach ($parqueaderos as $parqueadero)
-                        <option value="{{ $parqueadero->id }}" {{ $vehiculo->parqueadero_id??''==$parqueadero->id?'selected':'' }}>{{ $parqueadero->nombre }}</option>
+                        <option value="{{ $parqueadero->id }}" {{ old('parqueadero',$vehiculo->parqueadero_id??'')==$parqueadero->id?'selected':'' }}>{{ $parqueadero->nombre }}</option>
                     @endforeach
                 </select>
                 @error('parqueadero')
@@ -22,6 +22,8 @@
             @include('layouts.alert',['msg'=>'No existe parqueaderos para ingresar nuevo vehículo.','type'=>'info'])
             @endif
         </div>
+
+        
 
         <div class="col-lg-6">
             <div class="form-group">

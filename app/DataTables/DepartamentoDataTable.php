@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Departamento;
+use App\Models\Direccion;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -21,16 +22,9 @@ class DepartamentoDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('user_id',function($dep){
-                return $dep->supervisor->apellidos.' '.$dep->supervisor->nombres;
-            })
-            ->filterColumn('user_id',function($query,$keyword){
-                $query->whereHas('supervisor',function($query) use($keyword){
-                    $query->whereRaw("concat(apellidos,' ',nombres) like ?",["%{$keyword}%"]);
-                });
-            })
+            
             ->addColumn('action', function($dep){
-                return view('departamentos.action',['departamento'=>$dep])->render();
+                return view('departamentos.action',['direccion'=>$dep])->render();
             });
     }
 
@@ -40,9 +34,9 @@ class DepartamentoDataTable extends DataTable
      * @param \App\Models\Departamento $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Departamento $model)
+    public function query(Direccion $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with('departamento');
     }
 
     /**
@@ -84,10 +78,8 @@ class DepartamentoDataTable extends DataTable
                   ->title('Acción')
                   ->addClass('text-center'),
             // Column::make('id'),
-            Column::make('nombre'),
-            Column::make('descripcion')->title('Descripción'),
-            Column::make('user_id')->title('Supervisor'),
-            // Column::make('created_at'),
+            Column::make('nombre')->title('Dirección'),
+            Column::make('departamento.nombre')->title('Departamento'),
             // Column::make('updated_at'),
         ];
     }

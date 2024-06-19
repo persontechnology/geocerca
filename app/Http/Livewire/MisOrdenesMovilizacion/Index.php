@@ -25,6 +25,8 @@ class Index extends Component
     public $hasta;
     public $mostrar='10';
     public $selecionados=[];
+    public $selectAll = false;
+    public $currentPageIds = [];
     // querys
     protected $queryString = [
         'NumeroOrden' => ['except' => '','as'=>'orden'],
@@ -70,7 +72,8 @@ class Index extends Component
         })
         ->where('user_create',Auth::id())
         ->latest()->paginate($this->mostrar);
-        
+        // Actualiza los IDs de la página actual
+        $this->currentPageIds = $ordenMovilizaciones->pluck('id')->toArray();
         return $ordenMovilizaciones;
     }
 
@@ -173,5 +176,14 @@ class Index extends Component
             fn () => print($pdfs),
             "Orden".Carbon::now().".pdf"
        );
+    }
+
+    public function toggleSelectAll()
+    {
+        if ($this->selectAll) {
+            $this->selecionados = array_merge($this->selecionados, $this->currentPageIds);
+        } else {
+            $this->selecionados = array_diff($this->selecionados, $this->currentPageIds);
+        }
     }
 }

@@ -86,12 +86,17 @@ class AprobarDataTable extends DataTable
      */
     protected function getColumns()
     {
+        $check='<div class="form-check">
+                <input class="form-check-input" type="checkbox" onchange="selecionarTodosLosCheckbox()" id="defaultCheck1ccc">
+                </div>';
+
+
         return [
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
                   ->width(60)
-                  ->title('Aceptar')
+                  ->title($check)
                   ->addClass('text-center'),
             Column::make('numero')->title('# O.M'),
             Column::make('vehiculo_id')->title('Vehículo'),

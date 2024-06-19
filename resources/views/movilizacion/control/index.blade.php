@@ -22,9 +22,10 @@
             <div class="modal-dialog modal-full modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Selecionar O.M, para aceptar.</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
+                    <h5 class="modal-title" id="exampleModalLabel">Selecionar O.M, para aceptar.</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                 </div>
+                
                 <div class="modal-body">
                     <div class="table-responsive">
                         {{$dataTable->table()}}
@@ -100,6 +101,15 @@
     $('#exampleModalToggle').modal('show');    
     @endif
     
+
+    function selecionarTodosLosCheckbox() {
+        
+        // Obtén el estado del checkbox principal
+        let isChecked = $('#defaultCheck1ccc').is(':checked');
+        // Selecciona o deselecciona todos los checkboxes con clase `form-check-input` dentro de tbody
+        $('#ordenmovilizacion-listadoordenmovilizacion-table-aprobar tbody .form-check-input').prop('checked', isChecked);
+    }
+
 </script>
 @endprepend
 

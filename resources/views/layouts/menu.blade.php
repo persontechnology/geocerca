@@ -117,6 +117,18 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
                     </li>
                 @endcan
 
+                @can('Direcciones & Departamentos')
+                    <li class="nav-item">
+                        <a href="{{ route('direcciones-departamentos.index') }}"
+                            class="nav-link {{ Route::is('direcciones-departamentos.*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-table"></i>
+                            <span>
+                                Direcciones & Departamentos
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+
                 @can('Usuarios')
                     <li class="nav-item">
                         <a href="{{ route('usuarios') }}"

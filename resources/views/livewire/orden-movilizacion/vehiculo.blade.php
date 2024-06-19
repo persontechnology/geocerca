@@ -61,6 +61,8 @@
                                         data-destino="{{ $vehiculo->destino }}"
                                         data-comisioncumplir="{{ $vehiculo->comision_cumplir }}"
                                         data-actividadcumplir="{{ $vehiculo->actividad_cumplir }}"
+                                        data-direccion_id="{{ $vehiculo->direccion_id }}"
+                                        data-departamento_id="{{ $vehiculo->direccion->departamento_id??0 }}"
                                     >
 
                                         @if (Storage::exists($vehiculo->foto))

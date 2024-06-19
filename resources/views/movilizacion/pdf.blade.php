@@ -83,10 +83,20 @@
                     <td colspan="7">{{ $orden->comision_cumplir }}</td>
                 </tr>
                 <tr>
+                    <th>Actividad a cumplir</th>
+                    <td colspan="7">{{ $orden->actividad_cumplir }}</td>
+                </tr>
+                <tr>
                     <th>Datos del conductor</th>
                     <td colspan="3">{{ $orden->conductor->apellidos_nombres??'' }}</td>
                     <th>Cargo</th>
                     <td colspan="3">{{ $orden->conductor->descripcion??'' }}</td>
+                </tr>
+                <tr>
+                    <th>DIRECCION</th>
+                    <td colspan="3">{{ $orden->direccion->nombre??'' }}</td>
+                    <th>DEPARTAMENTO</th>
+                    <td colspan="3">{{ $orden->direccion->departamento->nombre??'' }}</td>
                 </tr>
                 <tr>
                     <th>Datos del solicitante</th>

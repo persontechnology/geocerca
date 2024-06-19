@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brazo;
+use App\Models\Direccion;
 use App\Models\Empresa;
 use App\Models\Parqueadero;
 use App\Models\User;
@@ -33,6 +34,15 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+
+    public function obtenerDirecciones($departamentoId)
+    {
+        // Suponiendo que tienes un modelo Dirección y la relación con el departamento está definida
+        $direcciones = Direccion::where('departamento_id', $departamentoId)->get();
+        // Retorna las direcciones como JSON
+        return response()->json($direcciones);
     }
 
 

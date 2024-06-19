@@ -18,22 +18,24 @@ Breadcrumbs::for('roles', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Roles y permisos', route('roles'));
 });
-// empresa y departamentos
+// empresa
 Breadcrumbs::for('empresa', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Empresa', route('empresa'));
 });
-Breadcrumbs::for('departamentos', function (BreadcrumbTrail $trail) {
+
+// departamentos
+Breadcrumbs::for('direcciones-departamentos.index', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
-    $trail->push('Departamentos', route('departamentos'));
+    $trail->push('Direcciones y Departamentos', route('direcciones-departamentos.index'));
 });
-Breadcrumbs::for('departamentosNuevo', function (BreadcrumbTrail $trail) {
-    $trail->parent('departamentos');
-    $trail->push('Nuevo', route('departamentosNuevo'));
+Breadcrumbs::for('direcciones-departamentos.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('direcciones-departamentos.index');
+    $trail->push('Nuevo', route('direcciones-departamentos.create'));
 });
-Breadcrumbs::for('departamentosEditar', function (BreadcrumbTrail $trail, $dep) {
-    $trail->parent('departamentos');
-    $trail->push('Editar', route('departamentosEditar', $dep->id));
+Breadcrumbs::for('direcciones-departamentos.editar', function (BreadcrumbTrail $trail, $dep) {
+    $trail->parent('direcciones-departamentos.index');
+    $trail->push('Editar', route('direcciones-departamentos.edit', $dep->id));
 });
 
 
@@ -122,6 +124,12 @@ Breadcrumbs::for('odernMovilizacionListado', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('odernMovilizacion', function (BreadcrumbTrail $trail) {
     $trail->parent('odernMovilizacionListado');
     $trail->push('Nuevo', route('odernMovilizacion'));
+});
+
+
+Breadcrumbs::for('odernMovilizacionMultiple', function (BreadcrumbTrail $trail) {
+    $trail->parent('odernMovilizacionListado');
+    $trail->push('Nuevo multiple', route('odernMovilizacionMultiple'));
 });
 
 Breadcrumbs::for('odernMovilizacionLecturas', function (BreadcrumbTrail $trail,$om) {

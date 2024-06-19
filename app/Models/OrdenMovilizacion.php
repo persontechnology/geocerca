@@ -126,4 +126,10 @@ class OrdenMovilizacion extends Model
         return $color;
     }
 
+    // deivid: un vehiculo tiene una direccion
+    public function direccion()
+    {
+        return $this->belongsTo(Direccion::class,'direccion_id');
+    }
+
 }

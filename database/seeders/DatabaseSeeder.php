@@ -38,7 +38,8 @@ class DatabaseSeeder extends Seeder
             'Mapa',
             'Ingreso de Kilometraje',
             'Ingreso de Combustible',
-            'Lecturas Entrada/Salida vehículos'
+            'Lecturas Entrada/Salida vehículos',
+            'Direcciones & Departamentos'
             
         );
         foreach ($permisos as $per) {

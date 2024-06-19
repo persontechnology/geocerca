@@ -86,6 +86,8 @@
                                     </div>
 
                                     <div class="col-lg-3">
+
+
                                         <div class="form-group">
                                             <label for="fecha_salida">Fecha y hora de salida<i class="text-danger">*</i></label>
                                                 
@@ -282,6 +284,35 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        @if ($departamentos->count()>0)
+            
+                                            <div class="form-group">
+                                                <label for="departamento">Seleccione departamento</label>
+                                                <select name="departamento" id="departamento" class="form-control @error('departamento') is-invalid @enderror">
+                                                    @foreach ($departamentos as $departamento)
+                                                        <option value="{{ $departamento->id }}" {{ old('departamento',$vehiculo->direccion->departamento_id??'')==$departamento->id?'selected':'' }}>{{ $departamento->nombre }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('departamento')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="direccion">Seleccione dirección</label>
+                                                <select name="direccion" id="direccion" class="form-control">
+                                                    <option value="" selected >------</option>
+                                                </select>
+                                            </div>
+
+                                            
+                                        @endif
+                                    </div>
+                                </div>
 
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -323,6 +354,15 @@
                                             @enderror
                                         </div>
                                     </div>
+
+                                    <div class="col-lg-12" id="aceptar_orden_movilizacion">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="ACEPTADA" {{ old('estado')=='ACEPTADA'?'checked':'' }} name="estado" id="estado">
+                                            <label class="form-check-label" for="estado">
+                                                ACEPTAR ORDEN DE MOVILIZACIÓN
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 
@@ -337,6 +377,9 @@
                         </div>
 
                         <div class="modal-footer pt-3" id="contenedorGuardar">
+
+                            
+                              
                             <button type="submit" class="btn btn-primary">Guardar</button>
                             <button type="button" onclick="eliminar(this)" data-msg="" class="btn btn-warning" data-id="" data-url="{{ route('odernMovilizacionEliminar') }}" id="buttonEliminar" style="display: none;">Eliminar</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
@@ -377,7 +420,7 @@
     <!-- /large modal -->
 
        <!-- Large modal -->
-       <div id="modal_large_s" class="modal fade" tabindex="-1">
+    <div id="modal_large_s" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -474,6 +517,7 @@
 @prepend('linksPie')
     {!! $udt->html()->scripts() !!} 
     {!! $pdt->html()->scripts() !!} 
+
 <script>
 
 
@@ -592,18 +636,68 @@
         ]
     });
 
-    
+    $('#departamento').change(function() {
+        var departamentoId = $(this).val();
+        obtenerListadoDirecciones(departamentoId)
+    });
 
+    function actualizarDEpartamentoSelect(departamentoId,direccionId){
+        $('#departamento').val(departamentoId);
+        obtenerListadoDirecciones(departamentoId,direccionId);
+    }
+
+    function obtenerListadoDirecciones(departamentoId,direccionId){
+
+        
+        $.ajax({
+            url: '/obtener-direcciones-x-departamento/' + departamentoId,
+            type: 'GET',
+            success: function(data) {
+                var $direccion = $('#direccion');
+                $direccion.empty(); // Vaciar el select de direcciones
+                
+                $direccion.append('<option value="" selected>------</option>'); // Opción por defecto
+                
+                $.each(data, function(index, direccion) {
+                    if(direccion.id==direccionId){
+                        
+                        $direccion.append('<option value="' + direccion.id + '" selected>' + direccion.nombre + '</option>');    
+                    }else{
+                        $direccion.append('<option value="' + direccion.id + '">' + direccion.nombre + '</option>');
+                        
+                    }
+                    
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error en la solicitud AJAX:', error);
+            }
+        });
+    }
     
 
     // funcion guardar actualizar orden de movilizacion
     function guardarOrdenMovilizacion(event){
+        
+        var direccion_id=$(event.draggedEl).data('direccion_id');
+        var departamento_id=$(event.draggedEl).data('departamento_id');
+
+        // si vehiculo tiene direccion cargar automaticamente la direccion al OM
+        if(direccion_id){
+            actualizarDEpartamentoSelect(departamento_id,direccion_id);
+        }else{
+            var firstValue = $("#departamento option:first").val();
+            actualizarDEpartamentoSelect(firstValue,direccion_id);
+        }
+
         picker.dates.set(event.event.start);
         var newDateObj = moment(event.event.start).add(15, 'm').toDate();
         if(event.event.allDay){
             newDateObj = moment(event.event.start).add(12, 'h').toDate();
         }
         picker2.dates.set(newDateObj);
+
+        
         $('#accionForm').val('nuevoOrden');
         $('#modal_full').modal('show');
         
@@ -626,7 +720,8 @@
         $('#numero_orden_movilizacion').html($('#numeroSiguenteOrdenMovilizacion').html());
         
         $('#solicitante_info').val("{{ old('solicitante_info',Auth::user()->apellidos_nombres??'') }}")
-        $('#solicitante').val("{{ old('solicitante',Auth::user()->id) }}")
+        $('#solicitante').val("{{ old('solicitante',Auth::user()->id) }}");
+        $('#aceptar_orden_movilizacion').show();
     }
     
     // funcion guardar
@@ -650,7 +745,18 @@
             $('#comision_cumplir').val(data.comision_cumplir);
             $('#actividad_cumplir').val(data.actividad_cumplir);
 
-            console.log(data.conductor)
+            var departamentoId = data.vehiculo.direccion?.departamento_id ?? 0;
+
+            if(departamentoId){
+                actualizarDEpartamentoSelect(departamentoId,data.vehiculo.direccion_id);
+                
+            }else{
+                var firstValue = $("#departamento option:first").val();
+                actualizarDEpartamentoSelect(firstValue);
+                
+            }
+
+
             if(data.conductor){
                 $('#conductor').val(data.conductor.id);
                 
@@ -675,6 +781,7 @@
             
             $('#numero_orden_movilizacion').html(data.numero);
             $('#buttonEliminar').attr('data-id',data.id).attr('data-msg',"Está seguro de eliminar Orden de Movilización "+data.numero).show();
+            $('#aceptar_orden_movilizacion').hide();
         });
 
         picker.dates.set(event.event.start);
@@ -717,6 +824,11 @@
         $('#conductor_info').val('');
         $('#solicitante').val('');
         $('#solicitante_info').val('');
+        $('#procedencia').val('');
+        $('#destino').val('');
+        $('#comision_cumplir').val('');
+        $('#actividad_cumplir').val('');
+        $('#direccion').val('');
 
     })
     calendar.render();

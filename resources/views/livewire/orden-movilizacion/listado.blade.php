@@ -95,7 +95,12 @@
                     <table class="table table-bordered table-hover table-sm">
                         <thead>
                             <tr>
-                                <th>-</th>
+                                <th>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="defaultCheck1" wire:model="selectAll" wire:click="toggleSelectAll">
+                                        
+                                    </div>
+                                </th>
                                 <th>N° orden</th>
                                 <th>N° ocupantes</th>
                                 <th>N° movil placa</th>

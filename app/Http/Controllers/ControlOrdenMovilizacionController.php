@@ -24,7 +24,7 @@ class ControlOrdenMovilizacionController extends Controller
     {
         return $dataTable->render('movilizacion.control.index');
     }
-
+    
     public function AprobarReprobar(VehiculoDataTable $dataTableVehiculo,ConductorSolicitanteDataTable $dataTableConductor,$id)
     {
         
@@ -77,7 +77,7 @@ class ControlOrdenMovilizacionController extends Controller
         ->setOption('margin-bottom', '1cm')
         ->setOption('header-html', $headerHtml)
         ->setOption('footer-html', $footerHtml);
-        return $pdf->inline('Orden '.$orden->numero.'.pdf');
+        return $pdf->inline('OM-'.$orden->vehiculo->numero_movil.'-'.$orden->numero.'.pdf');
     }
 
     public function AprobarListaGuardar(Request $request)
