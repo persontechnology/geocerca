@@ -8,7 +8,7 @@
 
     @livewire('orden-movilizacion.listado')
     
-@push('scripts')
-  
-@endpush
+
 @endsection
+
+

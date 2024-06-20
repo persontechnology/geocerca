@@ -258,19 +258,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-12">
-            <div class="form-group">
-                <label  for="actividad_cumplir">Actividad a cumplir</label>
-                <div class="input-group">
-                    <textarea name="actividad_cumplir" class="form-control @error('actividad_cumplir') is-invalid @enderror" id="actividad_cumplir">{{ old('actividad_cumplir',$vehiculo->actividad_cumplir??'') }}</textarea>
-                    @error('actividad_cumplir')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div>
-        </div>
+        
         
     </div>
 

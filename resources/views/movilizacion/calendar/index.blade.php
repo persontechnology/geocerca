@@ -93,7 +93,7 @@
                                                 
                                             <div class='input-group' id='datetimepicker1' data-td-target-input='nearest' data-td-target-toggle='nearest'>
                                                 
-                                                <input id='fecha_salida' onkeydown="event.preventDefault()" name="fecha_salida" type='text' class="form-control @error('fecha_salida') is-invalid @enderror" value="{{ old('fecha_salida')}}" data-td-target='#datetimepicker1' required/>
+                                                <input id='fecha_salida' onkeydown="event.preventDefault()" name="fecha_salida" type='text' class="form-control @error('fecha_salida') is-invalid @enderror" value="{{ old('fecha_salida',$proximo_sabado)}}" data-td-target='#datetimepicker1' required/>
                                                 <span class='input-group-append' data-td-target='#datetimepicker1' data-td-toggle='datetimepicker'>
                                                     <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                                 </span>
@@ -110,7 +110,7 @@
                                             <label for="fecha_retorno">Fecha y hora de retorno<i class="text-danger">*</i></label>
                                                 
                                             <div class='input-group' id='datetimepicker2' data-td-target-input='nearest' data-td-target-toggle='nearest'>
-                                                <input id='fecha_retorno' onkeydown="event.preventDefault()" name="fecha_retorno" type='text' class="form-control @error('fecha_retorno') is-invalid @enderror" value="{{ old('fecha_retorno')}}" data-td-target='#datetimepicker2' required/>
+                                                <input id='fecha_retorno' onkeydown="event.preventDefault()" name="fecha_retorno" type='text' class="form-control @error('fecha_retorno') is-invalid @enderror" value="{{ old('fecha_retorno',$proximo_domingo)}}" data-td-target='#datetimepicker2' required/>
                                                 <span class='input-group-append' data-td-target='#datetimepicker2' data-td-toggle='datetimepicker'>
                                                     <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                                 </span>
@@ -690,12 +690,15 @@
             actualizarDEpartamentoSelect(firstValue,direccion_id);
         }
 
-        picker.dates.set(event.event.start);
-        var newDateObj = moment(event.event.start).add(15, 'm').toDate();
-        if(event.event.allDay){
-            newDateObj = moment(event.event.start).add(12, 'h').toDate();
-        }
-        picker2.dates.set(newDateObj);
+        // picker.dates.set(event.event.start);
+        // var newDateObj = moment(event.event.start).add(15, 'm').toDate();
+        // if(event.event.allDay){
+        //     newDateObj = moment(event.event.start).add(12, 'h').toDate();
+        // }
+        // picker2.dates.set(newDateObj);
+
+        $('#fecha_salida').val("{{ $proximo_sabado }}")
+        $('#fecha_retorno').val("{{ $proximo_domingo }}")
 
         
         $('#accionForm').val('nuevoOrden');
@@ -829,6 +832,8 @@
         $('#comision_cumplir').val('');
         $('#actividad_cumplir').val('');
         $('#direccion').val('');
+        $('#fecha_salida').val('');
+        $('#fecha_retorno').val('');
 
     })
     calendar.render();

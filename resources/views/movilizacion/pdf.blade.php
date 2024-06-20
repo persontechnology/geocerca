@@ -82,10 +82,7 @@
                     <th>Comisión a cumplir</th>
                     <td colspan="7">{{ $orden->comision_cumplir }}</td>
                 </tr>
-                <tr>
-                    <th>Actividad a cumplir</th>
-                    <td colspan="7">{{ $orden->actividad_cumplir }}</td>
-                </tr>
+               
                 <tr>
                     <th>Datos del conductor</th>
                     <td colspan="3">{{ $orden->conductor->apellidos_nombres??'' }}</td>

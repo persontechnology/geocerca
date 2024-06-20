@@ -15,6 +15,7 @@ use App\Models\Empresa;
 use App\Models\Lectura;
 use App\Models\OrdenMovilizacion;
 use App\Models\Parqueadero;
+use App\Models\TipoVehiculo;
 use App\Models\User;
 use App\Models\Vehiculo;
 use App\Notifications\OMInformarAceptadoNoty;
@@ -32,8 +33,21 @@ class OrdenMovilizacionController extends Controller
         $this->middleware(['permission:Orden de Movilización']);
     }
 
-    public function multiple(SolicitanteDataTable $dataTable) {
+    public function multiple(SolicitanteDataTable $dataTable,Request $request) {
+
         $vehiculos=Vehiculo::get();
+
+        
+        if($request->direccion) {
+            $vehiculos=$vehiculos->where('direccion_id',$request->direccion);
+        }
+        if($request->tipoVehiculo) {
+            $vehiculos=$vehiculos->where('tipo_vehiculo_id',$request->tipoVehiculo);
+        }
+        
+        $departamentos=Departamento::get();
+        $tipoVehiculos=TipoVehiculo::get();
+
         $today = Carbon::now();
         $nextSaturday = $today->copy()->next(Carbon::SATURDAY)->format('Y/m/d H:i');
         $nextSunday = $today->copy()->next(Carbon::SUNDAY)->format('Y/m/d H:i');
@@ -41,7 +55,12 @@ class OrdenMovilizacionController extends Controller
         $data = array(
             'vehiculos'=>$vehiculos,
             'proximo_sabado'=>$nextSaturday,
-            'proximo_domingo'=>$nextSunday
+            'proximo_domingo'=>$nextSunday,
+            'departamentos'=>$departamentos,
+            'tipoVehiculos'=>$tipoVehiculos,
+            'departamento'=>$request->departamento,
+            'direccion'=>$request->direccion,
+            'tipoVehiculo'=>$request->tipoVehiculo
         );
         return $dataTable->render('movilizacion.multiple',$data);
     }
@@ -106,6 +125,9 @@ class OrdenMovilizacionController extends Controller
     public function index(ConductorDataTable $udt, SolicitanteDataTable $pdt) 
     {
         
+        $today = Carbon::now();
+        $nextSaturday = $today->copy()->next(Carbon::SATURDAY)->format('Y/m/d H:i');
+        $nextSunday = $today->copy()->next(Carbon::SUNDAY)->format('Y/m/d H:i');
        
 
 
@@ -120,6 +142,8 @@ class OrdenMovilizacionController extends Controller
             'numero'=>OrdenMovilizacion::NumeroSiguente(),
             'ordenesMovilizaciones'=>$ordenes,
             'departamentos'=>Departamento::get(),
+            'proximo_sabado'=>$nextSaturday,
+            'proximo_domingo'=>$nextSunday
             
         );
 

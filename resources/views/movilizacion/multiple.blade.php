@@ -2,6 +2,54 @@
 @section('breadcrumbs', Breadcrumbs::render('odernMovilizacionMultiple'))
 
 @section('content')
+
+<form action="{{ route('odernMovilizacionMultiple') }}" method="get">
+    <div class="card">
+        <div class="card-header">Filtros</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="departamento">Seleccione departamento</label>
+                        <select name="departamento" id="departamento" class="form-control">
+                            @foreach ($departamentos as $departamento)
+                                <option value="{{ $departamento->id }}" {{ $departamento??''==$departamento->id?'selected':'' }}>{{ $departamento->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="direccion">Seleccione dirección</label>
+                        <select name="direccion" id="direccion" class="form-control">
+                            <option value="" selected >------</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="tipoVehiculo">Seleccione tipo de vehículo</label>
+                        <select name="tipoVehiculo" id="tipoVehiculo" class="form-control">
+                            <option value="" selected >------</option>
+                            @foreach ($tipoVehiculos as $tv)
+                                <option value="{{ $tv->id }}" {{ $tipoVehiculo??''==$tv->id?'selected':'' }}>{{ $tv->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <button class="btn btn-outline-primary btn-block" type="submit">Filtrar</button>
+                </div>
+                <div class="col-lg-6">
+                    <a href="{{ route('odernMovilizacionMultiple') }}" class="btn btn-outline-danger btn-block">Resetear</a>
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+</form>
+
 <form action="{{ route('odernMovilizacionMultipleGuardar') }}" id="formOrdenMovilizacion" method="POST" autocomplete="off">
     @csrf
     <div class="card">
@@ -11,6 +59,8 @@
         
         <div class="card-body">
             <div class="row">
+                
+
                 <div class="col-lg-4">
                     <div class="form-group">
                         <label for="fecha_solicitud">Fecha de solicitud:</label>
@@ -92,7 +142,7 @@
 
             </div>
 
-            <h5 class="card-title">Selecionar veículos</h5>
+            <h5 class="card-title">Selecionar vehículos</h5>
             <select multiple="multiple" class="form-control listbox" name="vehiculos[]" data-fouc>
                 @foreach ($vehiculos as $veh)
                 <option value="{{ $veh->id }}">{{ $veh->numero_movil }} {{ $veh->placa }}</option>
@@ -232,6 +282,43 @@
             },
     });
 
+    // cargar direcciones
+    var departamentoId = $('#departamento').val();
+    var direccionId=parseInt("{{ $direccion }}");
+    
+    obtenerListadoDirecciones(departamentoId);
+
+    // Obtener el valor seleccionado cuando cambie la selección
+    $('#departamento').change(function() {
+        var departamentoId = $(this).val();
+        obtenerListadoDirecciones(departamentoId)
+    });
+
+    function obtenerListadoDirecciones(departamentoId){
+        $.ajax({
+            url: '/obtener-direcciones-x-departamento/' + departamentoId,
+            type: 'GET',
+            success: function(data) {
+                var $direccion = $('#direccion');
+                $direccion.empty(); // Vaciar el select de direcciones
+                
+                $direccion.append('<option value="" selected>------</option>'); // Opción por defecto
+                
+                $.each(data, function(index, direccion) {
+                    if(direccionId==direccion.id){
+                        $direccion.append('<option value="' + direccion.id + '" selected>' + direccion.nombre + '</option>');
+                    }else{
+                        $direccion.append('<option value="' + direccion.id + '">' + direccion.nombre + '</option>');
+                    }
+                    
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error en la solicitud AJAX:', error);
+            }
+        });
+    }
+
 
 </script>
 @endprepend
@@ -270,9 +357,7 @@
                     $('#modal_large_s').modal('hide');
                     break;
             }
-
-            
-            
         }
+
     </script>
 @endpush

@@ -6,9 +6,10 @@
 @endsection
 @section('content')
 
-    @livewire('vehiculos.reposrte-pdf')
+    @livewire('vehiculos.reporte-pdf')
     
 @push('scripts')
   
 @endpush
 @endsection
+
