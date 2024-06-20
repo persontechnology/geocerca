@@ -35,7 +35,6 @@
                         <input type="text" name="correos"  value="{{ $emailsSupervisor }}" class="form-control" placeholder="Ejm: admin@gmail.com,secre@gmail.com">                           
                         
 
-
                     </div>
                 </div>
                 
@@ -122,6 +121,7 @@
         // Selecciona o deselecciona todos los checkboxes con clase `form-check-input` dentro de tbody
         $('#ordenmovilizacion-listadoordenmovilizacion-table-aprobar tbody .form-check-input').prop('checked', isChecked);
     }
+    
 
 </script>
 @endprepend

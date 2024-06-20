@@ -9,6 +9,7 @@ use App\Models\OrdenMovilizacion;
 use App\Models\Parqueadero;
 use App\Models\TipoVehiculo;
 use App\Models\User;
+use App\Notifications\OMInformarAceptadoNoty;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
@@ -227,33 +228,32 @@ class Listado extends Component
      }
 
      public function enviarPdfPorCorreo()
-    {
-        $this->enviandoEmails = true; // Activar el estado de envío
-
-        $ordenes = OrdenMovilizacion::whereIn('id', $this->selecionados)->get();
-        
-        $headerHtml = view()->make('empresa.pdfHeader')->render();
-        $footerHtml = view()->make('empresa.pdfFooter')->render();
-
-        $pdfs = PDF::loadView('livewire.orden-movilizacion.multipdfs', ['ordenes' => $ordenes])
-            ->setOrientation('landscape')
-            ->setOption('margin-top', '2.5cm')
-            ->setOption('margin-bottom', '1cm')
-            ->setOption('header-html', $headerHtml)
-            ->setOption('footer-html', $footerHtml)
-            ->setOption('footer-right', 'Página [page] de [toPage]')
-            ->setOption('footer-font-size', '10')
-            ->output();
-
-        // Enviar el PDF por correo
-        $emails = explode(',', $this->correo_destino);
-        foreach ($emails as $email) {
-            Mail::to(trim($email))->send(new OrdenesMovilizacionPdfVariasCorreos($pdfs));
-        }
-        $this->enviandoEmails = false; // Desactivar el estado de envío
-        $this->correo_destino='';
-        session()->flash('messageEmail', 'PDF enviado con éxito a los correos especificados.');
-    }
+     {
+         $this->enviandoEmails = true; // Activar el estado de envío
+ 
+         $ordenes = OrdenMovilizacion::whereIn('id', $this->selecionados)->get();
+         // Enviar el PDF por correo
+         $emails = explode(',', $this->correo_destino);
+ 
+         foreach ($emails as $email) {
+ 
+             // aqui enviar a cada usuario supervisor
+             foreach ($ordenes as $orden) {
+                 $user=new User();
+                 $user->name='';
+                 $user->password='';
+                 $user->email=$email;
+                 $user->notify(new OMInformarAceptadoNoty($orden));
+             }
+             
+         }
+         
+ 
+ 
+         $this->enviandoEmails = false; // Desactivar el estado de envío
+         $this->correo_destino='';
+         session()->flash('messageEmail', 'PDF enviado con éxito a los correos especificados.');
+     }
      
 
 }

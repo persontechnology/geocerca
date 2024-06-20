@@ -92,22 +92,26 @@ class ControlOrdenMovilizacionController extends Controller
         if($request->om){
             $correosSupervisor=$request->correos;
             
+            $ordenes =[];
             foreach ($request->om as $om) {
                 $orden=OrdenMovilizacion::findOrFail($om);
-                if($orden->estado=='SOLICITADO'){
-                    $orden->estado='ACEPTADA';
-                    $orden->autorizado_id=Auth::id();
-                    $orden->save();
-                    if($orden->conductor){
-                        $orden->conductor->notify(new OMInformarAceptadoNoty($orden));
-                    }
-                    if($orden->solicitante){
-                        $orden->solicitante->notify(new OMInformarAceptadoNoty($orden));
-                    }
+                
+                $orden->estado='ACEPTADA';
+                $orden->autorizado_id=Auth::id();
+                $orden->save();
+
+                if($orden->conductor){
+                    $orden->conductor->notify(new OMInformarAceptadoNoty($orden));
                 }
+                if($orden->solicitante){
+                    $orden->solicitante->notify(new OMInformarAceptadoNoty($orden));
+                }
+
+                array_push($ordenes,$orden->id);
+                
             }
 
-            $this->enviarPdfPorCorreo($request->om,$correosSupervisor);
+            $this->enviarPdfPorCorreo($ordenes,$correosSupervisor);
             request()->session()->flash('success','Ordenes de movilizaciones aceptadas y se envio OM a los correso de los Supervisores.');
         }
         
@@ -120,25 +124,22 @@ class ControlOrdenMovilizacionController extends Controller
         
         
         $ordenes = OrdenMovilizacion::whereIn('id', $idsOM)->get();
-        
-        $headerHtml = view()->make('empresa.pdfHeader')->render();
-        $footerHtml = view()->make('empresa.pdfFooter')->render();
+    
 
-        $pdfs = PDF::loadView('livewire.orden-movilizacion.multipdfs', ['ordenes' => $ordenes])
-            ->setOrientation('landscape')
-            ->setOption('margin-top', '2.5cm')
-            ->setOption('margin-bottom', '1cm')
-            ->setOption('header-html', $headerHtml)
-            ->setOption('footer-html', $footerHtml)
-            ->setOption('footer-right', 'Página [page] de [toPage]')
-            ->setOption('footer-font-size', '10')
-            ->output();
-
-        // Enviar el PDF por correo
         $emails = explode(',', $emailsUserSupervisores);
         foreach ($emails as $email) {
-            Mail::to(trim($email))->send(new OrdenesMovilizacionPdfVariasCorreos($pdfs));
+
+            // aqui enviar a cada usuario supervisor
+            foreach ($ordenes as $orden) {
+                $user=new User();
+                $user->name='';
+                $user->password='';
+                $user->email=$email;
+                $user->notify(new OMInformarAceptadoNoty($orden));
+            }
+            
         }
+        
         
         return true;
     }

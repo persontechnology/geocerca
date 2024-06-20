@@ -134,24 +134,21 @@ class OrdenMovilizacionController extends Controller
         
         
         $ordenes = OrdenMovilizacion::whereIn('id', $idsOM)->get();
-        
-        $headerHtml = view()->make('empresa.pdfHeader')->render();
-        $footerHtml = view()->make('empresa.pdfFooter')->render();
 
-        $pdfs = PDF::loadView('livewire.orden-movilizacion.multipdfs', ['ordenes' => $ordenes])
-            ->setOrientation('landscape')
-            ->setOption('margin-top', '2.5cm')
-            ->setOption('margin-bottom', '1cm')
-            ->setOption('header-html', $headerHtml)
-            ->setOption('footer-html', $footerHtml)
-            ->setOption('footer-right', 'Página [page] de [toPage]')
-            ->setOption('footer-font-size', '10')
-            ->output();
 
         // Enviar el PDF por correo
         $emails = explode(',', $emailsUserSupervisores);
         foreach ($emails as $email) {
-            Mail::to(trim($email))->send(new OrdenesMovilizacionPdfVariasCorreos($pdfs));
+
+            // aqui enviar a cada usuario supervisor
+            foreach ($ordenes as $orden) {
+                $user=new User();
+                $user->name='';
+                $user->password='';
+                $user->email=$email;
+                $user->notify(new OMInformarAceptadoNoty($orden));
+            }
+            
         }
         
         return true;
