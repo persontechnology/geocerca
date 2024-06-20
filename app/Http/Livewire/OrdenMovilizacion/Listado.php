@@ -8,6 +8,7 @@ use App\Models\Direccion;
 use App\Models\OrdenMovilizacion;
 use App\Models\Parqueadero;
 use App\Models\TipoVehiculo;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use PDF;
@@ -48,6 +49,13 @@ class Listado extends Component
         'mostrar'=>['except'=>'10']
     ];
 
+
+    public function mount()
+    {
+        // Obtén los correos de los supervisores y establece el valor inicial de correo_destino
+        $this->correo_destino = User::role('Supervisor')->get()->pluck('email')->implode(',');
+    }
+
     public function render()
     {
         $data = array(
@@ -56,6 +64,7 @@ class Listado extends Component
             'parqueaderos'=>Parqueadero::get(),
             'departamentos' => Departamento::all(), // Obtener todos los departamentos
             'direcciones' => [], // Esto se actualizará dinámicamente según la selección del departamento
+            
         );
 
         // Si hay un departamento seleccionado, obtener sus direcciones

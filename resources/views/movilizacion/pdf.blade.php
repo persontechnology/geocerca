@@ -89,12 +89,7 @@
                     <th>Cargo</th>
                     <td colspan="3">{{ $orden->conductor->descripcion??'' }}</td>
                 </tr>
-                <tr>
-                    <th>DIRECCION</th>
-                    <td colspan="3">{{ $orden->direccion->nombre??'' }}</td>
-                    <th>DEPARTAMENTO</th>
-                    <td colspan="3">{{ $orden->direccion->departamento->nombre??'' }}</td>
-                </tr>
+                
                 <tr>
                     <th>Datos del solicitante</th>
                     <td colspan="3">{{ $orden->solicitante->apellidos_nombres??'' }}</td>

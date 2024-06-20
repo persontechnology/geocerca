@@ -25,6 +25,19 @@
                     <h5 class="modal-title" id="exampleModalLabel">Selecionar O.M, para aceptar.</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">X</button>
                 </div>
+                <div class="container-fluid">
+                    <div class="form-group">
+
+                 
+                        <label class="form-check-label" for="defaultCheck1supe">
+                            Enviar órdenes de movilización a (separar correos con comas) a Supervisores:
+                        </label>
+                        <input type="text" name="correos"  value="{{ $emailsSupervisor }}" class="form-control" placeholder="Ejm: admin@gmail.com,secre@gmail.com">                           
+                        
+
+
+                    </div>
+                </div>
                 
                 <div class="modal-body">
                     <div class="table-responsive">

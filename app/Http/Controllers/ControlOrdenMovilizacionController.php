@@ -7,11 +7,14 @@ use App\DataTables\OrdenMovilizacion\ConductorSolicitanteDataTable;
 use App\DataTables\OrdenMovilizacion\Control\AprobarDataTable;
 use App\DataTables\OrdenMovilizacion\Control\VehiculoDataTable;
 use App\Http\Requests\OrdenMovilizacion\Control\RqAprobarReprobarGuardar;
+use App\Mail\OrdenesMovilizacionPdfVariasCorreos;
 use App\Models\Empresa;
 use App\Models\OrdenMovilizacion;
+use App\Models\User;
 use App\Notifications\OMInformarAceptadoNoty;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use PDF;
 
 class ControlOrdenMovilizacionController extends Controller
@@ -22,7 +25,11 @@ class ControlOrdenMovilizacionController extends Controller
     }
     public function index(AprobarDataTable $dataTable)
     {
-        return $dataTable->render('movilizacion.control.index');
+        $userEmails=User::role('Supervisor')->get()->pluck('email')->implode(',');
+        $data = array(
+            'emailsSupervisor'=>$userEmails,
+        );
+        return $dataTable->render('movilizacion.control.index',$data);
     }
     
     public function AprobarReprobar(VehiculoDataTable $dataTableVehiculo,ConductorSolicitanteDataTable $dataTableConductor,$id)
@@ -83,6 +90,8 @@ class ControlOrdenMovilizacionController extends Controller
     public function AprobarListaGuardar(Request $request)
     {
         if($request->om){
+            $correosSupervisor=$request->correos;
+            
             foreach ($request->om as $om) {
                 $orden=OrdenMovilizacion::findOrFail($om);
                 if($orden->estado=='SOLICITADO'){
@@ -97,10 +106,40 @@ class ControlOrdenMovilizacionController extends Controller
                     }
                 }
             }
-            request()->session()->flash('success','Ordenes de movilizaciones aceptadas');
+
+            $this->enviarPdfPorCorreo($request->om,$correosSupervisor);
+            request()->session()->flash('success','Ordenes de movilizaciones aceptadas y se envio OM a los correso de los Supervisores.');
         }
         
         return redirect()->route('controlOdernMovilizacion');
         
+    }
+
+    public function enviarPdfPorCorreo($idsOM,$emailsUserSupervisores)
+    {
+        
+        
+        $ordenes = OrdenMovilizacion::whereIn('id', $idsOM)->get();
+        
+        $headerHtml = view()->make('empresa.pdfHeader')->render();
+        $footerHtml = view()->make('empresa.pdfFooter')->render();
+
+        $pdfs = PDF::loadView('livewire.orden-movilizacion.multipdfs', ['ordenes' => $ordenes])
+            ->setOrientation('landscape')
+            ->setOption('margin-top', '2.5cm')
+            ->setOption('margin-bottom', '1cm')
+            ->setOption('header-html', $headerHtml)
+            ->setOption('footer-html', $footerHtml)
+            ->setOption('footer-right', 'Página [page] de [toPage]')
+            ->setOption('footer-font-size', '10')
+            ->output();
+
+        // Enviar el PDF por correo
+        $emails = explode(',', $emailsUserSupervisores);
+        foreach ($emails as $email) {
+            Mail::to(trim($email))->send(new OrdenesMovilizacionPdfVariasCorreos($pdfs));
+        }
+        
+        return true;
     }
 }

@@ -272,7 +272,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label  for="actividad_cumplir">Actividad a cumplir</label>
                                     <div class="input-group">
                                         <textarea name="actividad_cumplir" class="form-control @error('actividad_cumplir') is-invalid @enderror" id="actividad_cumplir">{{ old('actividad_cumplir') }}</textarea>
@@ -282,7 +282,7 @@
                                             </span>
                                         @enderror
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -359,10 +359,23 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="ACEPTADA" {{ old('estado')=='ACEPTADA'?'checked':'' }} name="estado" id="estado">
                                             <label class="form-check-label" for="estado">
-                                                ACEPTAR ORDEN DE MOVILIZACIÓN
+                                                ACEPTAR ÓRDEN DE MOVILIZACIÓN
                                             </label>
                                         </div>
                                     </div>
+
+                                    <div class="col-lg-12 border mt-2">
+                                        <div class="form-group">
+                        
+                                            <label class="form-check-label mt-1" for="defaultCheck1supe">
+                                                Enviar órdenes de movilización a (separar correos con comas) a Supervisores:
+                                            </label>
+                                            <input type="text" name="correos"  value="{{ $emailsSupervisor }}" class="form-control" placeholder="Ejm: admin@gmail.com,secre@gmail.com">
+                                            
+                                        </div>
+                                    </div>
+
+
                                 </div>
 
                                 

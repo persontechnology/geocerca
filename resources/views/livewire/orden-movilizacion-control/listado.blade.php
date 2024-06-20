@@ -99,14 +99,59 @@
         </div>
         
         @if (!empty($selecionados))
-            <button class="btn btn-primary" wire:click="pdfSelecionados">
-                Descargar opción 1 <i class="fa-solid fa-file-pdf ml-1"></i>
-            </button>
-            <button class="btn btn-info" wire:click="pdfSelecionadosADetalle">
-                Descargar opción 2 <i class="fa-solid fa-file-pdf ml-1"></i>
-            </button>
             <i>{{ count($selecionados)  }} selecionados</i>
+            <br>
+            <div class="row">
+                <div class="col-lg-2">
+                    <button class="btn btn-primary btn-block mt-1" wire:click="pdfSelecionados">
+                        Descargar opción 1 <i class="fa-solid fa-file-pdf ml-1"></i>
+                    </button>
+                </div>
+                <div class="col-lg-2">
+                    <button class="btn btn-info btn-block mt-1" wire:click="pdfSelecionadosADetalle">
+                        Descargar opción 2 <i class="fa-solid fa-file-pdf ml-1"></i>
+                    </button>
+                </div>
+
+                
+
+                <div class="col-lg-8">
+                    <form wire:submit.prevent="enviarPdfPorCorreo">
+                        @csrf
+                        <div class="form-group">
+                            <label>Enviar órdenes de movilización a (separar correos con comas) a Supervisores:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" wire:model="correo_destino" placeholder="Ejm: admin@gmail.com,secre@gmail.com">
+                                <span class="input-group-append">
+                                    <button class="btn btn-light" type="submit" wire:loading.attr="disabled" wire:loading.class="btn-secondary">
+                                        <span wire:loading wire:target="enviarPdfPorCorreo">Enviando...</span>
+                                        <span wire:loading.remove>Enviar PDF</span>
+                                    </button>
+                                </span>
+                            </div>
+
+                            @if (session()->has('messageEmail'))
+                                
+                                <div class="alert bg-success text-white alert-dismissible my-1">
+                                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+                                    <span class="font-weight-semibold">{{ session('messageEmail') }}</span>
+                                </div>
+
+                            @endif
+                        </div>
+                    </form>
+                </div>
+                
+
+
+            </div>
+            
+            
+
+
+
         @endif
+        
     </div>
     <div class="card-body">
         

@@ -10,6 +10,7 @@ use App\DataTables\OrdenMovilizacion\SolicitanteDataTable;
 use App\Http\Requests\RqActualizarOrdenMovilizacion;
 use App\Http\Requests\RqEliminarOrdenMOvilizacion;
 use App\Http\Requests\RqGuardarOrdenMovilizacion;
+use App\Mail\OrdenesMovilizacionPdfVariasCorreos;
 use App\Models\Departamento;
 use App\Models\Empresa;
 use App\Models\Lectura;
@@ -23,6 +24,7 @@ use App\Notifications\OrdenMovilizacionIngresadaNoty;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use PDF;
 class OrdenMovilizacionController extends Controller
@@ -51,7 +53,8 @@ class OrdenMovilizacionController extends Controller
         $today = Carbon::now();
         $nextSaturday = $today->copy()->next(Carbon::SATURDAY)->format('Y/m/d H:i');
         $nextSunday = $today->copy()->next(Carbon::SUNDAY)->format('Y/m/d H:i');
-
+        $userEmails=User::role('Supervisor')->get()->pluck('email')->implode(',');
+        
         $data = array(
             'vehiculos'=>$vehiculos,
             'proximo_sabado'=>$nextSaturday,
@@ -60,7 +63,8 @@ class OrdenMovilizacionController extends Controller
             'tipoVehiculos'=>$tipoVehiculos,
             'departamento'=>$request->departamento,
             'direccion'=>$request->direccion,
-            'tipoVehiculo'=>$request->tipoVehiculo
+            'tipoVehiculo'=>$request->tipoVehiculo,
+            'emailsSupervisor'=>$userEmails,
         );
         return $dataTable->render('movilizacion.multiple',$data);
     }
@@ -76,6 +80,7 @@ class OrdenMovilizacionController extends Controller
         ]);
 
         $i=0;
+        $omIds = [];
         foreach ($request->vehiculos as $vehiculo_id) {
             $vehiculo=Vehiculo::find($vehiculo_id);
 
@@ -112,14 +117,45 @@ class OrdenMovilizacionController extends Controller
                 }
             }
             $i++;
+
+            array_push($omIds,$orden->id);
         }
 
+        $this->enviarPdfPorCorreo($omIds,$request->correos);
         request()->session()->flash('success', $i.' Ordenes de movilización guardado.');
         
         return redirect()->route('odernMovilizacionListado');
 
     }
 
+
+    public function enviarPdfPorCorreo($idsOM,$emailsUserSupervisores)
+    {
+        
+        
+        $ordenes = OrdenMovilizacion::whereIn('id', $idsOM)->get();
+        
+        $headerHtml = view()->make('empresa.pdfHeader')->render();
+        $footerHtml = view()->make('empresa.pdfFooter')->render();
+
+        $pdfs = PDF::loadView('livewire.orden-movilizacion.multipdfs', ['ordenes' => $ordenes])
+            ->setOrientation('landscape')
+            ->setOption('margin-top', '2.5cm')
+            ->setOption('margin-bottom', '1cm')
+            ->setOption('header-html', $headerHtml)
+            ->setOption('footer-html', $footerHtml)
+            ->setOption('footer-right', 'Página [page] de [toPage]')
+            ->setOption('footer-font-size', '10')
+            ->output();
+
+        // Enviar el PDF por correo
+        $emails = explode(',', $emailsUserSupervisores);
+        foreach ($emails as $email) {
+            Mail::to(trim($email))->send(new OrdenesMovilizacionPdfVariasCorreos($pdfs));
+        }
+        
+        return true;
+    }
 
 
     public function index(ConductorDataTable $udt, SolicitanteDataTable $pdt) 
@@ -134,6 +170,8 @@ class OrdenMovilizacionController extends Controller
         $parqueaderos=Parqueadero::where('estado','Activo')->get();
         $ordenes=OrdenMovilizacion::whereDate('fecha_salida','>=',Carbon::now()->subMonth(2))->get();
 
+        $userEmails=User::role('Supervisor')->get()->pluck('email')->implode(',');
+        
         $data = array(
             'udt' =>$udt ,
             'pdt'=>$pdt,
@@ -143,7 +181,8 @@ class OrdenMovilizacionController extends Controller
             'ordenesMovilizaciones'=>$ordenes,
             'departamentos'=>Departamento::get(),
             'proximo_sabado'=>$nextSaturday,
-            'proximo_domingo'=>$nextSunday
+            'proximo_domingo'=>$nextSunday,
+            'emailsSupervisor'=>$userEmails,
             
         );
 
@@ -216,18 +255,30 @@ class OrdenMovilizacionController extends Controller
             }
         }
 
-        // $usuariosControlOrdenMovilizacion = User::permission('Control Orden de Movilización')->get();
-        // if($usuariosControlOrdenMovilizacion->count()>0){
-        //     Notification::sendNow($usuariosControlOrdenMovilizacion, new OrdenMovilizacionIngresadaNoty($orden));
-        // }
+        if($request->correos){
+            $this->enviarVariosCorreos($orden,$request->correos);
+        }
 
 
-        
         request()->session()->flash('success','Orden de movilización '.$orden->numero.' guardado');
         
         return redirect()->route('odernMovilizacionListado');
 
     }
+
+    public function enviarVariosCorreos($orden,$correos) {
+        $emails = explode(',', $correos);
+        // Enviar el PDF a cada correo de la lista
+        foreach ($emails as $correo) {
+            $user=new User();
+            $user->email=$correo;
+            $user->name='';
+            $user->password='';
+            $user->notify(new OMInformarAceptadoNoty($orden));
+        }
+    }
+
+    
 
     // RqActualizarOrdenMovilizacion
     public function actualizar(RqActualizarOrdenMovilizacion $request)

@@ -54,7 +54,7 @@
     @csrf
     <div class="card">
         <div class="card-header">
-            <strong>Se creará OM para el SÁBADO y DOMINGO</strong>
+            <strong>Se creará OM para el SÁBADO y DOMINGO "Por defecto para sabado y domingo "</strong>
         </div>
         
         <div class="card-body">
@@ -134,8 +134,22 @@
                     <div class="form-check mt-4">
                         <input class="form-check-input" type="checkbox" value="ACEPTADA" {{ old('estado')=='ACEPTADA'?'checked':'' }} name="estado" id="estado">
                         <label class="form-check-label" for="estado">
-                            ACEPTAR ORDENES DE MOVILIZACIÓN
+                            ACEPTAR ÓRDENES DE MOVILIZACIÓN
                         </label>
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="form-group">
+
+                          
+                        <label class="form-check-label" for="defaultCheck1supe">
+                            Enviar órdenes de movilización a (separar correos con comas) a Supervisores:
+                        </label>
+                        <input type="text" name="correos"  value="{{ $emailsSupervisor }}" class="form-control" placeholder="Ejm: admin@gmail.com,secre@gmail.com">
+                          
+
+
                     </div>
                 </div>
 

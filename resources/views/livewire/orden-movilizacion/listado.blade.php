@@ -118,12 +118,13 @@
                         </button>
                     </div>
 
+                    
 
                     <div class="col-lg-8">
                         <form wire:submit.prevent="enviarPdfPorCorreo">
                             @csrf
                             <div class="form-group">
-                                <label>Enviar órdenes de movilización a (separar correos con comas):</label>
+                                <label>Enviar órdenes de movilización a (separar correos con comas) a Supervisores:</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" wire:model="correo_destino" placeholder="Ejm: admin@gmail.com,secre@gmail.com">
                                     <span class="input-group-append">

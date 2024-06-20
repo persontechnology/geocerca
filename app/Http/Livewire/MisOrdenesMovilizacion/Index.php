@@ -2,13 +2,16 @@
 
 namespace App\Http\Livewire\MisOrdenesMovilizacion;
 
+use App\Mail\OrdenesMovilizacionPdfVariasCorreos;
 use App\Models\Departamento;
 use App\Models\Direccion;
 use App\Models\OrdenMovilizacion;
 use App\Models\Parqueadero;
 use App\Models\TipoVehiculo;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
 use PDF;
@@ -34,7 +37,8 @@ class Index extends Component
      // Nuevas propiedades para manejar departamentos y direcciones
      public $departamento_id;
      public $direccion_id;
-
+     public $correo_destino;
+     public $enviandoEmails = false; // Propiedad para manejar el estado de envío
 
     // querys
     protected $queryString = [
@@ -46,6 +50,12 @@ class Index extends Component
         'hasta'=>['except' => '','as'=>'ff'],
         'mostrar'=>['except'=>'10']
     ];
+
+    public function mount()
+    {
+        // Obtén los correos de los supervisores y establece el valor inicial de correo_destino
+        $this->correo_destino = User::role('Supervisor')->get()->pluck('email')->implode(',');
+    }
 
     public function render()
     {
@@ -219,5 +229,32 @@ class Index extends Component
          }
      }
      
+     public function enviarPdfPorCorreo()
+    {
+        $this->enviandoEmails = true; // Activar el estado de envío
 
+        $ordenes = OrdenMovilizacion::whereIn('id', $this->selecionados)->get();
+        
+        $headerHtml = view()->make('empresa.pdfHeader')->render();
+        $footerHtml = view()->make('empresa.pdfFooter')->render();
+
+        $pdfs = PDF::loadView('livewire.orden-movilizacion.multipdfs', ['ordenes' => $ordenes])
+            ->setOrientation('landscape')
+            ->setOption('margin-top', '2.5cm')
+            ->setOption('margin-bottom', '1cm')
+            ->setOption('header-html', $headerHtml)
+            ->setOption('footer-html', $footerHtml)
+            ->setOption('footer-right', 'Página [page] de [toPage]')
+            ->setOption('footer-font-size', '10')
+            ->output();
+
+        // Enviar el PDF por correo
+        $emails = explode(',', $this->correo_destino);
+        foreach ($emails as $email) {
+            Mail::to(trim($email))->send(new OrdenesMovilizacionPdfVariasCorreos($pdfs));
+        }
+        $this->enviandoEmails = false; // Desactivar el estado de envío
+        $this->correo_destino='';
+        session()->flash('messageEmail', 'PDF enviado con éxito a los correos especificados.');
+    }
 }
