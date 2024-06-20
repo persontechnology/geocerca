@@ -51,9 +51,15 @@ class OrdenMovilizacionController extends Controller
         $tipoVehiculos=TipoVehiculo::get();
 
         $today = Carbon::now();
-        $nextSaturday = $today->copy()->next(Carbon::SATURDAY)->format('Y/m/d H:i');
-        $nextSunday = $today->copy()->next(Carbon::SUNDAY)->format('Y/m/d H:i');
-        $userEmails=User::role('Supervisor')->get()->pluck('email')->implode(',');
+
+        // Obtener el próximo sábado a las 06:00 AM
+        $nextSaturday = $today->copy()->next(Carbon::SATURDAY)->setTime(6, 0)->format('Y/m/d H:i');
+        
+        // Obtener el próximo domingo a las 11:59 PM
+        $nextSunday = $today->copy()->next(Carbon::SUNDAY)->setTime(23, 59)->format('Y/m/d H:i');
+        
+        $userEmails = User::role('Supervisor')->get()->pluck('email')->implode(',');
+
         
         $data = array(
             'vehiculos'=>$vehiculos,
@@ -159,10 +165,13 @@ class OrdenMovilizacionController extends Controller
     {
         
         $today = Carbon::now();
-        $nextSaturday = $today->copy()->next(Carbon::SATURDAY)->format('Y/m/d H:i');
-        $nextSunday = $today->copy()->next(Carbon::SUNDAY)->format('Y/m/d H:i');
-       
+        // Obtener el próximo sábado a las 06:00 AM
+        $nextSaturday = $today->copy()->next(Carbon::SATURDAY)->setTime(6, 0)->format('Y/m/d H:i');
 
+        // Obtener el próximo domingo a las 11:59 PM
+        $nextSunday = $today->copy()->next(Carbon::SUNDAY)->setTime(23, 59)->format('Y/m/d H:i');
+        
+      
 
         $parqueaderos=Parqueadero::where('estado','Activo')->get();
         $ordenes=OrdenMovilizacion::whereDate('fecha_salida','>=',Carbon::now()->subMonth(2))->get();
