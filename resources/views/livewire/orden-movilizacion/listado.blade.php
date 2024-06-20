@@ -120,27 +120,30 @@
 
 
                     <div class="col-lg-8">
-                        <div class="form-group">
-                            <label>Enviar órdenes de movilización a (separar correos con comas):</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" wire:model="correo_destino" placeholder="Ejm: admin@gmail.com,secre@gmail.com">
-                                <span class="input-group-append">
-                                    <button class="btn btn-light" type="button" wire:click="enviarPdfPorCorreo" wire:loading.attr="disabled" wire:loading.class="btn-secondary">
-                                        <span wire:loading wire:target="enviarPdfPorCorreo">Enviando...</span>
-                                        <span wire:loading.remove>Enviar PDF</span>
-                                    </button>
-                                </span>
+                        <form wire:submit.prevent="enviarPdfPorCorreo">
+                            @csrf
+                            <div class="form-group">
+                                <label>Enviar órdenes de movilización a (separar correos con comas):</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" wire:model="correo_destino" placeholder="Ejm: admin@gmail.com,secre@gmail.com">
+                                    <span class="input-group-append">
+                                        <button class="btn btn-light" type="submit" wire:loading.attr="disabled" wire:loading.class="btn-secondary">
+                                            <span wire:loading wire:target="enviarPdfPorCorreo">Enviando...</span>
+                                            <span wire:loading.remove>Enviar PDF</span>
+                                        </button>
+                                    </span>
+                                </div>
+
+                                @if (session()->has('messageEmail'))
+                                    
+                                    <div class="alert bg-success text-white alert-dismissible my-1">
+                                        <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+                                        <span class="font-weight-semibold">{{ session('messageEmail') }}</span>
+                                    </div>
+
+                                @endif
                             </div>
-
-                            @if (session()->has('messageEmail'))
-                                
-                                <div class="alert bg-success text-white alert-dismissible my-1">
-									<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
-									<span class="font-weight-semibold">{{ session('messageEmail') }}</span>
-							    </div>
-
-                            @endif
-                        </div>
+                        </form>
                     </div>
                     
 
