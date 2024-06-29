@@ -42,7 +42,7 @@ class IngresoKilometrajeController extends Controller
         try {
             $empresa=Empresa::first();
             $lista_vehiculos= $this->obtenerListadoVehiculos();
-            $vehiculosDeviceData=$lista_vehiculos->firstWhere('device_data.imei',$ve->imei);
+            $vehiculosDeviceData=$lista_vehiculos->firstWhere('device_data.traccar.uniqueId',$ve->imei);
 
             $responseApiSensor=Http::get($empresa->url_web_gps.'api/edit_device_data',[
                 'user_api_hash'=>$empresa->token,
@@ -65,7 +65,7 @@ class IngresoKilometrajeController extends Controller
             
             $empresa=Empresa::first();
             $lista_vehiculos= $this->obtenerListadoVehiculos();
-            $vehiculosDeviceData=$lista_vehiculos->firstWhere('device_data.imei',$ve->imei);
+            $vehiculosDeviceData=$lista_vehiculos->firstWhere('device_data.traccar.uniqueId',$ve->imei);
 
             $responseApiSensor=Http::get($empresa->url_web_gps.'api/edit_device_data',[
                 'user_api_hash'=>$empresa->token,

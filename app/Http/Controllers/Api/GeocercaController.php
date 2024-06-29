@@ -36,9 +36,9 @@ class GeocercaController extends Controller
     {
         
        $apiResVehiculos=$this->apiRestVehiculos();
-        $vehiculosRegitrados=Vehiculo::whereIn('imei',$apiResVehiculos->pluck('device_data.imei'))
+        $vehiculosRegitrados=Vehiculo::whereIn('imei',$apiResVehiculos->pluck('device_data.traccar.uniqueId'))
                             ->get()->map(function($vehiculo) use ($apiResVehiculos){
-                                $vehiculosDeviceData=$apiResVehiculos->firstWhere('device_data.imei',$vehiculo->imei);
+                                $vehiculosDeviceData=$apiResVehiculos->firstWhere('device_data.traccar.uniqueId',$vehiculo->imei);
                                 return [[$vehiculosDeviceData['lat'],$vehiculosDeviceData['lng'],$vehiculo->placa,$vehiculo->numero_movil]];
                             });
         
@@ -79,7 +79,7 @@ class GeocercaController extends Controller
                 $ordenMovilizacionDentrodeRango = Carbon::now()->betweenIncluded($tiempo_salida, $tiempo_retorno);
     
                 if ($ordenMovilizacionDentrodeRango && $om->vehiculo) {
-                    $vehiculoDeviceData = $apiResVehiculos->firstWhere('device_data.imei', $om->vehiculo->imei);
+                    $vehiculoDeviceData = $apiResVehiculos->firstWhere('device_data.traccar.uniqueId', $om->vehiculo->imei);
                     $this->consultarVehiculoDentroFueraGeocerca($om, $vehiculoDeviceData['lat'] ?? null, $vehiculoDeviceData['lng'] ?? null);
                 }
             });

@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class VehiculoController extends Controller
 {
@@ -225,8 +226,8 @@ class VehiculoController extends Controller
         ]);
 
         $apiResVehiculos= collect($responseApi->json('0.items', []));
-
-        $vehiculoDeviceData = $apiResVehiculos->firstWhere('device_data.imei', $vehiculo->imei);
+       
+        $vehiculoDeviceData = $apiResVehiculos->firstWhere('device_data.traccar.uniqueId', $vehiculo->imei);
         
         return view('vehiculos.mapa', ['vehiculo'=>$vehiculo,'lat' => $vehiculoDeviceData['lat'] ?? null, 'lon' => $vehiculoDeviceData['lng'] ??null]);
         
@@ -241,6 +242,7 @@ class VehiculoController extends Controller
 
     public function reportePdf()
     {
+        
         return view('vehiculos.reportePdf');
     }
     

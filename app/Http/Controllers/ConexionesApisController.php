@@ -102,7 +102,7 @@ class ConexionesApisController extends Controller
 
                 $vehiclosRegitrados = [];
                 foreach ($vehiculos as $vehiculo) {
-                    $vehiculosDeviceData = $collectResponseApi->firstWhere('device_data.imei', $vehiculo->imei);
+                    $vehiculosDeviceData = $collectResponseApi->firstWhere('device_data.traccar.uniqueId', $vehiculo->imei);
 
                     if ($vehiculosDeviceData) {
                         $data = [
