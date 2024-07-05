@@ -28,7 +28,7 @@ class UsuarioController extends Controller
     }
     public function index(UsersDataTable $dataTable)
     {
-        $data = array('roles' => Role::whereNotIn('name',['SuperAdmin','SuperAdmin','SiteAdmin'])->get());
+        $data = array('roles' => Role::whereNotIn('name',['SuperAdmin'])->get());
         return $dataTable->render('usuarios.index',$data);
     }
     public function usuariosPoRol(PorRolDataTable $dataTable, $nombreRol)
@@ -36,7 +36,7 @@ class UsuarioController extends Controller
         
         try {
             
-            $roles=Role::whereNotIn('name',['SuperAdmin','SuperAdmin','SiteAdmin'])->get();
+            $roles=Role::whereNotIn('name',['SuperAdmin'])->get();
             if($nombreRol!='INACTIVOS'){
                 $role = Role::findByName($nombreRol);
                 return $dataTable->with('rol',$role->name)->render('usuarios.index',['roles'=>$roles]);
