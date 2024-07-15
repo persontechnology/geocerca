@@ -12,7 +12,7 @@
                     
                     @if ($departamentos->count()>0)
                         <div class="form-group">
-                            <label for="departamento_id">Seleccione departamento<i class="text-danger">*</i></label>
+                            <label for="departamento_id">Seleccione dirección<i class="text-danger">*</i></label>
                             <select name="departamento_id" id="departamento_id" class="form-control @error('departamento_id') is-invalid @enderror" required>
                                 <option value="">--Seleccione--</option>
                                 @foreach ($departamentos as $departamento)

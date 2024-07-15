@@ -17,7 +17,7 @@ class CreateDireccionsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('nombre');
-            $table->foreignId('departamento_id')->constrained('departamentos');
+            // $table->foreignId('departamento_id')->constrained('departamentos');
         });
     }
 

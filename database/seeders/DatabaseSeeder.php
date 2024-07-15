@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Departamento;
 use App\Models\Empresa;
 use App\Models\TipoVehiculo;
 use App\Models\User;
@@ -87,5 +88,6 @@ class DatabaseSeeder extends Seeder
         foreach (['Pesado', 'Liviano', 'Maquinaria', 'Motocicletas'] as $key) {
             TipoVehiculo::updateOrCreate(['nombre'=>$key]);
         }
+        
     }
 }

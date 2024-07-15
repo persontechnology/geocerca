@@ -19,7 +19,7 @@
                         @if ($departamentos->count()>0)
             
                             <div class="form-group">
-                                <label for="departamento">Seleccione departamento</label>
+                                <label for="departamento">Seleccione dirección</label>
                                 <select name="departamento" id="departamento" class="form-control @error('departamento') is-invalid @enderror">
                                     @foreach ($departamentos as $departamento)
                                         <option value="{{ $departamento->id }}" {{ old('departamento',$vehiculo->direccion->departamento_id??'')==$departamento->id?'selected':'' }}>{{ $departamento->nombre }}</option>
@@ -33,7 +33,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="direccion">Seleccione dirección</label>
+                                <label for="direccion">Seleccione departamento</label>
                                 <select name="direccion" id="direccion" class="form-control">
                                     <option value="" selected >------</option>
                                 </select>
@@ -128,11 +128,12 @@
         // cargar direcciones
 
         var direccionId=parseInt("{{ $vehiculo->direccion_id }}");
+        
         var departamentoIdExiste=parseInt("{{ $vehiculo->direccion->departamento_id??0 }}");
         
         var departamentoId =departamentoId??$('#departamento').val();
         obtenerListadoDirecciones(departamentoId);
-
+        
         // Obtener el valor seleccionado cuando cambie la selección
         $('#departamento').change(function() {
             var departamentoId = $(this).val();
@@ -150,6 +151,7 @@
                     $direccion.append('<option value="" selected>------</option>'); // Opción por defecto
                     
                     $.each(data, function(index, direccion) {
+                        
                         if(direccion.id==direccionId){
                             $direccion.append('<option value="' + direccion.id + '" selected>' + direccion.nombre + '</option>');    
                         }else{

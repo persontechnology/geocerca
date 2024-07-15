@@ -34,9 +34,9 @@ class DepartamentoDataTable extends DataTable
      * @param \App\Models\Departamento $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Direccion $model)
+    public function query(Departamento $model)
     {
-        return $model->newQuery()->with('departamento');
+        return $model->newQuery()->with('direccion');
     }
 
     /**
@@ -78,8 +78,8 @@ class DepartamentoDataTable extends DataTable
                   ->title('Acción')
                   ->addClass('text-center'),
             // Column::make('id'),
-            Column::make('nombre')->title('Dirección'),
-            Column::make('departamento.nombre')->title('Departamento'),
+            Column::make('nombre')->title('Departamento'),
+            Column::make('direccion.nombre')->title('Dirección'),
             // Column::make('updated_at'),
         ];
     }

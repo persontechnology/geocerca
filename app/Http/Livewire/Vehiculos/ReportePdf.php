@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Vehiculos;
 
+use App\Mail\OrdenesAgrupadasMail;
 use App\Models\Departamento;
 use App\Models\Direccion;
 use App\Models\OrdenMovilizacion;
@@ -11,6 +12,7 @@ use App\Models\User;
 use App\Models\Vehiculo;
 use App\Notifications\OMInformarAceptadoNoty;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use PDF;
 use Livewire\WithPagination;
@@ -63,14 +65,14 @@ class ReportePdf extends Component
             'ordenMovilizaciones'=>$this->listadoOrdenes(),
             'tipoVehiculos'=>TipoVehiculo::get(),
             'parqueaderos'=>Parqueadero::get(),
-            'departamentos' => Departamento::all(), // Obtener todos los departamentos
+            'departamentos' => Direccion::all(), // Obtener todos los departamentos
             'direcciones' => [], // Esto se actualizará dinámicamente según la selección del departamento
             
         );
 
         // Si hay un departamento seleccionado, obtener sus direcciones
         if ($this->departamento_id) {
-            $data['direcciones'] = Direccion::where('departamento_id', $this->departamento_id)->get();
+            $data['direcciones'] = Departamento::where('departamento_id', $this->departamento_id)->get();
         }
 
         
@@ -225,40 +227,75 @@ class ReportePdf extends Component
      public function getDireccionesProperty()
      {
          if ($this->departamento_id) {
-             return Direccion::where('departamento_id', $this->departamento_id)->get();
+             return Departamento::where('departamento_id', $this->departamento_id)->get();
          } else {
              return collect(); // Si no hay departamento seleccionado, devolver una colección vacía o null según sea necesario.
          }
      }
      
 
+    // public function enviarPdfPorCorreo()
+    // {
+    //     $this->enviandoEmails = true; // Activar el estado de envío
+
+    //     $ordenes = OrdenMovilizacion::whereIn('id', $this->selecionados)->get();
+    //     // Enviar el PDF por correo
+    //     $emails = explode(',', $this->correo_destino);
+
+    //     foreach ($emails as $email) {
+
+    //         // aqui enviar a cada usuario supervisor
+    //         foreach ($ordenes as $orden) {
+    //             $user=new User();
+    //             $user->name='';
+    //             $user->password='';
+    //             $user->email=$email;
+    //             $user->notify(new OMInformarAceptadoNoty($orden));
+    //         }
+            
+    //     }
+        
+
+
+    //     $this->enviandoEmails = false; // Desactivar el estado de envío
+    //     $this->correo_destino='';
+    //     session()->flash('messageEmail', 'PDF enviado con éxito a los correos especificados.');
+    // }
+
     public function enviarPdfPorCorreo()
     {
         $this->enviandoEmails = true; // Activar el estado de envío
 
         $ordenes = OrdenMovilizacion::whereIn('id', $this->selecionados)->get();
-        // Enviar el PDF por correo
         $emails = explode(',', $this->correo_destino);
 
         foreach ($emails as $email) {
+            $pdf_files = [];
 
-            // aqui enviar a cada usuario supervisor
             foreach ($ordenes as $orden) {
-                $user=new User();
-                $user->name='';
-                $user->password='';
-                $user->email=$email;
-                $user->notify(new OMInformarAceptadoNoty($orden));
-            }
-            
-        }
-        
+                $pdf = PDF::loadView('movilizacion.pdf', ['orden' => $orden])
+                    ->setOrientation('landscape')
+                    ->setOption('margin-top', '2.5cm')
+                    ->setOption('margin-bottom', '1cm')
+                    ->setOption('header-html', view()->make('empresa.pdfHeader')->render())
+                    ->setOption('footer-html', view()->make('empresa.pdfFooter')->render());
 
+                $pdf_data = $pdf->output();
+                $pdf_files[] = [
+                    'data' => $pdf_data,
+                    'name' => 'OM-' . $orden->vehiculo->numero_movil . '-' . $orden->numero . '.pdf'
+                ];
+            }
+
+            // Enviar el correo con los PDFs adjuntos
+            Mail::to($email)->send(new OrdenesAgrupadasMail($pdf_files));
+        }
 
         $this->enviandoEmails = false; // Desactivar el estado de envío
-        $this->correo_destino='';
-        session()->flash('messageEmail', 'PDF enviado con éxito a los correos especificados.');
+        $this->correo_destino = '';
+        session()->flash('messageEmail', 'PDFs enviados con éxito a los correos especificados.');
     }
+
 
 
 }

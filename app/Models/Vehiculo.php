@@ -89,7 +89,7 @@ class Vehiculo extends Model
 
     public function direccion()
     {
-        return $this->belongsTo(Direccion::class);
+        return $this->belongsTo(Departamento::class,'direccion_id');
     }
     
 

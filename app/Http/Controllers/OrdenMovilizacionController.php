@@ -12,6 +12,7 @@ use App\Http\Requests\RqEliminarOrdenMOvilizacion;
 use App\Http\Requests\RqGuardarOrdenMovilizacion;
 use App\Mail\OrdenesMovilizacionPdfVariasCorreos;
 use App\Models\Departamento;
+use App\Models\Direccion;
 use App\Models\Empresa;
 use App\Models\Lectura;
 use App\Models\OrdenMovilizacion;
@@ -47,7 +48,7 @@ class OrdenMovilizacionController extends Controller
             $vehiculos=$vehiculos->where('tipo_vehiculo_id',$request->tipoVehiculo);
         }
         
-        $departamentos=Departamento::get();
+        $departamentos=Direccion::get();
         $tipoVehiculos=TipoVehiculo::get();
 
         $today = Carbon::now();
@@ -67,7 +68,7 @@ class OrdenMovilizacionController extends Controller
             'proximo_domingo'=>$nextSunday,
             'departamentos'=>$departamentos,
             'tipoVehiculos'=>$tipoVehiculos,
-            'departamento'=>$request->departamento,
+            'departamento'=>$request->departamento??0,
             'direccion'=>$request->direccion,
             'tipoVehiculo'=>$request->tipoVehiculo,
             'emailsSupervisor'=>$userEmails,
@@ -185,7 +186,7 @@ class OrdenMovilizacionController extends Controller
             'parqueaderos' => $parqueaderos,
             'numero'=>OrdenMovilizacion::NumeroSiguente(),
             'ordenesMovilizaciones'=>$ordenes,
-            'departamentos'=>Departamento::get(),
+            'departamentos'=>Direccion::get(),
             'proximo_sabado'=>$nextSaturday,
             'proximo_domingo'=>$nextSunday,
             'emailsSupervisor'=>$userEmails,
@@ -208,7 +209,7 @@ class OrdenMovilizacionController extends Controller
             'veht'=>$veht,
             'cont'=>$cont,
             'solt'=>$solt,
-            'departamentos'=>Departamento::get()
+            'departamentos'=>Direccion::get()
         );
 
         if (request()->get('table') == 'solicitante') {

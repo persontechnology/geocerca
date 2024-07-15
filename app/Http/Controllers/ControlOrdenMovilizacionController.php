@@ -7,6 +7,7 @@ use App\DataTables\OrdenMovilizacion\ConductorSolicitanteDataTable;
 use App\DataTables\OrdenMovilizacion\Control\AprobarDataTable;
 use App\DataTables\OrdenMovilizacion\Control\VehiculoDataTable;
 use App\Http\Requests\OrdenMovilizacion\Control\RqAprobarReprobarGuardar;
+use App\Mail\OrdenesAgrupadasMail;
 use App\Mail\OrdenesMovilizacionPdfVariasCorreos;
 use App\Models\Empresa;
 use App\Models\OrdenMovilizacion;
@@ -119,28 +120,40 @@ class ControlOrdenMovilizacionController extends Controller
         
     }
 
-    public function enviarPdfPorCorreo($idsOM,$emailsUserSupervisores)
-    {
-        
-        
-        $ordenes = OrdenMovilizacion::whereIn('id', $idsOM)->get();
-    
+   
 
-        $emails = explode(',', $emailsUserSupervisores);
-        foreach ($emails as $email) {
+    public function enviarPdfPorCorreo($ordenesIds,$correosSupervisor)
+     {
+       
+        
+ 
+         $ordenes = OrdenMovilizacion::whereIn('id', $ordenesIds)->get();
+         $emails = explode(',', $correosSupervisor);
+ 
+         foreach ($emails as $email) {
+             $pdf_files = [];
+ 
+             foreach ($ordenes as $orden) {
+                 $pdf = PDF::loadView('movilizacion.pdf', ['orden' => $orden])
+                     ->setOrientation('landscape')
+                     ->setOption('margin-top', '2.5cm')
+                     ->setOption('margin-bottom', '1cm')
+                     ->setOption('header-html', view()->make('empresa.pdfHeader')->render())
+                     ->setOption('footer-html', view()->make('empresa.pdfFooter')->render());
+ 
+                 $pdf_data = $pdf->output();
+                 $pdf_files[] = [
+                     'data' => $pdf_data,
+                     'name' => 'OM-' . $orden->vehiculo->numero_movil . '-' . $orden->numero . '.pdf'
+                 ];
+             }
+ 
+             // Enviar el correo con los PDFs adjuntos
+             Mail::to($email)->send(new OrdenesAgrupadasMail($pdf_files));
+         }
+ 
+         return true;
+     }
 
-            // aqui enviar a cada usuario supervisor
-            foreach ($ordenes as $orden) {
-                $user=new User();
-                $user->name='';
-                $user->password='';
-                $user->email=$email;
-                $user->notify(new OMInformarAceptadoNoty($orden));
-            }
-            
-        }
-        
-        
-        return true;
-    }
+
 }

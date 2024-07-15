@@ -13,8 +13,5 @@ class Direccion extends Model
         'departamento_id'
     ];
 
-    public function departamento()
-    {
-        return $this->belongsTo(Departamento::class,'departamento_id');
-    }
+    
 }

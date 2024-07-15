@@ -10,17 +10,17 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label for="departamento">Seleccione departamento</label>
+                        <label for="departamento">Seleccione dirección</label>
                         <select name="departamento" id="departamento" class="form-control">
-                            @foreach ($departamentos as $departamento)
-                                <option value="{{ $departamento->id }}" {{ $departamento??''==$departamento->id?'selected':'' }}>{{ $departamento->nombre }}</option>
+                            @foreach ($departamentos as $depa)
+                                <option value="{{ $depa->id }}" {{ $departamento==$depa->id?'selected':'' }}>{{ $depa->nombre }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label for="direccion">Seleccione dirección</label>
+                        <label for="direccion">Seleccione departamento</label>
                         <select name="direccion" id="direccion" class="form-control">
                             <option value="" selected >------</option>
                         </select>
@@ -258,7 +258,7 @@
 @prepend('linksPie')
 <script>
     $('.listbox').bootstrapDualListbox({
-        moveOnSelect: true,
+        moveOnSelect: false,
         infoText: 'Mostrar todo {0}',
         infoTextFiltered: '<span class="badge bg-warning-400">Filtrado</span> {0} de {1}',
         infoTextEmpty: 'Lista vacía',
@@ -297,20 +297,20 @@
     });
 
     // cargar direcciones
-    var departamentoId = $('#departamento').val();
+    var dirId = $('#departamento').val();
     var direccionId=parseInt("{{ $direccion }}");
     
-    obtenerListadoDirecciones(departamentoId);
+    obtenerListadoDirecciones(dirId);
 
     // Obtener el valor seleccionado cuando cambie la selección
     $('#departamento').change(function() {
-        var departamentoId = $(this).val();
-        obtenerListadoDirecciones(departamentoId)
+        var dirId = $(this).val();
+        obtenerListadoDirecciones(dirId)
     });
 
-    function obtenerListadoDirecciones(departamentoId){
+    function obtenerListadoDirecciones(dirId){
         $.ajax({
-            url: '/obtener-direcciones-x-departamento/' + departamentoId,
+            url: '/obtener-direcciones-x-departamento/' + dirId,
             type: 'GET',
             success: function(data) {
                 var $direccion = $('#direccion');

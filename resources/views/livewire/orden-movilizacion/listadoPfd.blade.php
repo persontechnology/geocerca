@@ -91,6 +91,7 @@
                         {{-- @if ($orden->autorizado && $orden->autorizado->firma)
                         <div class="fotoEvidencia" style="margin: 1em; background: url({!! public_path( $orden->autorizado->firma_link) !!});"></div>
                         @endif --}}
+                        {{ $orden->direccion->nombre??'' }}
 
                     </td>
                 </tr>

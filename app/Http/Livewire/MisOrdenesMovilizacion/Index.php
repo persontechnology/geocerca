@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\MisOrdenesMovilizacion;
 
+use App\Mail\OrdenesAgrupadasMail;
 use App\Mail\OrdenesMovilizacionPdfVariasCorreos;
 use App\Models\Departamento;
 use App\Models\Direccion;
@@ -230,31 +231,36 @@ class Index extends Component
      }
      
      public function enviarPdfPorCorreo()
-    {
-        $this->enviandoEmails = true; // Activar el estado de envío
-
-        $ordenes = OrdenMovilizacion::whereIn('id', $this->selecionados)->get();
-        
-        $headerHtml = view()->make('empresa.pdfHeader')->render();
-        $footerHtml = view()->make('empresa.pdfFooter')->render();
-
-        $pdfs = PDF::loadView('livewire.orden-movilizacion.multipdfs', ['ordenes' => $ordenes])
-            ->setOrientation('landscape')
-            ->setOption('margin-top', '2.5cm')
-            ->setOption('margin-bottom', '1cm')
-            ->setOption('header-html', $headerHtml)
-            ->setOption('footer-html', $footerHtml)
-            ->setOption('footer-right', 'Página [page] de [toPage]')
-            ->setOption('footer-font-size', '10')
-            ->output();
-
-        // Enviar el PDF por correo
-        $emails = explode(',', $this->correo_destino);
-        foreach ($emails as $email) {
-            Mail::to(trim($email))->send(new OrdenesMovilizacionPdfVariasCorreos($pdfs));
-        }
-        $this->enviandoEmails = false; // Desactivar el estado de envío
-        $this->correo_destino='';
-        session()->flash('messageEmail', 'PDF enviado con éxito a los correos especificados.');
-    }
+     {
+         $this->enviandoEmails = true; // Activar el estado de envío
+ 
+         $ordenes = OrdenMovilizacion::whereIn('id', $this->selecionados)->get();
+         $emails = explode(',', $this->correo_destino);
+ 
+         foreach ($emails as $email) {
+             $pdf_files = [];
+ 
+             foreach ($ordenes as $orden) {
+                 $pdf = PDF::loadView('movilizacion.pdf', ['orden' => $orden])
+                     ->setOrientation('landscape')
+                     ->setOption('margin-top', '2.5cm')
+                     ->setOption('margin-bottom', '1cm')
+                     ->setOption('header-html', view()->make('empresa.pdfHeader')->render())
+                     ->setOption('footer-html', view()->make('empresa.pdfFooter')->render());
+ 
+                 $pdf_data = $pdf->output();
+                 $pdf_files[] = [
+                     'data' => $pdf_data,
+                     'name' => 'OM-' . $orden->vehiculo->numero_movil . '-' . $orden->numero . '.pdf'
+                 ];
+             }
+ 
+             // Enviar el correo con los PDFs adjuntos
+             Mail::to($email)->send(new OrdenesAgrupadasMail($pdf_files));
+         }
+ 
+         $this->enviandoEmails = false; // Desactivar el estado de envío
+         $this->correo_destino = '';
+         session()->flash('messageEmail', 'PDFs enviados con éxito a los correos especificados.');
+     }
 }

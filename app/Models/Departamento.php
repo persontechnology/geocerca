@@ -9,6 +9,13 @@ class Departamento extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'nombre'
+        'nombre',
+        'departamento_id'
     ];
+
+    public function direccion()
+    {
+        return $this->belongsTo(Direccion::class,'departamento_id');
+    }
+
 }

@@ -289,7 +289,7 @@
                                         @if ($departamentos->count()>0)
             
                                             <div class="form-group">
-                                                <label for="departamento">Seleccione departamento</label>
+                                                <label for="departamento">Seleccione dirección</label>
                                                 <select name="departamento" id="departamento" class="form-control @error('departamento') is-invalid @enderror">
                                                     @foreach ($departamentos as $departamento)
                                                         <option value="{{ $departamento->id }}" {{ old('departamento',$vehiculo->direccion->departamento_id??'')==$departamento->id?'selected':'' }}>{{ $departamento->nombre }}</option>
@@ -303,7 +303,7 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="direccion">Seleccione dirección</label>
+                                                <label for="direccion">Seleccione departamento</label>
                                                 <select name="direccion" id="direccion" class="form-control">
                                                     <option value="" selected >------</option>
                                                 </select>

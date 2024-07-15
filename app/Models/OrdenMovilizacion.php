@@ -129,7 +129,7 @@ class OrdenMovilizacion extends Model
     // deivid: un vehiculo tiene una direccion
     public function direccion()
     {
-        return $this->belongsTo(Direccion::class,'direccion_id');
+        return $this->belongsTo(Departamento::class,'direccion_id');
     }
 
 }

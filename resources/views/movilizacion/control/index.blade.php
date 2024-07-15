@@ -32,7 +32,7 @@
                         <label class="form-check-label" for="defaultCheck1supe">
                             Enviar órdenes de movilización a (separar correos con comas) a Supervisores:
                         </label>
-                        <input type="text" name="correos"  value="{{ $emailsSupervisor }}" class="form-control" placeholder="Ejm: admin@gmail.com,secre@gmail.com">                           
+                        <input type="text" name="correos"  value="{{ $emailsSupervisor }}" class="form-control" placeholder="Ejm: admin@gmail.com,secre@gmail.com" required>                           
                         
 
                     </div>

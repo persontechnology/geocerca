@@ -17,7 +17,7 @@ class DepartamentoController extends Controller
     public function index(DepartamentoDataTable $dataTable)
     {
         $data = array(
-            'departamentos'=>Departamento::get()
+            'departamentos'=>Direccion::get()
         );
         return $dataTable->render('departamentos.index',$data);
     }
@@ -30,7 +30,7 @@ class DepartamentoController extends Controller
     public function create()
     {
         $data = array(
-            'departamentos'=>Departamento::get()
+            'departamentos'=>Direccion::get()
         );
         return view('departamentos.nuevo',$data);
     }
@@ -43,8 +43,8 @@ class DepartamentoController extends Controller
      */
     public function store(Request $request)
     {
-        Departamento::create($request->all());
-        return redirect()->route('direcciones-departamentos.index')->with('success','Departamento ingresado');
+        Direccion::create($request->all());
+        return redirect()->route('direcciones-departamentos.index')->with('success','Dirección ingresado');
     }
 
     /**
@@ -68,8 +68,8 @@ class DepartamentoController extends Controller
     {
         
         $data = array(
-            'departamentos'=>Departamento::get(),
-            'direccion'=>Direccion::findOrFail($direccionId)
+            'departamentos'=>Direccion::get(),
+            'direccion'=>Departamento::findOrFail($direccionId)
         );
         return view('departamentos.editar',$data);
     }
@@ -83,7 +83,7 @@ class DepartamentoController extends Controller
      */
     public function update(Request $request, $direccionId)
     {
-        $direccion=Direccion::findOrFail($direccionId);
+        $direccion=Departamento::findOrFail($direccionId);
         $direccion->update($request->all());
         return redirect()->route('direcciones-departamentos.index')->with('success','Departamento actualizado.!');
     }
@@ -101,15 +101,6 @@ class DepartamentoController extends Controller
 
     public function eliminarDireccion(Request $request) {
         try {
-            $departamento=Direccion::destroy($request->id);
-            return redirect()->route('direcciones-departamentos.index')->with('success','Dirección eliminado.!');
-        } catch (\Throwable $th) {
-            return redirect()->route('direcciones-departamentos.index')->with('info','Dirección no eliminado.!');
-        }
-    }
-
-    public function eliminarDepartamento(Request $request) {
-        try {
             $departamento=Departamento::destroy($request->id);
             return redirect()->route('direcciones-departamentos.index')->with('success','Departamento eliminado.!');
         } catch (\Throwable $th) {
@@ -117,8 +108,17 @@ class DepartamentoController extends Controller
         }
     }
 
+    public function eliminarDepartamento(Request $request) {
+        try {
+            $departamento=Direccion::destroy($request->id);
+            return redirect()->route('direcciones-departamentos.index')->with('success','Dirección eliminado.!');
+        } catch (\Throwable $th) {
+            return redirect()->route('direcciones-departamentos.index')->with('info','Dirección no eliminado.!');
+        }
+    }
+
     public function guardar(Request $request)  {
-        $direccion=Direccion::create($request->all());
+        $direccion=Departamento::create($request->all());
         return redirect()->route('direcciones-departamentos.index')->with('success','Dirección ingresado.');
     }
 
