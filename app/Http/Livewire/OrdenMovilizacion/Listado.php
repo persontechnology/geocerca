@@ -64,14 +64,14 @@ class Listado extends Component
             'ordenMovilizaciones'=>$this->listadoOrdenes(),
             'tipoVehiculos'=>TipoVehiculo::get(),
             'parqueaderos'=>Parqueadero::get(),
-            'departamentos' => Departamento::all(), // Obtener todos los departamentos
+            'departamentos' => Direccion::all(), // Obtener todos los departamentos
             'direcciones' => [], // Esto se actualizará dinámicamente según la selección del departamento
             
         );
 
         // Si hay un departamento seleccionado, obtener sus direcciones
         if ($this->departamento_id) {
-            $data['direcciones'] = Direccion::where('departamento_id', $this->departamento_id)->get();
+            $data['direcciones'] = Departamento::where('departamento_id', $this->departamento_id)->get();
         }
 
         return view('livewire.orden-movilizacion.listado',$data);
@@ -225,7 +225,7 @@ class Listado extends Component
      public function getDireccionesProperty()
      {
          if ($this->departamento_id) {
-             return Direccion::where('departamento_id', $this->departamento_id)->get();
+             return Departamento::where('departamento_id', $this->departamento_id)->get();
          } else {
              return collect(); // Si no hay departamento seleccionado, devolver una colección vacía o null según sea necesario.
          }

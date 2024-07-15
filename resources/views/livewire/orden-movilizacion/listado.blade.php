@@ -81,9 +81,9 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="form-group">
-                        <label>Departamento</label>
+                        <label>Dirección</label>
                         <select class="form-control" wire:model="departamento_id">
-                            <option value="">Seleccionar departamento</option>
+                            <option value="">Seleccionar dirección</option>
                             @foreach ($departamentos as $dep)
                                 <option value="{{ $dep->id }}">{{ $dep->nombre }}</option>
                             @endforeach
@@ -92,9 +92,9 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group">
-                        <label>Dirección</label>
+                        <label>Departamento</label>
                         <select class="form-control" wire:model="direccion_id">
-                            <option value="">Seleccionar dirección</option>
+                            <option value="">Seleccionar departamento</option>
                             @foreach ($direcciones as $dir)
                                 <option value="{{ $dir->id }}">{{ $dir->nombre }}</option>
                             @endforeach

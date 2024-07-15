@@ -74,9 +74,7 @@ class ReportePdf extends Component
         if ($this->departamento_id) {
             $data['direcciones'] = Departamento::where('departamento_id', $this->departamento_id)->get();
         }
-
-        
-        return view('livewire.vehiculos.reporte-pdf',$data);
+        return view('livewire.orden-movilizacion.listado',$data);
     }
 
     public function listadoOrdenes(){
@@ -233,34 +231,7 @@ class ReportePdf extends Component
          }
      }
      
-
-    // public function enviarPdfPorCorreo()
-    // {
-    //     $this->enviandoEmails = true; // Activar el estado de envío
-
-    //     $ordenes = OrdenMovilizacion::whereIn('id', $this->selecionados)->get();
-    //     // Enviar el PDF por correo
-    //     $emails = explode(',', $this->correo_destino);
-
-    //     foreach ($emails as $email) {
-
-    //         // aqui enviar a cada usuario supervisor
-    //         foreach ($ordenes as $orden) {
-    //             $user=new User();
-    //             $user->name='';
-    //             $user->password='';
-    //             $user->email=$email;
-    //             $user->notify(new OMInformarAceptadoNoty($orden));
-    //         }
-            
-    //     }
-        
-
-
-    //     $this->enviandoEmails = false; // Desactivar el estado de envío
-    //     $this->correo_destino='';
-    //     session()->flash('messageEmail', 'PDF enviado con éxito a los correos especificados.');
-    // }
+     
 
     public function enviarPdfPorCorreo()
     {
