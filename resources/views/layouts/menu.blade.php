@@ -2,6 +2,7 @@
 @php
 $bgtemareduccion = Auth::user()->configuracion->reduccion ?? '';
 $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
+$tema = Auth::user()->configuracion->tema ?? 'dark';
 @endphp
 
 <div
@@ -33,12 +34,12 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
 
                     <div class="ml-3 align-self-center">
                         <button type="button"
-                            class="btn btn-outline-light-100 text-white border-transparent btn-icon rounded-pill btn-sm sidebar-control sidebar-main-resize d-none d-lg-inline-flex">
+                            class="btn btn-outline-light-100 text-{{ $tema }} border-transparent btn-icon rounded-pill btn-sm sidebar-control sidebar-main-resize d-none d-lg-inline-flex">
                             <i class="icon-transmission"></i>
                         </button>
 
                         <button type="button"
-                            class="btn btn-outline-light-100 text-white border-transparent btn-icon rounded-pill btn-sm sidebar-mobile-main-toggle d-lg-none">
+                            class="btn btn-outline-light-100 text-{{ $tema }} border-transparent btn-icon rounded-pill btn-sm sidebar-mobile-main-toggle d-lg-none">
                             <i class="icon-cross2"></i>
                         </button>
                     </div>
