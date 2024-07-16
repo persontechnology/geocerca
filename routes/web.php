@@ -189,7 +189,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
 
 
     // mis ordenes de movilizacion
-    Route::match(['get', 'post'],'/mis-ordenes-movilizacion', [MisOrdenesMovilizacionController::class,'index'])->name('mis-ordenes-movilizacion.index');
+    Route::get('/mis-ordenes-movilizacion', [MisOrdenesMovilizacionController::class,'index'])->name('mis-ordenes-movilizacion.index');
 
     Route::resource('direcciones-departamentos', DepartamentoController::class);
     Route::post('/direcciones-departamentos.guardar', [DepartamentoController::class,'guardar'])->name('direcciones-departamentos.guardar');
