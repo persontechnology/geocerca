@@ -110,8 +110,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::post('/vehiculos-actualizar', [VehiculoController::class, 'actualizar'])->name('actualizarVehiculo');
     Route::post('/vehiculos-eliminar', [VehiculoController::class, 'eliminar'])->name('vehiculosEliminar');
     Route::get('/vehiculos-ubicacion-mapa/{id}', [VehiculoController::class, 'ubicacionMapa'])->name('vehiculosUbicacionMapa');
-    Route::get('/vehiculos-reporte-pdf', [VehiculoController::class, 'reportePdf'])->name('vehiculosReportePdf');
-    Route::post('/vehiculos-reporte-pdf', [VehiculoController::class, 'reportePdf'])->name('vehiculosReportePdf');
+    Route::match(['get', 'post'],'/vehiculos-reporte-pdf', [VehiculoController::class, 'reportePdf'])->name('vehiculosReportePdf');
     
 
 
@@ -135,8 +134,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/orden-movilizacion-pdf/{id}', [OrdenMovilizacionController::class, 'pdf'])->name('odernMovilizacionPdf');
     Route::get('/orden-movilizacion-lecturas/{id}', [OrdenMovilizacionController::class, 'lecturas'])->name('odernMovilizacionLecturas');
     Route::post('/orden-movilizacion-lectura-actualizar', [OrdenMovilizacionController::class, 'lecturaActualizar'])->name('odernMovilizacionLecturaActualizar');
-    Route::get('/orden-movilizacion-reporte-pdf', [OrdenMovilizacionController::class, 'reportePdf'])->name('odernMovilizacionReportePdf');
-    Route::post('/orden-movilizacion-reporte-pdf', [OrdenMovilizacionController::class, 'reportePdf'])->name('odernMovilizacionReportePdf');
+    Route::match(['get', 'post'],'/orden-movilizacion-reporte-pdf', [OrdenMovilizacionController::class, 'reportePdf'])->name('odernMovilizacionReportePdf');
     Route::get('/orden-movilizacion-multiple', [OrdenMovilizacionController::class, 'multiple'])->name('odernMovilizacionMultiple');
     Route::post('/orden-movilizacion-multiple-guardar', [OrdenMovilizacionController::class, 'multipleGuardar'])->name('odernMovilizacionMultipleGuardar');
     
@@ -155,9 +153,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
     
 
     // control orden de mobilizacion
-    Route::get('/control-odern-movilizacion', [ControlOrdenMovilizacionController::class, 'index'])->name('controlOdernMovilizacion');
-    Route::post('/control-odern-movilizacion', [ControlOrdenMovilizacionController::class, 'index'])->name('controlOdernMovilizacion');
-
+    Route::match(['get', 'post'],'/control-odern-movilizacion', [ControlOrdenMovilizacionController::class, 'index'])->name('controlOdernMovilizacion');
     Route::get('/control-odern-movilizacion-aprobar-denegar/{id}', [ControlOrdenMovilizacionController::class, 'AprobarReprobar'])->name('controlOdernMovilizacionAprobarReprobar');
     Route::post('/control-odern-movilizacion-aprobar-dnegar-guardar', [ControlOrdenMovilizacionController::class, 'AprobarReprobarGuardar'])->name('controlOdernMovilizacionAprobarReprobarGuardar');
     Route::get('/control-odern-movilizacion-pdf/{id}', [ControlOrdenMovilizacionController::class, 'AprobarReprobarPdf'])->name('controlOdernMovilizacionPdf');
@@ -193,8 +189,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
 
 
     // mis ordenes de movilizacion
-    Route::get('/mis-ordenes-movilizacion', [MisOrdenesMovilizacionController::class,'index'])->name('mis-ordenes-movilizacion.index');
-    Route::post('/mis-ordenes-movilizacion', [MisOrdenesMovilizacionController::class,'index'])->name('mis-ordenes-movilizacion.index');
+    Route::match('/mis-ordenes-movilizacion', [MisOrdenesMovilizacionController::class,'index'])->name('mis-ordenes-movilizacion.index');
 
     Route::resource('direcciones-departamentos', DepartamentoController::class);
     Route::post('/direcciones-departamentos.guardar', [DepartamentoController::class,'guardar'])->name('direcciones-departamentos.guardar');
