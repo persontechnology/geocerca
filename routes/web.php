@@ -130,7 +130,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::post('/orden-movilizacion-actualizar', [OrdenMovilizacionController::class, 'actualizar'])->name('odernMovilizacionActualizar');
     Route::post('/orden-movilizacion-eliminar', [OrdenMovilizacionController::class, 'eliminar'])->name('odernMovilizacionEliminar');
     Route::post('/orden-movilizacion-obtener', [OrdenMovilizacionController::class, 'obtener'])->name('odernMovilizacionObtener');
-    Route::math(['get','post'],'/orden-movilizacion-listado', [OrdenMovilizacionController::class, 'listado'])->name('odernMovilizacionListado');
+    Route::match(['get','post'],'/orden-movilizacion-listado', [OrdenMovilizacionController::class, 'listado'])->name('odernMovilizacionListado');
     Route::get('/orden-movilizacion-pdf/{id}', [OrdenMovilizacionController::class, 'pdf'])->name('odernMovilizacionPdf');
     Route::get('/orden-movilizacion-lecturas/{id}', [OrdenMovilizacionController::class, 'lecturas'])->name('odernMovilizacionLecturas');
     Route::post('/orden-movilizacion-lectura-actualizar', [OrdenMovilizacionController::class, 'lecturaActualizar'])->name('odernMovilizacionLecturaActualizar');
