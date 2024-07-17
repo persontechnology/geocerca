@@ -5,6 +5,7 @@ use App\Http\Controllers\ConexionesApisController;
 use App\Http\Controllers\ControlOrdenMovilizacionController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\DespachoCombustibleController;
+use App\Http\Controllers\DireccionController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\HomeController;
@@ -191,10 +192,11 @@ Route::middleware(['verified', 'auth'])->group(function () {
     // mis ordenes de movilizacion
     Route::get('/mis-ordenes-movilizacion', [MisOrdenesMovilizacionController::class,'index'])->name('mis-ordenes-movilizacion.index');
 
-    Route::resource('direcciones-departamentos', DepartamentoController::class);
-    Route::post('/direcciones-departamentos.guardar', [DepartamentoController::class,'guardar'])->name('direcciones-departamentos.guardar');
-    Route::post('/direcciones-eliminar', [DepartamentoController::class,'eliminarDireccion'])->name('direcciones.eliminar');
+    Route::resource('departamentos', DepartamentoController::class);
     Route::post('/departamentos-eliminar', [DepartamentoController::class,'eliminarDepartamento'])->name('departamentos.eliminar');
+    Route::resource('direcciones', DireccionController::class);
+    Route::post('/direcciones-eliminar', [DireccionController::class,'eliminarDireccion'])->name('direcciones.eliminar');
+    
     
 
     

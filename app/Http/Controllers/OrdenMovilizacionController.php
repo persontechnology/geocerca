@@ -10,6 +10,7 @@ use App\DataTables\OrdenMovilizacion\SolicitanteDataTable;
 use App\Http\Requests\RqActualizarOrdenMovilizacion;
 use App\Http\Requests\RqEliminarOrdenMOvilizacion;
 use App\Http\Requests\RqGuardarOrdenMovilizacion;
+use App\Mail\OrdenesAgrupadasMail;
 use App\Mail\OrdenesMovilizacionPdfVariasCorreos;
 use App\Models\Departamento;
 use App\Models\Direccion;
@@ -136,28 +137,34 @@ class OrdenMovilizacionController extends Controller
     }
 
 
-    public function enviarPdfPorCorreo($idsOM,$emailsUserSupervisores)
+
+    public function enviarPdfPorCorreo($idsOM,$correo_destino)
     {
-        
-        
         $ordenes = OrdenMovilizacion::whereIn('id', $idsOM)->get();
+        $emails = explode(',', $correo_destino);
 
-
-        // Enviar el PDF por correo
-        $emails = explode(',', $emailsUserSupervisores);
         foreach ($emails as $email) {
+            $pdf_files = [];
 
-            // aqui enviar a cada usuario supervisor
             foreach ($ordenes as $orden) {
-                $user=new User();
-                $user->name='';
-                $user->password='';
-                $user->email=$email;
-                $user->notify(new OMInformarAceptadoNoty($orden));
+                $pdf = PDF::loadView('movilizacion.pdf', ['orden' => $orden])
+                    ->setOrientation('landscape')
+                    ->setOption('margin-top', '2.5cm')
+                    ->setOption('margin-bottom', '1cm')
+                    ->setOption('header-html', view()->make('empresa.pdfHeader')->render())
+                    ->setOption('footer-html', view()->make('empresa.pdfFooter')->render());
+
+                $pdf_data = $pdf->output();
+                $pdf_files[] = [
+                    'data' => $pdf_data,
+                    'name' => 'OM-' . $orden->vehiculo->numero_movil . '-' . $orden->numero . '.pdf'
+                ];
             }
-            
+
+            // Enviar el correo con los PDFs adjuntos
+            Mail::to($email)->send(new OrdenesAgrupadasMail($pdf_files));
         }
-        
+
         return true;
     }
 
@@ -263,7 +270,7 @@ class OrdenMovilizacionController extends Controller
         }
 
         if($request->correos){
-            $this->enviarVariosCorreos($orden,$request->correos);
+            $this->enviarPdfPorCorreo([$orden->id],$request->correos);
         }
 
 
@@ -271,18 +278,6 @@ class OrdenMovilizacionController extends Controller
         
         return redirect()->route('odernMovilizacionListado');
 
-    }
-
-    public function enviarVariosCorreos($orden,$correos) {
-        $emails = explode(',', $correos);
-        // Enviar el PDF a cada correo de la lista
-        foreach ($emails as $correo) {
-            $user=new User();
-            $user->email=$correo;
-            $user->name='';
-            $user->password='';
-            $user->notify(new OMInformarAceptadoNoty($orden));
-        }
     }
 
     

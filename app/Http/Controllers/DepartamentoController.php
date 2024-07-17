@@ -43,8 +43,8 @@ class DepartamentoController extends Controller
      */
     public function store(Request $request)
     {
-        Direccion::create($request->all());
-        return redirect()->route('direcciones-departamentos.index')->with('success','Dirección ingresado');
+        $direccion=Departamento::create($request->all());
+        return redirect()->route('departamentos.index')->with('success','Departamento ingresado.');
     }
 
     /**
@@ -85,7 +85,7 @@ class DepartamentoController extends Controller
     {
         $direccion=Departamento::findOrFail($direccionId);
         $direccion->update($request->all());
-        return redirect()->route('direcciones-departamentos.index')->with('success','Departamento actualizado.!');
+        return redirect()->route('departamentos.index')->with('success','Departamento actualizado.!');
     }
 
     /**
@@ -99,28 +99,16 @@ class DepartamentoController extends Controller
         //
     }
 
-    public function eliminarDireccion(Request $request) {
-        try {
-            $departamento=Departamento::destroy($request->id);
-            return redirect()->route('direcciones-departamentos.index')->with('success','Departamento eliminado.!');
-        } catch (\Throwable $th) {
-            return redirect()->route('direcciones-departamentos.index')->with('info','Departamento no eliminado.!');
-        }
-    }
-
     public function eliminarDepartamento(Request $request) {
         try {
-            $departamento=Direccion::destroy($request->id);
-            return redirect()->route('direcciones-departamentos.index')->with('success','Dirección eliminado.!');
+            $departamento=Departamento::destroy($request->id);
+            return redirect()->route('departamentos.index')->with('success','Departamento eliminado.!');
         } catch (\Throwable $th) {
-            return redirect()->route('direcciones-departamentos.index')->with('info','Dirección no eliminado.!');
+            return redirect()->route('departamentos.index')->with('info','Departamento no eliminado.!');
         }
     }
 
-    public function guardar(Request $request)  {
-        $direccion=Departamento::create($request->all());
-        return redirect()->route('direcciones-departamentos.index')->with('success','Dirección ingresado.');
-    }
+
 
    
 }

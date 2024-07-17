@@ -120,11 +120,11 @@ $tema = Auth::user()->configuracion->tema ?? 'dark';
 
                 @can('Direcciones & Departamentos')
                     <li class="nav-item">
-                        <a href="{{ route('direcciones-departamentos.index') }}"
-                            class="nav-link {{ Route::is('direcciones-departamentos.*') ? 'active' : '' }}">
+                        <a href="{{ route('departamentos.index') }}"
+                            class="nav-link {{ Route::is('departamentos.*') ? 'active' : '' }}">
                             <i class="fa-solid fa-table"></i>
                             <span>
-                                Direcciones & Departamentos
+                                Departamentos & Direcciones
                             </span>
                         </a>
                     </li>

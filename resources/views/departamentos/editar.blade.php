@@ -1,10 +1,10 @@
 @extends('layouts.app')
-@section('breadcrumbs', Breadcrumbs::render('direcciones-departamentos.editar',$direccion))
+@section('breadcrumbs', Breadcrumbs::render('departamentos.editar',$direccion))
 @section('content')
 
 <div class="row">
     <div class="col-lg-12">
-        <form action="{{ route('direcciones-departamentos.update',$direccion->id) }}" method="POST" autocomplete="off">
+        <form action="{{ route('departamentos.update',$direccion->id) }}" method="POST" autocomplete="off">
             @csrf
             @method('put')
             <div class="card">
@@ -44,8 +44,9 @@
                     </div>  
                       
                 </div>
-                <div class="card-footer bg-white d-sm-flex justify-content-sm-between align-items-sm-center py-sm-2">
+                <div class="card-footer">
                     <button type="submit" class="btn btn-primary mt-3 mt-sm-0 w-100 w-sm-auto">Guardar</button>
+                    <a href="{{ route('departamentos.index') }}" class="btn btn-danger">Cancelar</a>
                 </div>
             </div>
         </form>

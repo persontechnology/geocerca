@@ -25,17 +25,31 @@ Breadcrumbs::for('empresa', function (BreadcrumbTrail $trail) {
 });
 
 // departamentos
-Breadcrumbs::for('direcciones-departamentos.index', function (BreadcrumbTrail $trail) {
+Breadcrumbs::for('departamentos.index', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
-    $trail->push('Direcciones y Departamentos', route('direcciones-departamentos.index'));
+    $trail->push('Departamentos', route('departamentos.index'));
 });
-Breadcrumbs::for('direcciones-departamentos.create', function (BreadcrumbTrail $trail) {
-    $trail->parent('direcciones-departamentos.index');
-    $trail->push('Nuevo', route('direcciones-departamentos.create'));
+Breadcrumbs::for('departamentos.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('departamentos.index');
+    $trail->push('Nuevo', route('departamentos.create'));
 });
-Breadcrumbs::for('direcciones-departamentos.editar', function (BreadcrumbTrail $trail, $dep) {
-    $trail->parent('direcciones-departamentos.index');
-    $trail->push('Editar', route('direcciones-departamentos.edit', $dep->id));
+Breadcrumbs::for('departamentos.editar', function (BreadcrumbTrail $trail, $dep) {
+    $trail->parent('departamentos.index');
+    $trail->push('Editar', route('departamentos.edit', $dep->id));
+});
+
+// direcciones
+Breadcrumbs::for('direcciones.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('departamentos.index');
+    $trail->push('Direcciones', route('direcciones.index'));
+});
+Breadcrumbs::for('direcciones.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('direcciones.index');
+    $trail->push('Nuevo', route('direcciones.create'));
+});
+Breadcrumbs::for('direcciones.editar', function (BreadcrumbTrail $trail, $dep) {
+    $trail->parent('direcciones.index');
+    $trail->push('Editar', route('direcciones.edit', $dep->id));
 });
 
 
