@@ -25,6 +25,7 @@ class Listado extends Component
     public $IdTipoVehiculo;
     public $EstadoOrdenMovilizacion;
     public $NumeroOrden;
+    public $NumeroOrdenHasta;
     public $IdParqueadero;
     public $desde;
     public $hasta;
@@ -43,6 +44,7 @@ class Listado extends Component
     // querys
     protected $queryString = [
         'NumeroOrden' => ['except' => '','as'=>'orden'],
+        'NumeroOrdenHasta' => ['except' => '','as'=>'ordenhasta'],
         'IdTipoVehiculo'=>['except' => '','as'=>'tipovehiculo'],
         'EstadoOrdenMovilizacion'=>['except' => '','as'=>'estado'],
         'IdParqueadero'=>['except' => '','as'=>'parqueadero'],
@@ -85,7 +87,11 @@ class Listado extends Component
                 $query->whereDate('fecha_retorno','<=', $this->hasta);
             }
             if($this->NumeroOrden){
-                $query->where('numero', 'like', '%'.$this->NumeroOrden.'%');
+                if ($this->NumeroOrdenHasta) {
+                    $query->whereBetween('numero', [$this->NumeroOrden, $this->NumeroOrdenHasta]);
+                } else {
+                    $query->where('numero', 'like', '%'.$this->NumeroOrden.'%');
+                }
             }
             if($this->EstadoOrdenMovilizacion){
                 $query->where('estado','like','%'.$this->EstadoOrdenMovilizacion.'%');

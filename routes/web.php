@@ -138,6 +138,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::match(['get', 'post'],'/orden-movilizacion-reporte-pdf', [OrdenMovilizacionController::class, 'reportePdf'])->name('odernMovilizacionReportePdf');
     Route::get('/orden-movilizacion-multiple', [OrdenMovilizacionController::class, 'multiple'])->name('odernMovilizacionMultiple');
     Route::post('/orden-movilizacion-multiple-guardar', [OrdenMovilizacionController::class, 'multipleGuardar'])->name('odernMovilizacionMultipleGuardar');
+    Route::post('/orden-movilizacion-multiple-eliminar', [OrdenMovilizacionController::class, 'multipleEliminar'])->name('odernMovilizacionMultipleEliminar');
     
     
     

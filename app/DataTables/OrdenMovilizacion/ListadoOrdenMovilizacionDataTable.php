@@ -91,7 +91,7 @@ class ListadoOrdenMovilizacionDataTable extends DataTable
                   ->exportable(false)
                   ->printable(false)
                   ->width(60)
-                  ->title('Acción')
+                  ->title('<input type="checkbox" onchange="eliminarOm(this);">')
                   ->addClass('text-center'),
             Column::make('numero')->title('# O.M'),
             Column::make('vehiculo_id')->title('Vehículo'),

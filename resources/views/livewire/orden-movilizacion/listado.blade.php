@@ -38,8 +38,13 @@
             </div>
 
             <div class="form-row">
-                <div class="form-group col-md-3">
-                    <input type="search" wire:model="NumeroOrden" class="form-control" id="inputZip" placeholder="Buscar por # orden">
+                <div class="form-group col-md-6">
+                    <label for="">Buscar por # orden desde</label>
+                    <input type="search" wire:model="NumeroOrden" class="form-control" id="inputZip" placeholder="# orden">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Buscar por # orden hasta</label>
+                    <input type="search" wire:model="NumeroOrdenHasta" class="form-control" id="inputZip2" placeholder="# orden">
                 </div>
 
                 <div class="form-group col-md-3">

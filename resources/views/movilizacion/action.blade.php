@@ -1,4 +1,6 @@
 
+<input type="checkbox" name="omids[]" class="item-om-table" value="{{ $om->id }}">
+
 <div class="list-icons">
     <div class="dropdown">
         <a href="#" class="list-icons-item" data-toggle="dropdown">

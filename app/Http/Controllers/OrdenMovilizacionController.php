@@ -26,6 +26,7 @@ use App\Notifications\OrdenMovilizacionIngresadaNoty;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use PDF;
@@ -343,6 +344,7 @@ class OrdenMovilizacionController extends Controller
         
         $or=OrdenMovilizacion::find($request->id);
         try {
+            DB::beginTransaction();
             if(Auth::user()->hasRole('SuperAdmin') || Auth::user()->hasRole('SiteAdmin')){
                 $or->lecturas()->delete();
                 $or->delete();
@@ -350,8 +352,10 @@ class OrdenMovilizacionController extends Controller
             }else{
                 request()->session()->flash('info','NO ELIMINADO, porque solo usuario SuperAdmin y SiteAdmin, pueden eliminar O.M');
             }
+            DB::commit();
             
         } catch (\Throwable $th) {
+            DB::rollback();
             request()->session()->flash('info','Ordén de movilización no eliminado, porque contiene información relacionado con otro modulos.');
         }
         return redirect()->route('odernMovilizacionListado');
@@ -405,5 +409,40 @@ class OrdenMovilizacionController extends Controller
     public function reportePdf()
     {
         return view('movilizacion.reportePdf');
+    }
+
+    public function multipleEliminar(Request $request) {
+        // Validar la solicitud para asegurar que omids es un array
+        $request->validate([
+            'omids' => 'required|array',
+            'omids.*' => 'exists:orden_movilizacions,id' // Asegurar que los IDs existen en la tabla
+        ]);
+
+        // Obtener los IDs de las órdenes de movilización a eliminar
+        $ids = $request->input('omids');
+
+        try {
+            DB::beginTransaction();
+            // Verificar roles de usuario
+            if(Auth::user()->hasRole('SuperAdmin') || Auth::user()->hasRole('SiteAdmin')){
+                // Eliminar las lecturas y las órdenes de movilización
+                foreach ($ids as $id) {
+                    $or = OrdenMovilizacion::find($id);
+                    if ($or) {
+                        $or->lecturas()->delete();
+                        $or->delete();
+                    }
+                }
+                DB::commit();
+                request()->session()->flash('success','Órdenes de movilización eliminadas exitosamente');
+            } else {
+                request()->session()->flash('info','NO ELIMINADO, porque solo usuarios SuperAdmin y SiteAdmin pueden eliminar O.M.');
+            }
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            request()->session()->flash('info','Órdenes de movilización no eliminadas, porque contienen información relacionada con otros módulos.');
+        }
+
+        return redirect()->route('odernMovilizacionListado');
     }
 }

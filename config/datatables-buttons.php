@@ -60,6 +60,7 @@ return [
         'dom'=> '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
         // 'order'   => [[0, 'desc']],
         'sPaginationType'=> 'full_numbers',
+        'scrollY'=> '750px',
         'autoWidth' => false,
         // 'columnDefs'=> [[ 
         //     'orderable'=> false,
