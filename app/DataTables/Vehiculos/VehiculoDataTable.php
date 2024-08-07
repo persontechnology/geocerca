@@ -40,6 +40,15 @@ class VehiculoDataTable extends DataTable
                     $query->whereRaw('nombre like ?',["%{$keyword}%"]);
                 });
             })
+            ->editColumn('conductor_id',function($vehiculo){
+                return $vehiculo->conductor->apellidos_nombres??'';
+            })
+            ->filterColumn('conductor_id',function($query,$keyword){
+                $query->whereHas('conductor',function($query) use($keyword){
+                    $query->whereRaw("concat(apellidos,' ',nombres) like ?",["%{$keyword}%"]);
+                });
+            })
+            
             ->addColumn('action', function($vehiculo){
                 return view('vehiculos.action',['vehiculo'=>$vehiculo])->render();
             })->rawColumns(['action','foto']);
@@ -53,7 +62,7 @@ class VehiculoDataTable extends DataTable
      */
     public function query(Vehiculo $model)
     {
-        return $model->newQuery()->orderBy('numero_movil','asc');
+        return $model->newQuery()->orderBy('numero_movil', 'asc');
     }
 
     /**
@@ -94,8 +103,12 @@ class VehiculoDataTable extends DataTable
             Column::make('marca')->title('Marca'),
             Column::make('placa'),
             Column::make('color'),
+            Column::make('descripcion')->searchable(false)->title('Descripción'),
+            // Column::make('codigo_tarjeta')->title('Código tarjeta'),
+            Column::make('conductor_id')->title('Conductor'),
             Column::make('tipo_vehiculo_id')->title('Tipo V.'),
             Column::make('estado'),
+
             // Column::make('imei')->title('IMEI'),
             // Column::make('foto'),
 
