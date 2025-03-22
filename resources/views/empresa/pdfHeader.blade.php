@@ -43,7 +43,7 @@
                     <td rowspan="4" id="example1"  style="border-right-color:#fff; width: 20%">
                     </td>
                     <th class="col-6 py-0 text-center" rowspan="4" style="width: 60%">
-                        <p>{{ $titulo??'FORMULARIO ORDEN DE MOVILIZACIÓN DENTRO DEL ÁREA DE CONSECIÓN' }}</p>
+                        <p>{{ $titulo??'FORMULARIO ORDEN DE MOVILIZACIÓN DENTRO DEL ÁREA DE CONCESIÓN' }}</p>
                     </th>
                     <th >CÓDIGO</th>
                     <td >{{ $empresa->codigo }}</td>

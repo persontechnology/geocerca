@@ -48,7 +48,7 @@
                                         <tr>
                                             <td class="col-2 py-0" rowspan="4" id="example1"></td>
                                             <th class="col-6 py-0 text-center" rowspan="4">
-                                                <h1>FORMULARIO ORDEN DE MOVILIZACIÓN DENTRO DEL ÁREA DE CONSECIÓN</h1>
+                                                <h1>FORMULARIO ORDEN DE MOVILIZACIÓN DENTRO DEL ÁREA DE CONCESIÓN</h1>
                                             </th>
                                             <th class="col-2 py-0">CÓDIGO</th>
                                             <td class="col-2 py-0">{{ $empresa->codigo }}</td>
