@@ -143,17 +143,17 @@
             "time": "2022-01-29T19:36:49+00:00",
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                },
                 "laravel": {
-                    "providers": [
-                        "Barryvdh\\Snappy\\ServiceProvider"
-                    ],
                     "aliases": {
                         "PDF": "Barryvdh\\Snappy\\Facades\\SnappyPdf",
                         "SnappyImage": "Barryvdh\\Snappy\\Facades\\SnappyImage"
-                    }
+                    },
+                    "providers": [
+                        "Barryvdh\\Snappy\\ServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
                 }
             },
             "installation-source": "dist",
@@ -658,12 +658,12 @@
             "type": "library",
             "extra": {
                 "laravel": {
-                    "providers": [
-                        "Diglactic\\Breadcrumbs\\ServiceProvider"
-                    ],
                     "aliases": {
                         "Breadcrumbs": "Diglactic\\Breadcrumbs\\Breadcrumbs"
-                    }
+                    },
+                    "providers": [
+                        "Diglactic\\Breadcrumbs\\ServiceProvider"
+                    ]
                 }
             },
             "installation-source": "dist",
@@ -1255,16 +1255,16 @@
             "time": "2023-01-26T12:34:59+00:00",
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                },
                 "laravel": {
-                    "providers": [
-                        "Facade\\Ignition\\IgnitionServiceProvider"
-                    ],
                     "aliases": {
                         "Flare": "Facade\\Ignition\\Facades\\Flare"
-                    }
+                    },
+                    "providers": [
+                        "Facade\\Ignition\\IgnitionServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
                 }
             },
             "installation-source": "dist",
@@ -1775,13 +1775,13 @@
             "time": "2020-09-21T02:26:48+00:00",
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "4.0.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Grimzy\\LaravelMysqlSpatial\\SpatialServiceProvider"
                     ]
+                },
+                "branch-alias": {
+                    "dev-master": "4.0.x-dev"
                 }
             },
             "installation-source": "dist",
@@ -2634,13 +2634,13 @@
             ],
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Laravel\\Sail\\SailServiceProvider"
                     ]
+                },
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
                 }
             },
             "installation-source": "dist",
@@ -2701,13 +2701,13 @@
             "time": "2022-04-08T13:39:49+00:00",
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Laravel\\Sanctum\\SanctumServiceProvider"
                     ]
+                },
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
                 }
             },
             "installation-source": "dist",
@@ -2899,13 +2899,13 @@
             "time": "2022-05-20T13:38:08+00:00",
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "3.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Laravel\\Ui\\UiServiceProvider"
                     ]
+                },
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
                 }
             },
             "installation-source": "dist",
@@ -7418,12 +7418,12 @@
             "type": "library",
             "extra": {
                 "laravel": {
-                    "providers": [
-                        "SimpleSoftwareIO\\QrCode\\QrCodeServiceProvider"
-                    ],
                     "aliases": {
                         "QrCode": "SimpleSoftwareIO\\QrCode\\Facades\\QrCode"
-                    }
+                    },
+                    "providers": [
+                        "SimpleSoftwareIO\\QrCode\\QrCodeServiceProvider"
+                    ]
                 }
             },
             "installation-source": "dist",
@@ -7487,14 +7487,14 @@
             "time": "2023-10-25T05:12:01+00:00",
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-main": "5.x-dev",
-                    "dev-master": "5.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Spatie\\Permission\\PermissionServiceProvider"
                     ]
+                },
+                "branch-alias": {
+                    "dev-main": "5.x-dev",
+                    "dev-master": "5.x-dev"
                 }
             },
             "installation-source": "dist",
@@ -10257,13 +10257,13 @@
             "time": "2021-10-04T03:04:33+00:00",
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "4.0-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Yajra\\DataTables\\ButtonsServiceProvider"
                     ]
+                },
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
                 }
             },
             "installation-source": "dist",
@@ -10333,13 +10333,13 @@
             "time": "2023-02-21T06:57:59+00:00",
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Yajra\\DataTables\\EditorServiceProvider"
                     ]
+                },
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
                 }
             },
             "installation-source": "dist",
@@ -10414,13 +10414,13 @@
             "time": "2020-06-07T03:05:09+00:00",
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Yajra\\DataTables\\FractalServiceProvider"
                     ]
+                },
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
                 }
             },
             "installation-source": "dist",
@@ -10480,13 +10480,13 @@
             "time": "2022-03-05T03:34:07+00:00",
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "4.0-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Yajra\\DataTables\\HtmlServiceProvider"
                     ]
+                },
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
                 }
             },
             "installation-source": "dist",
@@ -10564,16 +10564,16 @@
             "time": "2022-07-12T04:48:03+00:00",
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "9.0-dev"
-                },
                 "laravel": {
-                    "providers": [
-                        "Yajra\\DataTables\\DataTablesServiceProvider"
-                    ],
                     "aliases": {
                         "DataTables": "Yajra\\DataTables\\Facades\\DataTables"
-                    }
+                    },
+                    "providers": [
+                        "Yajra\\DataTables\\DataTablesServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-master": "9.0-dev"
                 }
             },
             "installation-source": "dist",

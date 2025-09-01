@@ -34,4 +34,4 @@ if [ -n "$bashSource" ]; then
     fi
 fi
 
-"${dir}/wkhtmltoimage-amd64" "$@"
+exec "${dir}/wkhtmltoimage-amd64" "$@"
