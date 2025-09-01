@@ -4,8 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/maennchen/ZipStream-PHP/badge.svg?branch=main)](https://coveralls.io/github/maennchen/ZipStream-PHP?branch=main)
 [![Latest Stable Version](https://poser.pugx.org/maennchen/zipstream-php/v/stable)](https://packagist.org/packages/maennchen/zipstream-php)
 [![Total Downloads](https://poser.pugx.org/maennchen/zipstream-php/downloads)](https://packagist.org/packages/maennchen/zipstream-php)
-[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/9524/badge)](https://www.bestpractices.dev/projects/9524)
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/maennchen/ZipStream-PHP/badge)](https://scorecard.dev/viewer/?uri=github.com/maennchen/ZipStream-PHP)
+[![Financial Contributors on Open Collective](https://opencollective.com/zipstream/all/badge.svg?label=financial+contributors)](https://opencollective.com/zipstream) [![License](https://img.shields.io/github/license/maennchen/zipstream-php.svg)](LICENSE)
 
 ## Unstable Branch
 
@@ -64,54 +63,6 @@ $zip->addFileFromPath(
 $zip->finish();
 ```
 
-### Callback Output
-
-You can stream ZIP data to a custom callback function instead of directly to the browser:
-
-```php
-use ZipStream\ZipStream;
-use ZipStream\Stream\CallbackStreamWrapper;
-
-// Stream to a callback function with proper file handling
-$outputFile = fopen('output.zip', 'wb');
-$backupFile = fopen('backup.zip', 'wb');
-
-$zip = new ZipStream(
-    outputStream: CallbackStreamWrapper::open(function (string $data) use ($outputFile, $backupFile) {
-        // Handle ZIP data as it's generated
-        fwrite($outputFile, $data);
-        
-        // Send to multiple destinations efficiently
-        echo $data; // Browser
-        fwrite($backupFile, $data); // Backup file
-    }),
-    sendHttpHeaders: false,
-);
-
-$zip->addFile('hello.txt', 'Hello World!');
-$zip->finish();
-
-// Clean up resources
-fclose($outputFile);
-fclose($backupFile);
-```
-
-## Questions
-
-**💬 Questions? Please Read This First!**
-
-If you have a question about using this library, please *do not email the
-authors directly*. Instead, head over to the
-[GitHub Discussions](https://github.com/maennchen/ZipStream-PHP/discussions)
-page — your question might already be answered there! Using Discussions helps
-build a shared knowledge base, so others can also benefit from the answers. If
-you need dedicated 1:1 support, check out the options available on
-[@maennchen's sponsorship page](https://github.com/sponsors/maennchen?frequency=one-time&sponsor=maennchen).
-
-## Upgrade to version 3.1.2
-
-- Minimum PHP Version: `8.2`
-
 ## Upgrade to version 3.0.0
 
 ### General
@@ -120,7 +71,7 @@ you need dedicated 1:1 support, check out the options available on
 - Only 64bit Architecture is supported.
 - The class `ZipStream\Option\Method` has been replaced with the enum
   `ZipStream\CompressionMethod`.
-- Most classes have been flagged as `@internal` and should not be used from the
+- Most clases have been flagged as `@internal` and should not be used from the
   outside.
   If you're using internal resources to extend this library, please open an
   issue so that a clean interface can be added & published.
@@ -132,7 +83,7 @@ you need dedicated 1:1 support, check out the options available on
 ### Archive Options
 
 - The class `ZipStream\Option\Archive` has been replaced in favor of named
-  arguments in the `ZipStream\ZipStream` constructor.
+  arguments in the `ZipStream\ZipStream` constuctor.
 - The archive options `largeFileSize` & `largeFileMethod` has been removed. If
   you want different `compressionMethods` based on the file size, you'll have to
   implement this yourself.
@@ -145,7 +96,7 @@ you need dedicated 1:1 support, check out the options available on
   filesizes this way.
 - The archive option `deflateLevel` has been replaced with the option
   `defaultDeflateLevel` and can be overridden for every file.
-- The first argument (`name`) of the `ZipStream\ZipStream` constructor has been
+- The first argument (`name`) of the `ZipStream\ZipStream` constuctor has been
   replaced with the named argument `outputName`.
 - Headers are now also sent if the `outputName` is empty. If you do not want to
   automatically send http headers, set `sendHttpHeaders` to `false`.
@@ -183,8 +134,8 @@ Careful: Always check the `README` on `main` for up-to-date information.
 | Version | New Features | Bugfixes | Security |
 |---------|--------------|----------|----------|
 | *3*     | ✓            | ✓        | ✓        |
-| *2*     | ✗            | ✗        | ✓        |
-| *1*     | ✗            | ✗        | ✗        |
+| *2*     | ✗            | ✓        | ✓        |
+| *1*     | ✗            | ✗        | ✓        |
 | *0*     | ✗            | ✗        | ✗        |
 
 This library aligns itself with the PHP core support. New features and bugfixes
@@ -199,3 +150,34 @@ See: https://www.php.net/supported-versions.php
 - Jesse G. Donat <donatj@gmail.com> - https://donatstudios.com
 - Nicolas CARPi <nico-git@deltablot.email> - https://www.deltablot.com
 - Nik Barham <nik@brokencube.co.uk> - https://www.brokencube.co.uk
+
+## Contributors
+
+### Code Contributors
+
+This project exists thanks to all the people who contribute.
+[[Contribute](.github/CONTRIBUTING.md)].
+<a href="https://github.com/maennchen/ZipStream-PHP/graphs/contributors"><img src="https://opencollective.com/zipstream/contributors.svg?width=890&button=false" /></a>
+
+### Financial Contributors
+
+Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/zipstream/contribute)]
+
+#### Individuals
+
+<a href="https://opencollective.com/zipstream"><img src="https://opencollective.com/zipstream/individuals.svg?width=890"></a>
+
+#### Organizations
+
+Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/zipstream/contribute)]
+
+<a href="https://opencollective.com/zipstream/organization/0/website"><img src="https://opencollective.com/zipstream/organization/0/avatar.svg"></a>
+<a href="https://opencollective.com/zipstream/organization/1/website"><img src="https://opencollective.com/zipstream/organization/1/avatar.svg"></a>
+<a href="https://opencollective.com/zipstream/organization/2/website"><img src="https://opencollective.com/zipstream/organization/2/avatar.svg"></a>
+<a href="https://opencollective.com/zipstream/organization/3/website"><img src="https://opencollective.com/zipstream/organization/3/avatar.svg"></a>
+<a href="https://opencollective.com/zipstream/organization/4/website"><img src="https://opencollective.com/zipstream/organization/4/avatar.svg"></a>
+<a href="https://opencollective.com/zipstream/organization/5/website"><img src="https://opencollective.com/zipstream/organization/5/avatar.svg"></a>
+<a href="https://opencollective.com/zipstream/organization/6/website"><img src="https://opencollective.com/zipstream/organization/6/avatar.svg"></a>
+<a href="https://opencollective.com/zipstream/organization/7/website"><img src="https://opencollective.com/zipstream/organization/7/avatar.svg"></a>
+<a href="https://opencollective.com/zipstream/organization/8/website"><img src="https://opencollective.com/zipstream/organization/8/avatar.svg"></a>
+<a href="https://opencollective.com/zipstream/organization/9/website"><img src="https://opencollective.com/zipstream/organization/9/avatar.svg"></a>

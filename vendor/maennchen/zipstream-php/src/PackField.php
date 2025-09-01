@@ -10,7 +10,7 @@ use RuntimeException;
  * @internal
  * TODO: Make class readonly when requiring PHP 8.2 exclusively
  */
-final class PackField
+class PackField
 {
     public const MAX_V = 0xFFFFFFFF;
 
@@ -19,7 +19,8 @@ final class PackField
     public function __construct(
         public readonly string $format,
         public readonly int|string $value
-    ) {}
+    ) {
+    }
 
     /**
      * Create a format string and argument list for pack(), then call
@@ -32,7 +33,7 @@ final class PackField
         }, '');
 
         $args = array_map(function (self $field) {
-            switch ($field->format) {
+            switch($field->format) {
                 case 'V':
                     if ($field->value > self::MAX_V) {
                         throw new RuntimeException(print_r($field->value, true) . ' is larger than 32 bits');

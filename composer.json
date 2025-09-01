@@ -19,6 +19,7 @@
         "laravel/ui": "^3.4",
         "laraveles/spanish": "^1.5",
         "livewire/livewire": "^2.10",
+        "maennchen/zipstream-php": "3.1",
         "matanyadaev/laravel-eloquent-spatial": "^2",
         "pusher/pusher-php-server": "^7.0",
         "simplesoftwareio/simple-qrcode": "~4",
@@ -72,7 +73,8 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": { "php": "8.2.4" }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
